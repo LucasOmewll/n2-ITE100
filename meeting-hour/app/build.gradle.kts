@@ -7,6 +7,10 @@ android {
     namespace = "com.fatec.meetinghour"
     compileSdk = 36
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.fatec.meetinghour"
         minSdk = 24
