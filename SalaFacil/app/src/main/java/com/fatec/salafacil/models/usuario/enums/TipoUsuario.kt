@@ -1,4 +1,4 @@
-package com.fatec.salafacil.domain.usuario.enums
+package com.fatec.salafacil.models.usuario.enums
 
 enum class TipoUsuario {
     GUEST,

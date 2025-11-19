@@ -1,4 +1,4 @@
-package com.fatec.salafacil.domain.sala.enum
+package com.fatec.salafacil.models.sala.enum
 
 enum class RecursoSala {
     PROJETOR,

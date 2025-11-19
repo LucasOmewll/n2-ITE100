@@ -1,6 +1,6 @@
-package com.fatec.salafacil.domain.sala
+package com.fatec.salafacil.models.sala.model
 
-import com.fatec.salafacil.domain.sala.enum.RecursoSala
+import com.fatec.salafacil.models.sala.enum.RecursoSala
 import java.time.LocalDateTime
 import java.util.UUID
 

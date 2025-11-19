@@ -1,7 +1,6 @@
-package com.fatec.salafacil.domain.usuario.model
+package com.fatec.salafacil.models.usuario.model
 
-import com.fatec.salafacil.domain.usuario.enums.TipoUsuario
-import java.time.LocalDate
+import com.fatec.salafacil.models.usuario.enums.TipoUsuario
 import java.time.LocalDateTime
 import java.util.UUID
 
