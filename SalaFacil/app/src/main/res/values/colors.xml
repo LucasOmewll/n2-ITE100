@@ -12,7 +12,7 @@
 
     <!-- Cores Greyscale -->
     <color name="greyscale_100">#212529</color>
-    <color name="greyscale_200">#343A40</color>
+    <color name="greyscale_200">#525252</color>
     <color name="greyscale_300">#ADB5BD</color>
     <color name="greyscale_400">#E9ECEF</color>
     <color name="greyscale_500">#F8F9FA</color>
