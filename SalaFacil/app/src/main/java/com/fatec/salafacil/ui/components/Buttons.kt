@@ -18,7 +18,9 @@ import com.fatec.salafacil.ui.theme.Brand100
 import com.fatec.salafacil.ui.theme.Brand400
 import com.fatec.salafacil.ui.theme.Brand500
 import com.fatec.salafacil.ui.theme.ErrorColor
+import com.fatec.salafacil.ui.theme.Grey100
 import com.fatec.salafacil.ui.theme.Grey300
+import com.fatec.salafacil.ui.theme.Grey500
 import com.fatec.salafacil.ui.theme.White
 
 
@@ -53,8 +55,8 @@ fun SecondaryButton(
         onClick = onClick,
         enabled = enabled,
         colors = ButtonDefaults.buttonColors(
-            containerColor = Brand100,
-            contentColor = Brand500
+            containerColor = Grey500,
+            contentColor = Grey100
         ),
         modifier = modifier
     ) {
@@ -115,7 +117,7 @@ fun OutlinedSecondaryButton(
         onClick = onClick,
         enabled = enabled,
         colors = ButtonDefaults.outlinedButtonColors(
-            contentColor = Grey300
+            contentColor = Grey100
         ),
         border = ButtonDefaults.outlinedButtonBorder(enabled = enabled),
         modifier = modifier
