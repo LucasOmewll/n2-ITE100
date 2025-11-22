@@ -5,8 +5,10 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -51,6 +53,7 @@ fun ExpandableRoomCard(
     hasAirConditioning: Boolean = false,
     hasWifi: Boolean = false,
     hasVideoConference: Boolean = false,
+    primaryButtonAction: () -> Unit
 ) {
     var expandedState by remember { mutableStateOf(false) }
     val rotationState by animateFloatAsState(
@@ -249,6 +252,24 @@ fun ExpandableRoomCard(
                             }
                         }
                     }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            OutlinedSecondaryButton(
+                                text = "Fechar",
+                                onClick = {
+                                    expandedState = !expandedState
+                                }
+                            )
+
+                            PrimaryButton(
+                                text = "Agendar",
+                                onClick = primaryButtonAction
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -267,6 +288,7 @@ fun ExpandableRoomCardPreview() {
         hasWhiteboard = true,
         hasAirConditioning = true,
         hasWifi = true,
-        hasVideoConference = false
+        hasVideoConference = false,
+        primaryButtonAction = { }
     )
 }
