@@ -16,8 +16,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.fatec.salafacil.ui.theme.Brand400
 import com.fatec.salafacil.ui.theme.ErrorColor
-import com.fatec.salafacil.ui.theme.Grey100
 import com.fatec.salafacil.ui.theme.Grey500
+import com.fatec.salafacil.ui.theme.Grey100
 import com.fatec.salafacil.ui.theme.Shapes
 import com.fatec.salafacil.ui.theme.White
 
@@ -54,8 +54,8 @@ fun SecondaryButton(
         onClick = onClick,
         enabled = enabled,
         colors = ButtonDefaults.buttonColors(
-            containerColor = Grey500,
-            contentColor = Grey100
+            containerColor = Grey100,
+            contentColor = Grey500
         ),
         modifier = modifier,
         shape = Shapes.small
@@ -119,7 +119,7 @@ fun OutlinedSecondaryButton(
         onClick = onClick,
         enabled = enabled,
         colors = ButtonDefaults.outlinedButtonColors(
-            contentColor = Grey100
+            contentColor = Grey500
         ),
         border = ButtonDefaults.outlinedButtonBorder(enabled = enabled),
         modifier = modifier,

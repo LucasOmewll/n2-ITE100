@@ -32,7 +32,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.fatec.salafacil.ui.theme.Grey200
+import com.fatec.salafacil.ui.theme.Grey400
 import com.fatec.salafacil.ui.theme.Shapes
 
 @Composable
@@ -116,7 +116,7 @@ fun ExpandableMeetingCard(
                     Text(
                         text = title,
                         style = MaterialTheme.typography.bodyLarge,
-                        color = Grey200,
+                        color = Grey400,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -125,7 +125,7 @@ fun ExpandableMeetingCard(
                     Text(
                         text = "$date: $startHour - $endHour",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = Grey200,
+                        color = Grey400,
                         maxLines = 1,
                     )
                 }
@@ -135,7 +135,7 @@ fun ExpandableMeetingCard(
                 Text(
                     text = subject,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Grey200,
+                    color = Grey400,
                     maxLines = 8,
                     overflow = TextOverflow.Ellipsis
                 )
