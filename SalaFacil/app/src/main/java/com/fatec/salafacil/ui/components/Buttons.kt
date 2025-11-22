@@ -14,13 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.fatec.salafacil.ui.theme.Brand100
 import com.fatec.salafacil.ui.theme.Brand400
-import com.fatec.salafacil.ui.theme.Brand500
 import com.fatec.salafacil.ui.theme.ErrorColor
 import com.fatec.salafacil.ui.theme.Grey100
-import com.fatec.salafacil.ui.theme.Grey300
 import com.fatec.salafacil.ui.theme.Grey500
+import com.fatec.salafacil.ui.theme.Shapes
 import com.fatec.salafacil.ui.theme.White
 
 
@@ -38,7 +36,8 @@ fun PrimaryButton(
             containerColor = Brand400,
             contentColor = White
         ),
-        modifier = modifier
+        modifier = modifier,
+        shape = Shapes.small
     ) {
         Text(text)
     }
@@ -58,7 +57,8 @@ fun SecondaryButton(
             containerColor = Grey500,
             contentColor = Grey100
         ),
-        modifier = modifier
+        modifier = modifier,
+        shape = Shapes.small
     ) {
         Text(text)
     }
@@ -78,7 +78,8 @@ fun DangerButton(
             containerColor = ErrorColor,
             contentColor = White
         ),
-        modifier = modifier
+        modifier = modifier,
+        shape = Shapes.small
     ) {
         Text(text)
     }
@@ -100,7 +101,8 @@ fun OutlinedPrimaryButton(
         ),
         // usa a versão com enabled para ter a opacidade correta quando desabilitado
         border = ButtonDefaults.outlinedButtonBorder(enabled = enabled),
-        modifier = modifier
+        modifier = modifier,
+        shape = Shapes.small
     ) {
         Text(text)
     }
@@ -120,7 +122,8 @@ fun OutlinedSecondaryButton(
             contentColor = Grey100
         ),
         border = ButtonDefaults.outlinedButtonBorder(enabled = enabled),
-        modifier = modifier
+        modifier = modifier,
+        shape = Shapes.small
     ) {
         Text(text)
     }
@@ -141,7 +144,8 @@ fun OutlinedDangerButton(
             contentColor = ErrorColor
         ),
         border = ButtonDefaults.outlinedButtonBorder(enabled = enabled),
-        modifier = modifier
+        modifier = modifier,
+        shape = Shapes.small
     ) {
         Text(text)
     }
