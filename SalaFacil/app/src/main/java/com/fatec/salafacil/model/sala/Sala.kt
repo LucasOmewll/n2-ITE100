@@ -4,7 +4,7 @@ import com.google.firebase.Timestamp
 import java.util.UUID
 
 data class Sala(
-    val id: UUID = UUID.randomUUID(),
+    val id: String = UUID.randomUUID().toString(),
     var nome: String = "",
     var endereco: String = "",
     var capacidade: Int = 0,
