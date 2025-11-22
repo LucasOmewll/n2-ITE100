@@ -1,6 +1,5 @@
 package com.fatec.salafacil.ui.components
 
-import android.widget.Toast
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -28,7 +27,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -145,7 +143,7 @@ fun ExpandableMeetingCard(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    Row (horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         OutlinedSecondaryButton(
                             text = "Fechar",
                             onClick = {
@@ -164,11 +162,11 @@ fun ExpandableMeetingCard(
     }
 }
 
+
+
 @Preview(showBackground = true)
 @Composable
 fun ExpandableMeetingCardPreview() {
-    val context = LocalContext.current
-
     ExpandableMeetingCard(
         title = "Reunião de Matemática",
         roomName = "Sala 204",
