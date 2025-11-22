@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "683298481084",
+    "project_id": "salafacil-a132f",
+    "storage_bucket": "salafacil-a132f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:683298481084:android:48ef6941e0df9cfd5e81b9",
+        "android_client_info": {
+          "package_name": "com.fatec.salafacil"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbP4hu1Q8tVtimVKcUOay6cdgYFzlX87s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
