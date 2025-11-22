@@ -9,10 +9,12 @@ data class Sala(
     var endereco: String = "",
     var capacidade: Int = 0,
     var imageUrl: String = "",
+
     var hasProjector: Boolean = false,
     var hasWhiteboard: Boolean = false,
     var hasAirConditioning: Boolean = false,
     var hasWifi: Boolean = false,
     var hasVideoConference: Boolean = false,
+    
     val createdAt: Timestamp = Timestamp.now()
 )
