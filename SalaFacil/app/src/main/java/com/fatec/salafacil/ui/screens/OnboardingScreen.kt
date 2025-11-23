@@ -128,9 +128,9 @@ fun OnboardingScreen(
         ) {
             Image(
                 modifier = Modifier
-                    .height(180.dp)
+                    .height(200.dp)
                     .fillMaxWidth(),
-                painter = painterResource(R.drawable.create_profile_img), // Você pode criar uma imagem específica para onboarding
+                painter = painterResource(R.drawable.create_profile_img),
                 contentDescription = "Imagem de cadastro de usuários",
                 contentScale = ContentScale.Crop
             )
