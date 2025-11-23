@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.fatec.salafacil.ui.theme.Brand500
 import com.fatec.salafacil.R
-import com.fatec.salafacil.ui.PT
+import com.fatec.salafacil.ui.translations.PT
 import com.fatec.salafacil.ui.components.SecondaryButton
 import com.fatec.salafacil.ui.theme.White
 

@@ -35,10 +35,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.fatec.salafacil.R
-import com.fatec.salafacil.ui.PT
+import com.fatec.salafacil.ui.translations.PT
 import com.fatec.salafacil.ui.theme.Grey500
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.fatec.salafacil.ui.components.PrimaryButton
@@ -70,10 +71,15 @@ fun validatePassword(password: String): String? {
     }
 }
 
+// Cores personalizadas para os campos
+val focusedColor = Color(0xFF1E88E5) // Azul
+val unfocusedColor = Grey500
+
 @Composable
 fun LoginScreen(
     onPasswordRecoveryClick: () -> Unit,
-    onLoginButtonClick: (String, String) -> Unit // Agora recebe email e senha
+    onLoginButtonClick: (String, String) -> Unit, // Agora recebe email e senha
+    onSignUpClick: () -> Unit
 ) {
     var passwordVisibility by remember { mutableStateOf(false) }
 
@@ -233,6 +239,25 @@ fun LoginScreen(
                     onClick = { handleLogin() },
                     enabled = formState.email.isNotBlank() && formState.password.isNotBlank()
                 )
+
+                // Link para login
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "Já tem uma conta? ",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Grey500
+                    )
+                    Text(
+                        text = "Fazer login",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = focusedColor,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier.clickable { onSignUpClick }
+                    )
+                }
             }
         }
     }
@@ -245,7 +270,8 @@ fun LoginScreenPreview() {
         Surface {
             LoginScreen(
                 onPasswordRecoveryClick = {},
-                onLoginButtonClick = { email, password -> }
+                onLoginButtonClick = { email, password -> },
+                onSignUpClick = {}
             )
         }
     }
