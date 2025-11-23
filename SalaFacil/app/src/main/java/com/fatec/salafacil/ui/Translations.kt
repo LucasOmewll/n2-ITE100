@@ -6,4 +6,8 @@ object PT {
     val welcome_start_button = "Comece agora"
 
     val login_title = "Bem-vindo(a) de volta!"
+    val login_reset_password = "Recuperar senha"
+    val login_button = "Login"
+    val login_email_error = "Email inválido"
+    val login_password_error = "Senha inválida"
 }

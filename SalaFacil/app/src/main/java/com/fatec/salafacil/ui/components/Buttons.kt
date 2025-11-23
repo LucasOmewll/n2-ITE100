@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.fatec.salafacil.ui.theme.Brand400
+import com.fatec.salafacil.ui.theme.Brand500
 import com.fatec.salafacil.ui.theme.ErrorColor
 import com.fatec.salafacil.ui.theme.Grey500
 import com.fatec.salafacil.ui.theme.Grey100
@@ -33,7 +34,7 @@ fun PrimaryButton(
         onClick = onClick,
         enabled = enabled,
         colors = ButtonDefaults.buttonColors(
-            containerColor = Brand400,
+            containerColor = Brand500,
             contentColor = White
         ),
         modifier = modifier,
