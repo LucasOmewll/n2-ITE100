@@ -242,7 +242,7 @@ fun OnboardingScreen(
                             )
                         } ?: run {
                             Text(
-                                text = PT.onboarding_password_supporing_text,
+                                text = PT.onboarding_password_supporting_text,
                                 color = Grey500
                             )
                         }

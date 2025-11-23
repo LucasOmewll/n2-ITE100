@@ -19,6 +19,7 @@ import com.fatec.salafacil.ui.theme.Brand500
 import com.fatec.salafacil.ui.theme.ErrorColor
 import com.fatec.salafacil.ui.theme.Grey500
 import com.fatec.salafacil.ui.theme.Grey100
+import com.fatec.salafacil.ui.theme.Grey400
 import com.fatec.salafacil.ui.theme.Shapes
 import com.fatec.salafacil.ui.theme.White
 
@@ -120,7 +121,7 @@ fun OutlinedSecondaryButton(
         onClick = onClick,
         enabled = enabled,
         colors = ButtonDefaults.outlinedButtonColors(
-            contentColor = Grey500
+            contentColor = Grey400
         ),
         border = ButtonDefaults.outlinedButtonBorder(enabled = enabled),
         modifier = modifier,
