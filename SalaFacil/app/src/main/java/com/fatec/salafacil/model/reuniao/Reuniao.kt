@@ -1,5 +1,6 @@
 package com.fatec.salafacil.model.reuniao
 
+import com.fatec.salafacil.model.reuniao.membro.MembroReuniao
 import com.google.firebase.Timestamp
 import java.util.UUID
 
@@ -7,14 +8,15 @@ data class Reuniao(
     val id: String = UUID.randomUUID().toString(),
     val salaId: String = "",
 
+    var active: Boolean = true,
     var titulo: String = "",
-    var descricao: String = "",
+    var pauta: String = "",
+    var diaInteiro: Boolean = false,
 
-    var responsavelId: String = "",
-    var participantes: List<String> = emptyList(),
+    var dataHoraInicio: Timestamp = Timestamp.now(),
+    var dataHoraTermino: Timestamp = Timestamp.now(),
 
-    var inicio: Timestamp = Timestamp.now(),
-    var fim: Timestamp = Timestamp.now(),
+    var membros: List<MembroReuniao> = emptyList(),
 
-    val criadoEm: Timestamp = Timestamp.now()
+    val createdAt: Timestamp = Timestamp.now()
 )

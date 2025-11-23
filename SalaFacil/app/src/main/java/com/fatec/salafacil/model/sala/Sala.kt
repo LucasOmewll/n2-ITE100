@@ -5,16 +5,15 @@ import java.util.UUID
 
 data class Sala(
     val id: String = UUID.randomUUID().toString(),
+
     var nome: String = "",
     var endereco: String = "",
-    var capacidade: Int = 0,
+    var assentos: Int = 0,
+
+    var audioVideo: Boolean = false,
+    var internet: Boolean = false,
     var imageUrl: String = "",
 
-    var hasProjector: Boolean = false,
-    var hasWhiteboard: Boolean = false,
-    var hasAirConditioning: Boolean = false,
-    var hasWifi: Boolean = false,
-    var hasVideoConference: Boolean = false,
-    
+    var createdBy: String = "",
     val createdAt: Timestamp = Timestamp.now()
 )
