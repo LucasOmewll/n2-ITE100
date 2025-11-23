@@ -22,5 +22,6 @@ object PT {
     val password_recovery_subtitle_regular = "Informe seu email para receber as instruções de recuperação"
     val password_recovery_supporting_text = "Digite o email da sua conta"
 
-
+    val meetings_tab_label = "Próximas reuniões"
+    val meetings_tab_clickable = "Ver todas"
 }
