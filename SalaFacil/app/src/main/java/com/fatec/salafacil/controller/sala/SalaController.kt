@@ -3,13 +3,13 @@ package com.fatec.salafacil.controller.sala
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fatec.salafacil.model.sala.Sala
-import com.fatec.salafacil.service.SalaService
+import com.fatec.salafacil.repository.SalaRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class SalaController(
-    private val salaService: SalaService
+    private val salaRepository: SalaRepository
 ) : ViewModel() {
 
     private val _salas = MutableStateFlow<List<Sala>>(emptyList())
@@ -23,7 +23,7 @@ class SalaController(
 
     fun carregarSalas() {
         viewModelScope.launch {
-            salaService.listarSalas()
+            salaRepository.listarSalas()
                 .onSuccess { _salas.value = it }
                 .onFailure { _erro.value = it.message }
         }
@@ -31,7 +31,7 @@ class SalaController(
 
     fun carregarSala(id: String) {
         viewModelScope.launch {
-            salaService.obterSala(id)
+            salaRepository.obterSala(id)
                 .onSuccess { _salaSelecionada.value = it }
                 .onFailure { _erro.value = it.message }
         }
@@ -39,21 +39,21 @@ class SalaController(
 
     fun criarSala(sala: Sala) {
         viewModelScope.launch {
-            salaService.criarSala(sala)
+            salaRepository.criarSala(sala)
                 .onFailure { _erro.value = it.message }
         }
     }
 
     fun atualizarSala(sala: Sala) {
         viewModelScope.launch {
-            salaService.atualizarSala(sala)
+            salaRepository.atualizarSala(sala)
                 .onFailure { _erro.value = it.message }
         }
     }
 
     fun excluirSala(id: String) {
         viewModelScope.launch {
-            salaService.excluirSala(id)
+            salaRepository.excluirSala(id)
                 .onFailure { _erro.value = it.message }
         }
     }

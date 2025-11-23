@@ -3,13 +3,13 @@ package com.fatec.salafacil.controller.reuniao
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fatec.salafacil.model.reuniao.Reuniao
-import com.fatec.salafacil.service.ReuniaoService
+import com.fatec.salafacil.repository.ReuniaoRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ReuniaoController(
-    private val reuniaoService: ReuniaoService
+    private val reuniaoRepository: ReuniaoRepository
 ) : ViewModel() {
 
     private val _reunioes = MutableStateFlow<List<Reuniao>>(emptyList())
@@ -23,7 +23,7 @@ class ReuniaoController(
 
     fun carregarReunioes(salaId: String) {
         viewModelScope.launch {
-            reuniaoService.listarReunioes(salaId)
+            reuniaoRepository.listarReunioes(salaId)
                 .onSuccess { _reunioes.value = it }
                 .onFailure { _erro.value = it.message }
         }
@@ -31,7 +31,7 @@ class ReuniaoController(
 
     fun carregarReuniao(salaId: String, reuniaoId: String) {
         viewModelScope.launch {
-            reuniaoService.obterReuniao(salaId, reuniaoId)
+            reuniaoRepository.obterReuniao(salaId, reuniaoId)
                 .onSuccess { _reuniaoSelecionada.value = it }
                 .onFailure { _erro.value = it.message }
         }
@@ -39,21 +39,21 @@ class ReuniaoController(
 
     fun criarReuniao(reuniao: Reuniao) {
         viewModelScope.launch {
-            reuniaoService.criarReuniao(reuniao)
+            reuniaoRepository.criarReuniao(reuniao)
                 .onFailure { _erro.value = it.message }
         }
     }
 
     fun atualizarReuniao(reuniao: Reuniao) {
         viewModelScope.launch {
-            reuniaoService.atualizarReuniao(reuniao)
+            reuniaoRepository.atualizarReuniao(reuniao)
                 .onFailure { _erro.value = it.message }
         }
     }
 
     fun removerReuniao(salaId: String, reuniaoId: String) {
         viewModelScope.launch {
-            reuniaoService.excluirReuniao(salaId, reuniaoId)
+            reuniaoRepository.excluirReuniao(salaId, reuniaoId)
                 .onFailure { _erro.value = it.message }
         }
     }

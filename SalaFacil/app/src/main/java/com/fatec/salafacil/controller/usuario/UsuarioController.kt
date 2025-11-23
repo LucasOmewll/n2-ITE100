@@ -3,13 +3,13 @@ package com.fatec.salafacil.controller.usuario
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fatec.salafacil.model.usuario.Usuario
-import com.fatec.salafacil.service.UsuarioService
+import com.fatec.salafacil.repository.UsuarioRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class UsuarioController(
-    private val usuarioService: UsuarioService
+    private val usuarioRepository: UsuarioRepository
 ) : ViewModel() {
 
     private val _usuario = MutableStateFlow<Usuario?>(null)
@@ -23,7 +23,7 @@ class UsuarioController(
 
     fun carregarUsuario(id: String) {
         viewModelScope.launch {
-            usuarioService.obterUsuario(id)
+            usuarioRepository.obterUsuario(id)
                 .onSuccess { _usuario.value = it }
                 .onFailure { _erro.value = it.message }
         }
@@ -31,15 +31,29 @@ class UsuarioController(
 
     fun carregarUsuarios() {
         viewModelScope.launch {
-            usuarioService.listarUsuarios()
+            usuarioRepository.listarUsuarios()
                 .onSuccess { _usuarios.value = it }
+                .onFailure { _erro.value = it.message }
+        }
+    }
+
+    fun criarUsuario(usuario: Usuario) {
+        viewModelScope.launch {
+            usuarioRepository.criarUsuario(usuario)
                 .onFailure { _erro.value = it.message }
         }
     }
 
     fun atualizarUsuario(usuario: Usuario) {
         viewModelScope.launch {
-            usuarioService.atualizarUsuario(usuario)
+            usuarioRepository.atualizarUsuario(usuario)
+                .onFailure { _erro.value = it.message }
+        }
+    }
+
+    fun excluirUsuario(id: String) {
+        viewModelScope.launch {
+            usuarioRepository.excluirUsuario(id)
                 .onFailure { _erro.value = it.message }
         }
     }
