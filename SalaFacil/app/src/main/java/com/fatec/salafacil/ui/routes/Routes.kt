@@ -4,6 +4,7 @@ object AppRoutes {
     const val WELCOME_SCREEN = "welcome_screen"
     const val LOGIN = "login"
     const val ONBOARDING = "onboarding"
+    const val PASSWORD_RECOVERY = "password_recovery"
     const val HOME = "home"
     const val EDIT_MEETING = "edit_meeting"
     const val EDIT_ROOM = "edit_room"
