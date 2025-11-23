@@ -22,8 +22,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -246,12 +244,12 @@ fun LoginScreen(
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "Já tem uma conta? ",
+                        text = "Não possui uma conta? ",
                         style = MaterialTheme.typography.bodyMedium,
                         color = Grey500
                     )
                     Text(
-                        text = "Fazer login",
+                        text = "Cadastrar-se",
                         style = MaterialTheme.typography.bodyMedium,
                         color = focusedColor,
                         fontWeight = FontWeight.Medium,
