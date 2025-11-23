@@ -20,11 +20,11 @@ private val DarkColorScheme = darkColorScheme(
     secondary = Brand300,
     onSecondary = Black,
 
-    background = Grey100,
-    onBackground = Grey400,
+    background = Grey500,
+    onBackground = Grey300,
 
-    surface = Grey200,
-    onSurface = Grey400,
+    surface = Grey400,
+    onSurface = Grey300,
 
     error = ErrorColor,
     onError = White,
@@ -34,21 +34,21 @@ private val LightColorScheme = lightColorScheme(
     primary = Brand500,
     onPrimary = White,
     primaryContainer = Brand100,
-    onPrimaryContainer = Grey100,
+    onPrimaryContainer = Grey500,
 
     secondary = Brand300,
     onSecondary = White,
     secondaryContainer = Brand100,
-    onSecondaryContainer = Grey100,
+    onSecondaryContainer = Grey500,
 
     tertiary = Brand400,
     onTertiary = White,
 
-    background = Grey500,
-    onBackground = Grey100,
+    background = Grey100,
+    onBackground = Grey500,
 
     surface = White,
-    onSurface = Grey100,
+    onSurface = Grey500,
 
     error = ErrorColor,
     onError = White,
