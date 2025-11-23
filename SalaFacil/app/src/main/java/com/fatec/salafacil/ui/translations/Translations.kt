@@ -29,4 +29,6 @@ object PT {
     val booking_tab_clickable = "Filtrar"
 
     val schedule_tab_label = "Calendário de Reuniões"
+
+    val home_title = "SalaFácil"
 }
