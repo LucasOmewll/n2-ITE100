@@ -24,4 +24,7 @@ object PT {
 
     val meetings_tab_label = "Próximas reuniões"
     val meetings_tab_clickable = "Ver todas"
+
+    val booking_tab_label = "Reserve uma sala"
+    val booking_tab_clickable = "Filtrar"
 }

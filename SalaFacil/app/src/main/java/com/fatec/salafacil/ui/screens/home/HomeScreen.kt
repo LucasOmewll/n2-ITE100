@@ -14,7 +14,7 @@ val navigationItems = listOf<NavigationItem>(
         route = AppRoutes.MEETINGS
     ),
     NavigationItem(
-        title = "Agendamento",
+        title = "Reservar",
         icon = Icons.Outlined.AddCircle,
         route = AppRoutes.BOOKING
     ),
