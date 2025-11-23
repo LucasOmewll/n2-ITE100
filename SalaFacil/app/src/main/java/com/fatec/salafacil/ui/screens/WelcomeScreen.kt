@@ -70,7 +70,7 @@ fun WelcomeScreen(onNavigateToLogin: () -> Unit) {
             SecondaryButton(
                 modifier = Modifier.fillMaxWidth(),
                 text = PT.welcome_start_button,
-                onClick = { onNavigateToLogin }
+                onClick = { onNavigateToLogin() }
             )
         }
     }
