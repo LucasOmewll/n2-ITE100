@@ -253,7 +253,7 @@ fun LoginScreen(
                         style = MaterialTheme.typography.bodyMedium,
                         color = focusedColor,
                         fontWeight = FontWeight.Medium,
-                        modifier = Modifier.clickable { onSignUpClick }
+                        modifier = Modifier.clickable { onSignUpClick() }
                     )
                 }
             }
