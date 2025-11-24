@@ -280,7 +280,7 @@ fun EditMeetingScreen(
             if (showDatePicker) {
                 MeetinngDatePickerDialog(datePickerState = datePickerState, onDismissRequest = {
                     showDatePicker = false
-                }, onDateSelected = { date ->
+                }, onDateConfirmed = { date ->
                     formState = formState.copy(data = date)
                 })
             }

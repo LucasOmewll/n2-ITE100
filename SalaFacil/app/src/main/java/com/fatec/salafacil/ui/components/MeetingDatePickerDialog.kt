@@ -8,11 +8,14 @@ import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.fatec.salafacil.ui.screens.meetings.utils.converterMillisParaLocalDate
 import com.fatec.salafacil.ui.theme.Brand400
 import com.fatec.salafacil.ui.theme.Brand500
 import com.fatec.salafacil.ui.theme.Shapes
@@ -24,7 +27,7 @@ import java.time.LocalDate
 fun MeetinngDatePickerDialog(
     datePickerState: DatePickerState,
     onDismissRequest: () -> Unit,
-    onDateSelected: (LocalDate) -> Unit
+    onDateConfirmed: (LocalDate?) -> Unit
 ) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Surface(
@@ -47,14 +50,20 @@ fun MeetinngDatePickerDialog(
                         selectedYearContainerColor = Brand400
                     )
                 )
-            }
-        }
 
-        // Quando o usuário escolher a data:
-        val selectedMillis = datePickerState.selectedDateMillis
-        if (selectedMillis != null) {
-            val date = formatMillisToLocalDate(selectedMillis)
-            onDateSelected(date)
+                TextButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        val millis = datePickerState.selectedDateMillis
+                        if (millis != null) {
+                            onDateConfirmed(converterMillisParaLocalDate(millis))
+                        }
+                        onDismissRequest()
+                    }
+                ) {
+                    Text("Selecionar")
+                }
+            }
         }
     }
 }

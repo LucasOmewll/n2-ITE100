@@ -1,6 +1,7 @@
 package com.fatec.salafacil.ui.screens.meetings.utils
 
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -21,4 +22,9 @@ fun formatLocalTime(horario: LocalTime?): String {
     }
 
     return horario.format(formatter)
+}
+
+fun converterMillisParaLocalDate(millis: Long): LocalDate? {
+    val instant = Instant.ofEpochMilli(millis)
+    return instant.atZone(ZoneId.systemDefault()).toLocalDate()
 }
