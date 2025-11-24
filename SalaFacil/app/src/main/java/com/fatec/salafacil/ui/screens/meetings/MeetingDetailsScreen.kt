@@ -1,4 +1,4 @@
-package com.fatec.salafacil.ui.screens
+package com.fatec.salafacil.ui.screens.meetings
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -51,27 +51,27 @@ fun MeetingDetailsScreen(
     onShareButtonClicked: () -> Unit
 ) {
     Scaffold(
-        modifier = Modifier
+        modifier = Modifier.Companion
             .fillMaxSize()
             .padding(10.dp),
         topBar = {
             Row(
-                modifier = Modifier
+                modifier = Modifier.Companion
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.Companion.CenterVertically
             ) {
                 Text(
-                    modifier = Modifier.weight(6f),
+                    modifier = Modifier.Companion.weight(6f),
                     text = PT.meeting_details_title,
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Companion.Bold,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Companion.Ellipsis
                 )
 
                 IconButton(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.Companion.weight(1f),
                     onClick = {
                         onBackClicked()
                     }
@@ -85,36 +85,36 @@ fun MeetingDetailsScreen(
         },
     ) { contentPadding ->
         Column(
-            modifier = Modifier.padding(contentPadding),
+            modifier = Modifier.Companion.padding(contentPadding),
         ) {
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.Companion.height(16.dp))
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.Companion.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.Companion.CenterVertically
             ) {
                 Text(
                     text = titulo,
                     style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Companion.Bold,
                     color = Grey500
                 )
 
                 Column(
-                    horizontalAlignment = Alignment.End
+                    horizontalAlignment = Alignment.Companion.End
                 ) {
                     Text(
                         text = data,
                         style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.Companion.Bold,
                         color = Grey500
                     )
                     Text(
                         text = "$horarioInicio - $horarioTermino",
                         style = MaterialTheme.typography.bodyLarge,
-                        fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.Companion.Bold,
                         color = Grey400
                     )
                 }
@@ -123,19 +123,19 @@ fun MeetingDetailsScreen(
             Image(
                 painter = rememberAsyncImagePainter(imagemSalaUrl),
                 contentDescription = null,
-                modifier = Modifier
+                modifier = Modifier.Companion
                     .fillMaxWidth()
                     .height(188.dp),
-                contentScale = ContentScale.Fit,
+                contentScale = ContentScale.Companion.Fit,
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.Companion.height(16.dp))
 
             // Assunto Section
             Text(
                 text = PT.meeting_details_assunto,
                 style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Companion.Bold,
                 color = Grey500
             )
 
@@ -145,27 +145,27 @@ fun MeetingDetailsScreen(
                 color = Grey500
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.Companion.height(12.dp))
 
             Text(
                 text = PT.meeting_details_sala,
                 style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Companion.Bold,
                 color = Grey500
             )
 
             Text(
                 text = PT.meeting_details_sala_name,
                 style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Companion.Bold,
                 color = Grey500
             )
 
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.Companion.height(6.dp))
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier.Companion.fillMaxWidth(),
+                verticalAlignment = Alignment.Companion.CenterVertically
             ) {
                 Icon(
                     imageVector = Icons.Outlined.Business,
@@ -180,18 +180,18 @@ fun MeetingDetailsScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.Companion.height(6.dp))
 
             Text(
                 text = PT.meeting_details_sala_location,
                 style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Companion.Bold,
                 color = Grey500
             )
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier.Companion.fillMaxWidth(),
+                verticalAlignment = Alignment.Companion.CenterVertically
             ) {
                 Icon(
                     imageVector = Icons.Outlined.LocationOn,
@@ -206,57 +206,57 @@ fun MeetingDetailsScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.Companion.height(16.dp))
 
             // Opções
             Text(
                 text = PT.meeting_details_sala_options,
                 style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Companion.Bold,
                 color = Grey500
             )
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier.Companion.fillMaxWidth(),
+                verticalAlignment = Alignment.Companion.CenterVertically
             ) {
                 OutlinedSecondaryButton(
                     text = PT.meeeting_detials_edit_button,
                     onClick = { onEditButtonClicked() }
                 )
-                Spacer(modifier = Modifier.width(10.dp))
+                Spacer(modifier = Modifier.Companion.width(10.dp))
                 OutlinedDangerButton(
                     text = PT.meeeting_detials_cancel_button,
-                    onClick = {onCancelButtonClicked()}
+                    onClick = { onCancelButtonClicked() }
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.Companion.height(16.dp))
 
             // Social
             Text(
                 text = PT.meeting_details_sala_options,
                 style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Companion.Bold,
                 color = Grey500
             )
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier.Companion.fillMaxWidth(),
+                verticalAlignment = Alignment.Companion.CenterVertically
             ) {
                 OutlinedSecondaryButton(
                     text = PT.meeeting_detials_share_button,
-                    onClick = {onShareButtonClicked()}
+                    onClick = { onShareButtonClicked() }
                 )
             }
 
             // Retornar
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.Companion.height(24.dp))
             OutlinedSecondaryButton(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.Companion.fillMaxWidth(),
                 text = PT.meeeting_detials_return_button,
-                onClick = {onBackClicked()}
+                onClick = { onBackClicked() }
             )
         }
     }
@@ -266,7 +266,7 @@ fun MeetingDetailsScreen(
 @Preview
 @Composable
 fun MeetingDetailsScreenPreview() {
-    MaterialTheme{
+    MaterialTheme {
         Surface {
             MeetingDetailsScreen(
                 onBackClicked = {},
