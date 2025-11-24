@@ -19,7 +19,6 @@ import com.fatec.salafacil.ui.screens.meetings.utils.converterMillisParaLocalDat
 import com.fatec.salafacil.ui.theme.Brand400
 import com.fatec.salafacil.ui.theme.Brand500
 import com.fatec.salafacil.ui.theme.Shapes
-import com.fatec.salafacil.ui.screens.meetings.utils.formatMillisToLocalDate
 import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
