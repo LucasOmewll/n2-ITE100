@@ -1,4 +1,4 @@
-package com.fatec.salafacil.ui.screens.rooms.tabs
+package com.fatec.salafacil.ui.screens.meetings.tabs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

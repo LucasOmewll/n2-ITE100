@@ -1,4 +1,4 @@
-package com.fatec.salafacil.ui.screens.rooms
+package com.fatec.salafacil.ui.screens.meetings
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
@@ -45,13 +45,13 @@ import com.fatec.salafacil.ui.components.MeetingForm
 import com.fatec.salafacil.ui.components.OutlinedSecondaryButton
 import com.fatec.salafacil.ui.components.PrimaryButton
 import com.fatec.salafacil.ui.screens.meetings.formstate.MeetingFormState
-import com.fatec.salafacil.ui.screens.rooms.tabs.BookRoomProcessTab
-import com.fatec.salafacil.ui.screens.rooms.tabs.ProcessTab
+import com.fatec.salafacil.ui.screens.meetings.tabs.BookRoomProcessTab
+import com.fatec.salafacil.ui.screens.meetings.tabs.ProcessTab
 import com.fatec.salafacil.ui.theme.Grey400
 import com.fatec.salafacil.ui.translations.PT
 
 @Composable
-fun BookRoomScreen(
+fun BookRoomForMeetingScreen(
     sala: Sala,
     onConfirmClick: (Reuniao) -> Unit,
     onBackClicked: () -> Unit
@@ -97,7 +97,7 @@ fun BookRoomScreen(
     }
 
     Scaffold(
-        modifier = Modifier
+        modifier = Modifier.Companion
             .fillMaxSize()
             .padding(10.dp),
         topBar = {
@@ -128,13 +128,13 @@ fun BookRoomScreen(
         }
     ) { contentPadding ->
         Column(
-            modifier = Modifier.padding(contentPadding),
+            modifier = Modifier.Companion.padding(contentPadding),
             verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.Companion.CenterHorizontally
         ) {
             FormProgressBar(questionIndex, 4)
 
-            Spacer(Modifier.height(40.dp))
+            Spacer(Modifier.Companion.height(40.dp))
 
             Text(
                 text = PT.book_room_check_label,
@@ -142,7 +142,7 @@ fun BookRoomScreen(
                 color = Grey400
             )
 
-            Spacer(Modifier.height(40.dp))
+            Spacer(Modifier.Companion.height(40.dp))
 
             AnimatedContent(
                 targetState = questionIndex,
@@ -167,31 +167,31 @@ fun BookRoomScreen(
                 }
             }
 
-            Spacer(Modifier.height(40.dp))
+            Spacer(Modifier.Companion.height(40.dp))
 
             Row(
-                modifier = Modifier
+                modifier = Modifier.Companion
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 OutlinedSecondaryButton(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.Companion.weight(1f),
                     text = PT.book_room_return_button,
                     onClick = {
                         if (questionIndex > 0) {
                             questionIndex--
                         }
 
-                        if (questionIndex  == 1) {
+                        if (questionIndex == 1) {
                             onBackClicked()
                         }
                     }
                 )
 
-                Spacer(Modifier.width(40.dp))
+                Spacer(Modifier.Companion.width(40.dp))
 
                 PrimaryButton(
-                    modifier = Modifier
+                    modifier = Modifier.Companion
                         .weight(1f),
                     text = PT.book_room_confirm_button,
                     onClick = {
@@ -207,7 +207,7 @@ fun BookRoomScreen(
 
 @Preview
 @Composable
-fun BookRoomScreenPreview() {
+fun BookRoomForMeetingPreview() {
     val fakeSala = Sala(
         nome = "Sala 203 - Bloco B",
         endereco = "Av. Paulista, 1500",
@@ -216,9 +216,9 @@ fun BookRoomScreenPreview() {
         hasWhiteboard = true
     )
 
-    MaterialTheme{
+    MaterialTheme {
         Surface {
-            BookRoomScreen(
+            BookRoomForMeetingScreen(
                 sala = fakeSala,
                 onBackClicked = {},
                 onConfirmClick = {}

@@ -1,4 +1,4 @@
-package com.fatec.salafacil.ui.screens.rooms.tabs
+package com.fatec.salafacil.ui.screens.meetings.tabs
 
 import androidx.compose.ui.graphics.vector.ImageVector
 
