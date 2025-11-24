@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Business
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,14 +31,13 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.fatec.salafacil.ui.components.OutlinedDangerButton
 import com.fatec.salafacil.ui.components.OutlinedSecondaryButton
-import com.fatec.salafacil.ui.theme.Brand400
 import com.fatec.salafacil.ui.theme.Grey400
 import com.fatec.salafacil.ui.theme.Grey500
 import com.fatec.salafacil.ui.translations.PT
 
 @Composable
 fun MeetingDetailsScreen(
-    onReturnClicked: () -> Unit,
+    onBackClicked: () -> Unit,
     imagemSalaUrl: String,
     localizacaoSala: String,
     nomeSala: String,
@@ -75,7 +73,7 @@ fun MeetingDetailsScreen(
                 IconButton(
                     modifier = Modifier.weight(1f),
                     onClick = {
-                        onReturnClicked()
+                        onBackClicked()
                     }
                 ) {
                     Icon(
@@ -224,12 +222,12 @@ fun MeetingDetailsScreen(
             ) {
                 OutlinedSecondaryButton(
                     text = PT.meeeting_detials_edit_button,
-                    onClick = {}
+                    onClick = { onEditButtonClicked() }
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 OutlinedDangerButton(
                     text = PT.meeeting_detials_cancel_button,
-                    onClick = {}
+                    onClick = {onCancelButtonClicked()}
                 )
             }
 
@@ -249,7 +247,7 @@ fun MeetingDetailsScreen(
             ) {
                 OutlinedSecondaryButton(
                     text = PT.meeeting_detials_share_button,
-                    onClick = {}
+                    onClick = {onShareButtonClicked()}
                 )
             }
 
@@ -258,7 +256,7 @@ fun MeetingDetailsScreen(
             OutlinedSecondaryButton(
                 modifier = Modifier.fillMaxWidth(),
                 text = PT.meeeting_detials_return_button,
-                onClick = {}
+                onClick = {onBackClicked()}
             )
         }
     }
@@ -271,7 +269,7 @@ fun MeetingDetailsScreenPreview() {
     MaterialTheme{
         Surface {
             MeetingDetailsScreen(
-                onReturnClicked = {},
+                onBackClicked = {},
                 imagemSalaUrl = "",
                 nomeSala = "Palace CoWorking",
                 localizacaoSala = "R. Bell Aliance 69 - São Caetano do Sul",
