@@ -60,4 +60,20 @@ object PT {
     val book_room_check_resources_body = "A sala apresenta os seguintes recursos: "
     val book_room_return_button = "Voltar"
     val book_room_confirm_button = "Continuar"
+
+    // Telas de Sala
+    const val create_room_title = "Cadastrar Sala"
+    const val edit_room_title = "Editar Sala"
+    const val room_info_label = "Informações da Sala"
+    const val room_resources_label = "Recursos da Sala"
+
+    // Recursos
+    const val room_projector = "Projetor"
+    const val room_whiteboard = "Quadro Branco"
+    const val room_air_conditioning = "Ar Condicionado"
+    const val room_wifi = "Wi-Fi"
+    const val room_video_conference = "Videoconferência"
+
+    // Botões
+    const val create_save_button = "Cadastrar Sala"
 }

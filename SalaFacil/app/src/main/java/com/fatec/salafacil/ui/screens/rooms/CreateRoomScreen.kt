@@ -1,4 +1,4 @@
-// EditRoomScreen.kt
+// CreateRoomScreen.kt
 package com.fatec.salafacil.ui.screens.rooms
 
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +19,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,40 +39,12 @@ import com.fatec.salafacil.ui.translations.PT
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditRoomScreen(
+fun CreateRoomScreen(
     onBackClicked: () -> Unit,
-    onSaveButtonClicked: (Sala) -> Unit,
-    sala: Sala
+    onSaveButtonClicked: (Sala) -> Unit
 ) {
     var formState by remember {
-        mutableStateOf(
-            SalaFormState(
-                nome = sala.nome,
-                endereco = sala.endereco,
-                capacidade = sala.capacidade.toString(),
-                imageUrl = sala.imageUrl,
-                hasProjector = sala.hasProjector,
-                hasWhiteboard = sala.hasWhiteboard,
-                hasAirConditioning = sala.hasAirConditioning,
-                hasWifi = sala.hasWifi,
-                hasVideoConference = sala.hasVideoConference
-            )
-        )
-    }
-
-    // Atualiza o formulário quando a sala muda
-    LaunchedEffect(sala) {
-        formState = SalaFormState(
-            nome = sala.nome,
-            endereco = sala.endereco,
-            capacidade = sala.capacidade.toString(),
-            imageUrl = sala.imageUrl,
-            hasProjector = sala.hasProjector,
-            hasWhiteboard = sala.hasWhiteboard,
-            hasAirConditioning = sala.hasAirConditioning,
-            hasWifi = sala.hasWifi,
-            hasVideoConference = sala.hasVideoConference
-        )
+        mutableStateOf(SalaFormState())
     }
 
     fun validateForm(): Boolean {
@@ -94,7 +65,7 @@ fun EditRoomScreen(
             ) {
                 Text(
                     modifier = Modifier.weight(6f),
-                    text = PT.edit_room_title,
+                    text = PT.create_room_title,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
@@ -132,10 +103,10 @@ fun EditRoomScreen(
             // Botão de Salvar
             PrimaryButton(
                 modifier = Modifier.fillMaxWidth(),
-                text = PT.edit_save_button,
+                text = PT.create_save_button,
                 onClick = {
                     if (validateForm()) {
-                        val salaAtualizada = sala.copy(
+                        val novaSala = Sala(
                             nome = formState.nome,
                             endereco = formState.endereco,
                             capacidade = formState.capacidade.toInt(),
@@ -146,7 +117,7 @@ fun EditRoomScreen(
                             hasWifi = formState.hasWifi,
                             hasVideoConference = formState.hasVideoConference
                         )
-                        onSaveButtonClicked(salaAtualizada)
+                        onSaveButtonClicked(novaSala)
                     }
                 },
                 enabled = formState.nome.isNotBlank() &&
@@ -160,25 +131,12 @@ fun EditRoomScreen(
 
 @Preview
 @Composable
-fun EditRoomScreenPreview() {
-    val fakeSala = Sala(
-        nome = "Sala 203 - Bloco B",
-        endereco = "Av. Paulista, 1500",
-        capacidade = 40,
-        imageUrl = "https://example.com/sala203.jpg",
-        hasProjector = true,
-        hasWhiteboard = true,
-        hasAirConditioning = false,
-        hasWifi = true,
-        hasVideoConference = true
-    )
-
+fun CreateRoomScreenPreview() {
     MaterialTheme {
         Surface {
-            EditRoomScreen(
+            CreateRoomScreen(
                 onBackClicked = {},
-                onSaveButtonClicked = {},
-                sala = fakeSala
+                onSaveButtonClicked = {}
             )
         }
     }
