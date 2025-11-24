@@ -80,9 +80,6 @@ fun EditMeetingScreen(
         initialMinute = currentTime.get(Calendar.MINUTE),
         is24Hour = true
     )
-    val selectedStartTime: LocalTime? = LocalTime.of(
-        startTimePickerState.hour, startTimePickerState.minute
-    )
 
     // Horário de Término
     var showEndTimePicker by remember { mutableStateOf(false) }
@@ -90,9 +87,6 @@ fun EditMeetingScreen(
         initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
         initialMinute = currentTime.get(Calendar.MINUTE),
         is24Hour = true
-    )
-    val selectedEndTime: LocalTime? = LocalTime.of(
-        endTimePickerState.hour, endTimePickerState.minute
     )
 
     var formState by remember {
