@@ -1,4 +1,4 @@
-package com.fatec.salafacil.ui.screens
+package com.fatec.salafacil.ui.screens.welcome
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -18,20 +18,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.fatec.salafacil.ui.theme.Brand500
 import com.fatec.salafacil.R
-import com.fatec.salafacil.ui.translations.PT
 import com.fatec.salafacil.ui.components.SecondaryButton
+import com.fatec.salafacil.ui.theme.Brand500
 import com.fatec.salafacil.ui.theme.White
+import com.fatec.salafacil.ui.translations.PT
 
 @Composable
 fun WelcomeScreen(onNavigateToLogin: () -> Unit) {
     Surface(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.Companion.fillMaxSize(),
         color = Brand500
     ) {
         Column(
-            modifier = Modifier
+            modifier = Modifier.Companion
                 .fillMaxSize()
                 .padding(
                     top = 20.dp,
@@ -40,10 +40,10 @@ fun WelcomeScreen(onNavigateToLogin: () -> Unit) {
                     end = 20.dp
                 ),
             verticalArrangement = Arrangement.Bottom,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.Companion.CenterHorizontally
         ) {
             Image(
-                modifier = Modifier
+                modifier = Modifier.Companion
                     .height(320.dp)
                     .width(320.dp),
 
@@ -51,7 +51,7 @@ fun WelcomeScreen(onNavigateToLogin: () -> Unit) {
                 contentDescription = "Logo do SalaFácil"
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.Companion.height(20.dp))
 
             Text(
                 text = PT.welcome_title,
@@ -65,10 +65,10 @@ fun WelcomeScreen(onNavigateToLogin: () -> Unit) {
                 color = White
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.Companion.height(20.dp))
 
             SecondaryButton(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.Companion.fillMaxWidth(),
                 text = PT.welcome_start_button,
                 onClick = { onNavigateToLogin() }
             )
