@@ -3,58 +3,59 @@ package com.fatec.salafacil.controller.sala
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fatec.salafacil.model.sala.Sala
-import com.fatec.salafacil.repository.SalaRepository
+import com.fatec.salafacil.service.sala.SalaService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class SalaController(
-    private val salaRepository: SalaRepository
+    private val service: SalaService = SalaService()
 ) : ViewModel() {
 
     private val _salas = MutableStateFlow<List<Sala>>(emptyList())
-    val salas: StateFlow<List<Sala>> get() = _salas
-
-    private val _salaSelecionada = MutableStateFlow<Sala?>(null)
-    val salaSelecionada: StateFlow<Sala?> get() = _salaSelecionada
+    val salas: StateFlow<List<Sala>> = _salas
 
     private val _erro = MutableStateFlow<String?>(null)
-    val erro: StateFlow<String?> get() = _erro
+    val erro: StateFlow<String?> = _erro
+
+    private val _loading = MutableStateFlow(false)
+    val loading: StateFlow<Boolean> = _loading
 
     fun carregarSalas() {
         viewModelScope.launch {
-            salaRepository.listarSalas()
-                .onSuccess { _salas.value = it }
-                .onFailure { _erro.value = it.message }
-        }
-    }
+            _loading.value = true
+            val result = service.listarSalas()
+            _loading.value = false
 
-    fun carregarSala(id: String) {
-        viewModelScope.launch {
-            salaRepository.obterSala(id)
-                .onSuccess { _salaSelecionada.value = it }
-                .onFailure { _erro.value = it.message }
+            if (result.isSuccess) _salas.value = result.getOrThrow()
+            else _erro.value = result.exceptionOrNull()?.message
         }
     }
 
     fun criarSala(sala: Sala) {
         viewModelScope.launch {
-            salaRepository.criarSala(sala)
-                .onFailure { _erro.value = it.message }
+            val result = service.criarSala(sala)
+            if (result.isFailure) {
+                _erro.value = result.exceptionOrNull()?.message
+            }
         }
     }
 
     fun atualizarSala(sala: Sala) {
         viewModelScope.launch {
-            salaRepository.atualizarSala(sala)
-                .onFailure { _erro.value = it.message }
+            val result = service.atualizarSala(sala)
+            if (result.isFailure) {
+                _erro.value = result.exceptionOrNull()?.message
+            }
         }
     }
 
-    fun excluirSala(id: String) {
+    fun removerSala(id: String) {
         viewModelScope.launch {
-            salaRepository.excluirSala(id)
-                .onFailure { _erro.value = it.message }
+            val result = service.removerSala(id)
+            if (result.isFailure) {
+                _erro.value = result.exceptionOrNull()?.message
+            }
         }
     }
 }
