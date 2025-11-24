@@ -31,4 +31,15 @@ object PT {
     val schedule_tab_label = "Calendário de Reuniões"
 
     val home_title = "SalaFácil"
+
+    val meeting_details_title = "Detalhes da Reunião"
+    val meeting_details_assunto = "Assunto"
+    val meeting_details_sala = "Informações da sala"
+    val meeting_details_sala_location = "Localização"
+    val meeting_details_sala_name = "Nome"
+    val meeting_details_sala_options = "Opções"
+    val meeeting_detials_edit_button = "Editar"
+    val meeeting_detials_share_button = "Compartilhar"
+    val meeeting_detials_cancel_button = "Cancelar"
+    val meeeting_detials_return_button = "Cancelar"
 }
