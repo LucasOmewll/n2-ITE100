@@ -42,4 +42,11 @@ object PT {
     val meeeting_detials_share_button = "Compartilhar"
     val meeeting_detials_cancel_button = "Cancelar"
     val meeeting_detials_return_button = "Cancelar"
+
+    val edit_meeting_title = "Editar Reunião"
+    val edit_meeting_room_label = "Reunião irá ocorrem em: "
+    val edit_meeting_info_label = "Informações da Reunião: "
+    val edit_save_button = "Confirmar edição"
+
+    val popup_horario = "Por favor, insira um horário"
 }
