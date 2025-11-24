@@ -49,4 +49,15 @@ object PT {
     val edit_save_button = "Confirmar edição"
 
     val popup_horario = "Por favor, insira um horário"
+
+    val book_room_title = "Reservar Sala"
+    val book_room_check_label = "Verifique as informações da sala e marque uma reunião"
+    val book_room_check_location = "Localização"
+    val book_room_check_location_body = "A sala está localizada no seguinte endereço: "
+    val book_room_check_capacity = "Capacidade"
+    val book_room_check_capacity_body = "A sala comporta o seguinte número de pessoas: "
+    val book_room_check_resources = "Recursos"
+    val book_room_check_resources_body = "A sala apresenta os seguintes recursos: "
+    val book_room_return_button = "Voltar"
+    val book_room_confirm_button = "Continuar"
 }
