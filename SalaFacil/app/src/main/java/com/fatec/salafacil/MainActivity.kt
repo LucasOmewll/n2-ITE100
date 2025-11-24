@@ -11,7 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import com.fatec.salafacil.ui.routes.AppRoutes
 import com.fatec.salafacil.ui.screens.login.LoginScreen
 import com.fatec.salafacil.ui.screens.onboarding.OnboardingScreen
-import com.fatec.salafacil.ui.screens.PasswordRecoveryScreen
+import com.fatec.salafacil.ui.screens.passwordrecovery.PasswordRecoveryScreen
 import com.fatec.salafacil.ui.screens.welcome.WelcomeScreen
 import com.fatec.salafacil.ui.theme.SalaFacilTheme
 

@@ -1,5 +1,6 @@
-package com.fatec.salafacil.ui.screens
+package com.fatec.salafacil.ui.screens.passwordrecovery
 
+import android.util.Patterns
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,19 +16,20 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.fatec.salafacil.ui.theme.Grey500
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import com.fatec.salafacil.ui.components.PrimaryButton
 import com.fatec.salafacil.ui.components.OutlinedSecondaryButton
+import com.fatec.salafacil.ui.components.PrimaryButton
+import com.fatec.salafacil.ui.theme.Grey500
 import com.fatec.salafacil.ui.translations.PT
 
 // Classe para representar o estado do formulário de recuperação de senha
@@ -41,7 +43,7 @@ data class PasswordRecoveryFormState(
 fun validateRecoveryEmail(email: String): String? {
     return when {
         email.isBlank() -> "Email é obrigatório"
-        !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> "Email inválido"
+        !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> "Email inválido"
         else -> null
     }
 }
@@ -80,24 +82,24 @@ fun PasswordRecoveryScreen(
         }
     }
 
-    Surface(modifier = Modifier.fillMaxSize()) {
+    Surface(modifier = Modifier.Companion.fillMaxSize()) {
         Column(
-            modifier = Modifier
+            modifier = Modifier.Companion
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.Companion.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             // Título
             Text(
                 text = PT.password_recovery_title,
                 style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Companion.Bold,
                 color = Grey500
             )
 
-            Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.Companion.height(8.dp))
 
             // Subtítulo
             Text(
@@ -108,10 +110,10 @@ fun PasswordRecoveryScreen(
                 },
                 style = MaterialTheme.typography.bodyMedium,
                 color = Grey500,
-                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                textAlign = TextAlign.Center
             )
 
-            Spacer(Modifier.height(32.dp))
+            Spacer(Modifier.Companion.height(32.dp))
 
             if (!formState.isEmailSent) {
                 // Campo de Email
@@ -125,14 +127,14 @@ fun PasswordRecoveryScreen(
                             } else null
                         )
                     },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.Companion.fillMaxWidth(),
                     label = { Text("Email") },
                     isError = formState.emailError != null,
                     supportingText = {
                         if (formState.emailError != null) {
                             Text(
                                 text = formState.emailError!!,
-                                color = Color.Red
+                                color = Color.Companion.Red
                             )
                         } else if (formState.email.isNotEmpty() && validateRecoveryEmail(formState.email) == null) {
                             Text(
@@ -155,12 +157,12 @@ fun PasswordRecoveryScreen(
                     )
                 )
 
-                Spacer(Modifier.height(24.dp))
+                Spacer(Modifier.Companion.height(24.dp))
 
                 // Botão de Enviar Email
                 PrimaryButton(
                     text = "Enviar Email de Recuperação",
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.Companion.fillMaxWidth(),
                     onClick = { handleSendRecoveryEmail() },
                     enabled = formState.email.isNotBlank()
                 )
@@ -170,15 +172,15 @@ fun PasswordRecoveryScreen(
                     text = "Enviamos um email para ${formState.email} com as instruções para redefinir sua senha.",
                     style = MaterialTheme.typography.bodyMedium,
                     color = Grey500,
-                    textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                    textAlign = TextAlign.Center
                 )
 
-                Spacer(Modifier.height(24.dp))
+                Spacer(Modifier.Companion.height(24.dp))
 
                 // Botão de Reenviar (caso o usuário queira enviar para outro email)
                 PrimaryButton(
                     text = "Enviar para outro email",
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.Companion.fillMaxWidth(),
                     onClick = {
                         formState = formState.copy(
                             isEmailSent = false,
@@ -189,12 +191,12 @@ fun PasswordRecoveryScreen(
                 )
             }
 
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.Companion.height(16.dp))
 
             // Botão Secundário de Retornar
             OutlinedSecondaryButton(
                 onClick = onBackClick,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.Companion.fillMaxWidth(),
                 text = if (formState.isEmailSent) "Voltar para o login" else "Cancelar",
             )
         }
@@ -206,20 +208,6 @@ fun PasswordRecoveryScreen(
 fun PasswordRecoveryScreenPreview() {
     MaterialTheme {
         Surface {
-            PasswordRecoveryScreen(
-                onBackClick = {},
-                onSendRecoveryEmail = { email -> }
-            )
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PasswordRecoveryScreenSentPreview() {
-    MaterialTheme {
-        Surface {
-            // Preview com estado de email enviado
             PasswordRecoveryScreen(
                 onBackClick = {},
                 onSendRecoveryEmail = { email -> }
