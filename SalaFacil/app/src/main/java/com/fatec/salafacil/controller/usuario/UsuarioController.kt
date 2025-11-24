@@ -3,13 +3,13 @@ package com.fatec.salafacil.controller.usuario
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fatec.salafacil.model.usuario.Usuario
-import com.fatec.salafacil.repository.UsuarioRepository
+import com.fatec.salafacil.service.usuario.UsuarioService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class UsuarioController(
-    private val usuarioRepository: UsuarioRepository
+    private val usuarioService: UsuarioService = UsuarioService()
 ) : ViewModel() {
 
     private val _usuario = MutableStateFlow<Usuario?>(null)
@@ -23,7 +23,7 @@ class UsuarioController(
 
     fun carregarUsuario(id: String) {
         viewModelScope.launch {
-            usuarioRepository.obterUsuario(id)
+            usuarioService.obterUsuario(id)
                 .onSuccess { _usuario.value = it }
                 .onFailure { _erro.value = it.message }
         }
@@ -31,7 +31,7 @@ class UsuarioController(
 
     fun carregarUsuarios() {
         viewModelScope.launch {
-            usuarioRepository.listarUsuarios()
+            usuarioService.listarUsuarios()
                 .onSuccess { _usuarios.value = it }
                 .onFailure { _erro.value = it.message }
         }
@@ -39,21 +39,21 @@ class UsuarioController(
 
     fun criarUsuario(usuario: Usuario) {
         viewModelScope.launch {
-            usuarioRepository.criarUsuario(usuario)
+            usuarioService.criarUsuario(usuario)
                 .onFailure { _erro.value = it.message }
         }
     }
 
     fun atualizarUsuario(usuario: Usuario) {
         viewModelScope.launch {
-            usuarioRepository.atualizarUsuario(usuario)
+            usuarioService.atualizarUsuario(usuario)
                 .onFailure { _erro.value = it.message }
         }
     }
 
     fun excluirUsuario(id: String) {
         viewModelScope.launch {
-            usuarioRepository.excluirUsuario(id)
+            usuarioService.excluirUsuario(id)
                 .onFailure { _erro.value = it.message }
         }
     }
