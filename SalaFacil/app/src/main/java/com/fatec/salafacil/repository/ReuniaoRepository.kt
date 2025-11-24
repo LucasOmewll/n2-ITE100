@@ -26,4 +26,43 @@ class ReuniaoRepository(
     suspend fun excluirReuniao(salaId: String, idReuniao: String): Result<Unit> {
         return reuniaoService.excluirReuniao(salaId, idReuniao)
     }
+
+    fun criarReuniao(
+        salaId: String,
+        reuniao: Reuniao,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        reuniao.membrosIds = reuniao.membros.map { it.userId }
+
+        firestore.collection("salas")
+            .document(salaId)
+            .collection("reunioes")
+            .document(reuniao.id)
+            .set(reuniao)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener(onFailure)
+    }
+
+    fun getReunioesDoUsuario(
+        userId: String,
+        onSuccess: (List<Reuniao>) -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        firestore.collectionGroup("reunioes")
+            .whereArrayContains("membrosIds", userId)
+            .get()
+            .addOnSuccessListener { result ->
+                val lista = result.documents.mapNotNull { doc ->
+                    doc.toObject(Reuniao::class.java)?.copy(
+                        id = doc.id,
+                        salaId = doc.reference.parent.parent?.id ?: ""
+                    )
+                }
+                onSuccess(lista)
+            }
+            .addOnFailureListener(onFailure)
+    }
+
+
 }
