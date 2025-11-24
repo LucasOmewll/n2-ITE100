@@ -1,5 +1,6 @@
 package com.fatec.salafacil.ui.screens.meetings.validators
 
+import com.fatec.salafacil.ui.screens.meetings.formstate.MeetingFormState
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -50,3 +51,33 @@ fun validateAssunto(assunto: String): String? {
         else -> null
     }
 }
+
+fun validateMeetingForm(formState: MeetingFormState): Pair<MeetingFormState, Boolean> {
+    val tituloError = validateTitulo(formState.titulo)
+    val assuntoError = validateAssunto(formState.assunto)
+    val dataError = validateData(formState.data)
+    val horarioInicioError = validateHorarioNoPassado(formState.data, formState.horarioInicio)
+    val horarioTerminoError = validateHorarioNoPassado(formState.data, formState.horarioTermino)
+    val intervaloError = validateIntervalo(formState.horarioInicio, formState.horarioTermino)
+
+    val updatedFormState = formState.copy(
+        tituloError = tituloError,
+        assuntoError = assuntoError,
+        dataError = dataError,
+        horarioInicioError = horarioInicioError,
+        horarioTerminoError = horarioTerminoError,
+        intervaloError = intervaloError
+    )
+
+    val isValid = listOf(
+        tituloError,
+        assuntoError,
+        dataError,
+        horarioInicioError,
+        horarioTerminoError,
+        intervaloError
+    ).all { it == null }
+
+    return updatedFormState to isValid
+}
+
