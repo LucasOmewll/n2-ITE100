@@ -294,12 +294,16 @@ fun EditMeetingScreen(
                     value = formatLocalTime(formState.horarioInicio),
                     onValueChange = {},
                     label = { Text("Início") },
-                    isError = formState.horarioInicioError != null,
+                    isError = (formState.horarioInicioError != null) || (formState.intervaloError != null),
                     supportingText = {
-                        formState.horarioInicioError?.let { error ->
-                            Text(
-                                text = error, color = ErrorColor
-                            )
+                        Column {
+                            formState.horarioInicioError?.let {
+                                Text(text = it, color = ErrorColor)
+                            }
+
+                            formState.intervaloError?.let {
+                                Text(text = it, color = ErrorColor)
+                            }
                         }
                     },
                     readOnly = true,
@@ -324,12 +328,16 @@ fun EditMeetingScreen(
                     value = formatLocalTime(formState.horarioTermino),
                     onValueChange = {},
                     label = { Text("Fim") },
-                    isError = formState.horarioTerminoError != null,
+                    isError = (formState.horarioTerminoError != null) || (formState.intervaloError != null),
                     supportingText = {
-                        formState.horarioTerminoError?.let { error ->
-                            Text(
-                                text = error, color = ErrorColor
-                            )
+                        Column {
+                            formState.horarioTerminoError?.let {
+                                Text(text = it, color = ErrorColor)
+                            }
+
+                            formState.intervaloError?.let {
+                                Text(text = it, color = ErrorColor)
+                            }
                         }
                     },
                     readOnly = true,
@@ -369,7 +377,7 @@ fun EditMeetingScreen(
                         formState = formState.copy(
                             horarioTermino = time,
                             horarioTerminoError = validateHorarioNoPassado(formState.data, time),
-                            intervaloError = validateIntervalo(time, formState.horarioTermino)
+                            intervaloError = validateIntervalo(formState.horarioInicio, time)
                         )
                     })
             }
@@ -391,7 +399,11 @@ fun EditMeetingScreen(
                         )
                     }
                 },
-                enabled = formState.titulo.isNotBlank() && formState.assunto.isNotBlank() && formState.data != null && formState.horarioInicio != null && formState.horarioTermino != null
+                enabled = formState.titulo.isNotBlank() &&
+                        formState.assunto.isNotBlank() &&
+                        formState.data != null &&
+                        formState.horarioInicio != null &&
+                        formState.horarioTermino != null
             )
 
             // Retornar

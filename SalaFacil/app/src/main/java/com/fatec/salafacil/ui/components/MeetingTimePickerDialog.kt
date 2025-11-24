@@ -79,7 +79,7 @@ fun MeetingTimePickerDialog(
                 )
                 Row(
                     modifier = Modifier.Companion.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
+                    horizontalArrangement = Arrangement.Center
                 ) {
                     OutlinedSecondaryButton(
                         text = "Cancelar",
