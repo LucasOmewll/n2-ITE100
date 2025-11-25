@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,52 +27,60 @@ import com.fatec.salafacil.ui.translations.PT
 
 @Composable
 fun WelcomeScreen(onNavigateToLogin: () -> Unit) {
-    Surface(
-        modifier = Modifier.Companion.fillMaxSize(),
-        color = Brand500
-    ) {
-        Column(
-            modifier = Modifier.Companion
-                .fillMaxSize()
-                .padding(
-                    top = 20.dp,
-                    bottom = 60.dp,
-                    start = 20.dp,
-                    end = 20.dp
-                ),
-            verticalArrangement = Arrangement.Bottom,
-            horizontalAlignment = Alignment.Companion.CenterHorizontally
-        ) {
-            Image(
+    Scaffold(
+        bottomBar = {
+            Column(
                 modifier = Modifier.Companion
-                    .height(320.dp)
-                    .width(320.dp),
+                    .fillMaxWidth()
+                    .padding(10.dp, end = 10.dp, top = 10.dp, bottom = 32.dp)
+            ) {
+                SecondaryButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = PT.welcome_start_button,
+                    onClick = { onNavigateToLogin() }
+                )
+            }
+        },
+        containerColor = Brand500
+    ) { contentPadding ->
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(contentPadding),
+            color = Brand500
+        ) {
+            Column(
+                modifier = Modifier.Companion
+                    .fillMaxSize()
+                    .padding(10.dp, end = 10.dp, top = 10.dp, bottom = 60.dp),
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.Companion.CenterHorizontally
+            ) {
+                Image(
+                    modifier = Modifier.Companion
+                        .height(320.dp)
+                        .width(320.dp),
 
-                painter = painterResource(R.drawable.logo_large),
-                contentDescription = "Logo do SalaFácil"
-            )
+                    painter = painterResource(R.drawable.logo_large),
+                    contentDescription = "Logo do SalaFácil"
+                )
 
-            Spacer(modifier = Modifier.Companion.height(20.dp))
+                Spacer(modifier = Modifier.Companion.height(20.dp))
 
-            Text(
-                text = PT.welcome_title,
-                style = MaterialTheme.typography.displayLarge,
-                color = White
-            )
+                Text(
+                    text = PT.welcome_title,
+                    style = MaterialTheme.typography.displayLarge,
+                    color = White
+                )
 
-            Text(
-                text = PT.welcome_subtitle,
-                style = MaterialTheme.typography.bodyLarge,
-                color = White
-            )
+                Text(
+                    text = PT.welcome_subtitle,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = White
+                )
 
-            Spacer(modifier = Modifier.Companion.height(20.dp))
-
-            SecondaryButton(
-                modifier = Modifier.Companion.fillMaxWidth(),
-                text = PT.welcome_start_button,
-                onClick = { onNavigateToLogin() }
-            )
+                Spacer(modifier = Modifier.Companion.height(20.dp))
+            }
         }
     }
 }
