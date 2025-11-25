@@ -31,7 +31,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -70,10 +69,6 @@ fun validatePassword(password: String): String? {
         else -> null
     }
 }
-
-// Cores personalizadas para os campos
-val focusedColor = Color(0xFF1E88E5) // Azul
-val unfocusedColor = Grey500
 
 @Composable
 fun LoginScreen(
@@ -146,7 +141,7 @@ fun LoginScreen(
                     Text(
                         text = "Cadastrar-se",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = focusedColor,
+                        color = Brand400,
                         fontWeight = FontWeight.Companion.Medium,
                         modifier = Modifier.Companion.clickable { onSignUpClick() }
                     )
