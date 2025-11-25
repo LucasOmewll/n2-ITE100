@@ -130,20 +130,20 @@ fun MeetingForm(
 
         // Campo de Assunto
         OutlinedTextField(
-            value = formState.assunto,
+            value = formState.pauta,
             onValueChange = { new ->
                 onFormChange(
                     formState.copy(
-                        assunto = new,
-                        assuntoError = validateAssunto(new)
+                        pauta = new,
+                        pautaError = validateAssunto(new)
                     )
                 )
             },
             modifier = Modifier.Companion.fillMaxWidth(),
             label = { Text("Assunto") },
-            isError = formState.assuntoError != null,
+            isError = formState.pautaError != null,
             supportingText = {
-                formState.assuntoError?.let { error ->
+                formState.pautaError?.let { error ->
                     Text(
                         text = error, color = ErrorColor
                     )

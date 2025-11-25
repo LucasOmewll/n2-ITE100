@@ -33,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.fatec.salafacil.model.reuniao.Reuniao
+import com.fatec.salafacil.model.reuniao.membros.MembroReuniao
 import com.fatec.salafacil.model.sala.Sala
 import com.fatec.salafacil.ui.screens.meetings.utils.toDateString
 import com.fatec.salafacil.ui.screens.meetings.utils.toHourString
@@ -123,7 +124,7 @@ fun ExpandableMeetingCard(
                 }
                 Row(modifier = Modifier.fillMaxWidth()) {
                     Text(
-                        text = "${reuniao.data.toDateString()} : ${reuniao.inicio.toHourString()} - ${reuniao.fim.toHourString()}",
+                        text = "${reuniao.data.toDateString()} : ${reuniao.dataHoraInicio.toHourString()} - ${reuniao.dataHoraTermino.toHourString()}",
                         style = MaterialTheme.typography.bodyMedium,
                         color = Grey400,
                         maxLines = 1,
@@ -133,7 +134,7 @@ fun ExpandableMeetingCard(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = reuniao.descricao,
+                    text = reuniao.pauta,
                     style = MaterialTheme.typography.bodyMedium,
                     color = Grey400,
                     maxLines = 8,
@@ -174,13 +175,18 @@ fun ExpandableMeetingCardPreview() {
     )
 
     val fakeReuniao = Reuniao(
+        id = "123e4567-e89b-12d3-a456-426614174000",
+        salaId = "sala-001",
+        active = true,
         titulo = "Reunião de Matemática",
-        descricao = "Estatística e Probabilidade",
-        responsavelId = "123",
-        participantes = listOf("João", "Maria"),
+        pauta = "Discussão sobre métodos de ensino e planejamento do próximo semestre",
+        diaInteiro = false,
         data = Timestamp.now(),
-        inicio = Timestamp.now(),
-        fim = Timestamp.now()
+        dataHoraInicio = Timestamp.now(),
+        dataHoraTermino = Timestamp(Timestamp.now().seconds + 7200, 0), // 2 horas depois
+        createdBy = null, // Em um caso real seria uma DocumentReference ,
+        membrosIds = listOf("user-001", "user-002"),
+        createdAt = Timestamp.now()
     )
 
     ExpandableMeetingCard(

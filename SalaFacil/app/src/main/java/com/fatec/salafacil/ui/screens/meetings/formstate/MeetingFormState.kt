@@ -7,8 +7,8 @@ data class MeetingFormState(
     val titulo: String = "",
     val tituloError: String? = null,
 
-    val assunto: String = "",
-    val assuntoError: String? = null,
+    val pauta: String = "",
+    val pautaError: String? = null,
 
     val data: LocalDate? = null,
     val dataError: String? = null,

@@ -46,6 +46,7 @@ import com.fatec.salafacil.ui.screens.meetings.utils.timestampToLocalDate
 import com.fatec.salafacil.ui.screens.meetings.utils.timestampToLocalTime
 import com.fatec.salafacil.ui.screens.meetings.validators.*
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentReference
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,17 +64,17 @@ fun EditMeetingScreen(
         mutableStateOf(
             MeetingFormState(
                 titulo = reuniao.titulo,
-                assunto = reuniao.descricao,
+                pauta = reuniao.pauta,
                 data = timestampToLocalDate(reuniao.data),
-                horarioInicio = timestampToLocalTime(reuniao.inicio),
-                horarioTermino = timestampToLocalTime(reuniao.fim)
+                horarioInicio = timestampToLocalTime(reuniao.dataHoraInicio),
+                horarioTermino = timestampToLocalTime(reuniao.dataHoraTermino)
             )
         )
     }
 
     fun validateForm(): Boolean {
         val tituloError = validateTitulo(formState.titulo)
-        val assuntoError = validateAssunto(formState.assunto)
+        val pautaError = validateAssunto(formState.pauta)
         val dataError = validateData(formState.data)
         val horarioInicioError = validateHorarioNoPassado(formState.data, formState.horarioInicio)
         val horarioTerminoError = validateHorarioNoPassado(formState.data, formState.horarioTermino)
@@ -81,14 +82,14 @@ fun EditMeetingScreen(
 
         formState = formState.copy(
             tituloError = tituloError,
-            assuntoError = assuntoError,
+            pautaError = pautaError,
             dataError = dataError,
             horarioInicioError = horarioInicioError,
             horarioTerminoError = horarioTerminoError,
             intervaloError = intervaloError
         )
 
-        return (tituloError == null && assuntoError == null && dataError == null && horarioInicioError == null && horarioTerminoError == null && intervaloError == null)
+        return (tituloError == null && pautaError == null && dataError == null && horarioInicioError == null && horarioTerminoError == null && intervaloError == null)
     }
 
     Scaffold(
@@ -136,7 +137,7 @@ fun EditMeetingScreen(
                         if (validateForm()) {
                             onSaveButtonClicked(
                                 formState.titulo,
-                                formState.assunto,
+                                formState.pauta,
                                 formState.data!!,
                                 formState.horarioInicio!!,
                                 formState.horarioTermino!!
@@ -144,7 +145,7 @@ fun EditMeetingScreen(
                         }
                     },
                     enabled = formState.titulo.isNotBlank() &&
-                            formState.assunto.isNotBlank() &&
+                            formState.pauta.isNotBlank() &&
                             formState.data != null &&
                             formState.horarioInicio != null &&
                             formState.horarioTermino != null
@@ -215,12 +216,12 @@ fun EditMeetingScreenPreview() {
 
     val fakeReuniao = Reuniao(
         titulo = "Reunião de Planejamento",
-        descricao = "Discussão sobre metas do semestre",
+        pauta = "Discussão sobre metas do semestre",
         data = Timestamp.now(),
-        inicio = Timestamp.now(),
-        fim = Timestamp.now(),
-        responsavelId = "user123",
-        participantes = listOf("user123", "user456")
+        dataHoraInicio = Timestamp.now(),
+        dataHoraTermino = Timestamp.now(),
+        createdBy = null,
+        membros = emptyList()
     )
 
     MaterialTheme {

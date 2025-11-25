@@ -54,7 +54,7 @@ fun validateAssunto(assunto: String): String? {
 
 fun validateMeetingForm(formState: MeetingFormState): Pair<MeetingFormState, Boolean> {
     val tituloError = validateTitulo(formState.titulo)
-    val assuntoError = validateAssunto(formState.assunto)
+    val pautaError = validateAssunto(formState.pauta)
     val dataError = validateData(formState.data)
     val horarioInicioError = validateHorarioNoPassado(formState.data, formState.horarioInicio)
     val horarioTerminoError = validateHorarioNoPassado(formState.data, formState.horarioTermino)
@@ -62,7 +62,7 @@ fun validateMeetingForm(formState: MeetingFormState): Pair<MeetingFormState, Boo
 
     val updatedFormState = formState.copy(
         tituloError = tituloError,
-        assuntoError = assuntoError,
+        pautaError = pautaError,
         dataError = dataError,
         horarioInicioError = horarioInicioError,
         horarioTerminoError = horarioTerminoError,
@@ -71,7 +71,7 @@ fun validateMeetingForm(formState: MeetingFormState): Pair<MeetingFormState, Boo
 
     val isValid = listOf(
         tituloError,
-        assuntoError,
+        pautaError,
         dataError,
         horarioInicioError,
         horarioTerminoError,

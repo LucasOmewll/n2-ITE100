@@ -15,6 +15,7 @@ data class Reuniao(
     var diaInteiro: Boolean = false,
 
 
+    var data: Timestamp = Timestamp.now(),
     var dataHoraInicio: Timestamp = Timestamp.now(),
     var dataHoraTermino: Timestamp = Timestamp.now(),
 
