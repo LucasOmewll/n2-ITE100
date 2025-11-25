@@ -1,6 +1,7 @@
 package com.fatec.salafacil.model.sala
 
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentReference
 import java.util.UUID
 
 data class Sala(
@@ -15,6 +16,7 @@ data class Sala(
     var hasAirConditioning: Boolean = false,
     var hasWifi: Boolean = false,
     var hasVideoConference: Boolean = false,
-    
-    val createdAt: Timestamp = Timestamp.now()
+
+    val createdAt: Timestamp = Timestamp.now(),
+    var createdBy: DocumentReference? = null
 )
