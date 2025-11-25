@@ -15,7 +15,6 @@ import com.fatec.salafacil.ui.screens.passwordrecovery.PasswordRecoveryScreen
 import com.fatec.salafacil.ui.screens.welcome.WelcomeScreen
 import com.fatec.salafacil.ui.theme.SalaFacilTheme
 
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,8 +66,8 @@ fun AppNavigation() {
                 onLoginClick = {
                     navController.navigate(AppRoutes.LOGIN)
                 },
-                onSignUpButtonClick = {nome, email, senha ->
-                    // TODO: registrar conta
+                onSignUpSuccess = {
+                    navController.navigate(AppRoutes.LOGIN)
                 }
             )
         }

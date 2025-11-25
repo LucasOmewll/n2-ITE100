@@ -16,6 +16,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +26,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,7 +42,12 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fatec.salafacil.R
+import com.fatec.salafacil.controller.auth.AuthController
+import com.fatec.salafacil.model.usuario.Usuario
+import com.fatec.salafacil.ui.components.ErrorDialog
 import com.fatec.salafacil.ui.components.PrimaryButton
 import com.fatec.salafacil.ui.theme.Brand400
 import com.fatec.salafacil.ui.theme.Grey500
@@ -87,8 +95,10 @@ fun validateOnboardingPassword(password: String): String? {
 @Composable
 fun OnboardingScreen(
     onLoginClick: () -> Unit, // Para navegar para a tela de login
-    onSignUpButtonClick: (String, String, String) -> Unit // Recebe nome, email e senha
+    onSignUpSuccess: () -> Unit,
+    controller: AuthController = viewModel()
 ) {
+
     var passwordVisibility by remember { mutableStateOf(false) }
 
     // Estado do formulário
@@ -96,9 +106,27 @@ fun OnboardingScreen(
         mutableStateOf(OnboardingFormState())
     }
 
-    // Cores personalizadas para os campos
-    val focusedColor = Color(0xFF1E88E5) // Azul
-    val unfocusedColor = Grey500
+    val loading by controller.loading.collectAsState()
+    val erro by controller.erro.collectAsState()
+    val registrado by controller.registrado.collectAsState()
+
+    LaunchedEffect(registrado) {
+        if (registrado) {
+            onSignUpSuccess()
+            controller.resetarRegistro()
+        }
+    }
+
+    // Tratando erros
+    erro?.let { errorMsg ->
+        ErrorDialog(
+            errorMessage = errorMsg,
+            onDismissRequest = {
+                controller.limparErro()
+            }
+        )
+    }
+
 
     // Função para validar todos os campos
     fun validateForm(): Boolean {
@@ -115,11 +143,18 @@ fun OnboardingScreen(
         return nameError == null && emailError == null && passwordError == null
     }
 
-    // Função para lidar com o cadastro
     fun handleSignUp() {
-        if (validateForm()) {
-            onSignUpButtonClick(formState.name, formState.email, formState.password)
+        if (!validateForm()) {
+            return
         }
+
+        controller.registrar(
+            usuario = Usuario(
+                nome = formState.name,
+                email = formState.email
+            ),
+            senha = formState.password
+        )
     }
 
     Scaffold(
@@ -141,7 +176,7 @@ fun OnboardingScreen(
             ) {
                 // Botão de Cadastro
                 PrimaryButton(
-                    text = "Cadastrar",
+                    text = if (loading) "Carregando..." else "Cadastrar",
                     modifier = Modifier.Companion.fillMaxWidth(),
                     onClick = { handleSignUp() },
                     enabled = formState.name.isNotBlank() &&
@@ -164,7 +199,7 @@ fun OnboardingScreen(
                     Text(
                         text = "Fazer login",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = focusedColor,
+                        color = Brand400,
                         fontWeight = FontWeight.Companion.Medium,
                         modifier = Modifier.Companion.clickable { onLoginClick() }
                     )
@@ -328,7 +363,7 @@ fun OnboardingScreenPreview() {
         Surface {
             OnboardingScreen(
                 onLoginClick = {},
-                onSignUpButtonClick = { name, email, password -> }
+                onSignUpSuccess = {}
             )
         }
     }

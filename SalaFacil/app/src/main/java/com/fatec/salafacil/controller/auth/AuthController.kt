@@ -44,6 +44,7 @@ class AuthController(private val service: AuthService = AuthService()) : ViewMod
 
             if (result.isSuccess) {
                 _usuario.value = result.getOrThrow()
+                _registrado.value = true
             } else {
                 _erro.value = result.exceptionOrNull()?.message
             }
