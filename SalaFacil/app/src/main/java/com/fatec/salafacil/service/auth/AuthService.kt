@@ -6,7 +6,7 @@ import com.fatec.salafacil.repository.auth.AuthRepository
 class AuthService(private val repository: AuthRepository = AuthRepository()) {
 
     suspend fun login(email: String, senha: String): Result<Usuario> {
-        val uidResult  = repository.login(email, senha)
+        val uidResult = repository.login(email, senha)
 
         if (uidResult.isFailure) return Result.failure(uidResult.exceptionOrNull()!!)
 
@@ -23,7 +23,8 @@ class AuthService(private val repository: AuthRepository = AuthRepository()) {
     }
 
     suspend fun carregarUsuarioAtual(): Result<Usuario> {
-        val uid = repository.usuarioAtualId() ?: return Result.failure(Exception("Nenhum usuário logado."))
+        val uid = repository.usuarioAtualId()
+            ?: return Result.failure(Exception("Nenhum usuário logado."))
         return repository.carregarUsuario(uid)
     }
 
