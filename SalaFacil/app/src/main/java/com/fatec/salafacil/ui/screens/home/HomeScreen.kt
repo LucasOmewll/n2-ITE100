@@ -199,7 +199,7 @@ fun HomeScreen(
                 BookingTab(
                     isAdmin = isAdmin,
                     onBookClicked = {
-                        navController.navigate(AppRoutes.BOOKING)
+                        navController.navigate(AppRoutes.BOOK_ROOM)
                     },
                     onCreateClick = {
                         navController.navigate(AppRoutes.CREATE_ROOM)
