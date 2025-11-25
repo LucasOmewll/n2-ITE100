@@ -157,9 +157,8 @@ fun HomeScreen(
             modifier = Modifier.padding(contentPadding)
         ) {
             composable(AppRoutes.MEETINGS) {
-                MeetingsTab(onViewAllClick = {
+                MeetingsTab(
                     // TODO
-                }
                 )
             }
             composable(AppRoutes.BOOKING) {

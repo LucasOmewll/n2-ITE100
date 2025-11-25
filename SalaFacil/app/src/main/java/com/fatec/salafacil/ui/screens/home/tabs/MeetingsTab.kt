@@ -14,15 +14,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.fatec.salafacil.model.reuniao.Reuniao
 import com.fatec.salafacil.ui.theme.Grey500
 import com.fatec.salafacil.ui.translations.PT
 
 // Aba de Reuniões
 @Composable
 fun MeetingsTab(
-    reunioes: List<Reuniao>?,
-    onViewAllClick: () -> Unit
+
 ) {
     Box(
         modifier = Modifier
