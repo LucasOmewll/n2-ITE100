@@ -194,6 +194,7 @@ fun SalaForm(
             )
         )
 
+        
         Spacer(Modifier.height(24.dp))
 
         // Recursos da Sala
