@@ -29,19 +29,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.fatec.salafacil.controller.sala.SalaController
 import com.fatec.salafacil.model.sala.Sala
 import com.fatec.salafacil.ui.components.PrimaryButton
 import com.fatec.salafacil.ui.components.SalaForm
 import com.fatec.salafacil.ui.screens.rooms.formstate.SalaFormState
 import com.fatec.salafacil.ui.screens.rooms.validators.validateSalaForm
-import com.fatec.salafacil.ui.theme.Grey500
 import com.fatec.salafacil.ui.translations.PT
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateRoomScreen(
     onBackClicked: () -> Unit,
-    onSaveButtonClicked: (Sala) -> Unit
+    onSaveButtonClicked: (Sala) -> Unit,
+    salaController: SalaController = viewModel()
 ) {
     var formState by remember {
         mutableStateOf(SalaFormState())

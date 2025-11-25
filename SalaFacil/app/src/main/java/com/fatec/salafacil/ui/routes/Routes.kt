@@ -13,6 +13,10 @@ object AppRoutes {
     const val SCHEDULE = "schedule"
 
     const val EDIT_MEETING = "edit_meeting"
+
+    const val CREATE_ROOM = "create_room"
     const val EDIT_ROOM = "edit_room"
     const val BOOK_ROOM = "book_room"
+
+    const val SUCCESS = "success"
 }

@@ -21,11 +21,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.fatec.salafacil.controller.sala.SalaController
 import com.fatec.salafacil.model.sala.Sala
 import com.fatec.salafacil.ui.components.ExpandableRoomCard
 import com.fatec.salafacil.ui.theme.Grey300
@@ -36,9 +41,17 @@ import com.fatec.salafacil.ui.translations.PT
 // Tela de Reservar Sala
 @Composable
 fun BookingTab(
-    salas: List<Sala>? = null,
-    onViewAllClick: () -> Unit
+    isAdmin: Boolean,
+    onCreateClick: () -> Unit,
+    onBookClicked: () -> Unit,
+    salaController: SalaController = viewModel(),
 ) {
+    val salas by salaController.salas.collectAsState()
+
+    LaunchedEffect(Unit) {
+        salaController.carregarSalas()
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -54,17 +67,20 @@ fun BookingTab(
                 style = MaterialTheme.typography.bodyMedium,
                 color = Grey500
             )
-            Text(
-                text = PT.booking_tab_clickable,
-                style = MaterialTheme.typography.bodyMedium,
-                color = Grey300,
-                fontWeight = FontWeight.Medium,
-                modifier = Modifier.clickable { onViewAllClick }
-            )
+
+            if (isAdmin) {
+                Text(
+                    text = PT.booking_tab_clickable,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Grey300,
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.clickable { onCreateClick() }
+                )
+            }
         }
 
         // Lista de Salas
-        if (salas != null) {
+        if (salas.isNotEmpty()) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -76,7 +92,9 @@ fun BookingTab(
                 ) { sala ->
                     ExpandableRoomCard(
                         sala = sala,
-                        primaryButtonAction = { /* action */ }
+                        primaryButtonAction = {
+                            onBookClicked()
+                        }
                     )
                 }
             }
@@ -186,7 +204,11 @@ fun BookingTabPreview() {
 
     MaterialTheme {
         Surface {
-            BookingTab(salas, onViewAllClick = {})
+            BookingTab(
+                isAdmin = true,
+                onBookClicked = {},
+                onCreateClick = {}
+            )
         }
     }
 }

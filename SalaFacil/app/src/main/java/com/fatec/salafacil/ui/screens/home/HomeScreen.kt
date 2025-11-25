@@ -37,11 +37,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.fatec.salafacil.controller.auth.AuthController
+import com.fatec.salafacil.model.sala.Sala
+import com.fatec.salafacil.model.usuario.enums.Role
 import com.fatec.salafacil.ui.routes.AppRoutes
 import com.fatec.salafacil.ui.screens.home.data.NavigationItem
 import com.fatec.salafacil.ui.screens.home.tabs.BookingTab
 import com.fatec.salafacil.ui.screens.home.tabs.MeetingsTab
 import com.fatec.salafacil.ui.screens.home.tabs.ScheduleTab
+import com.fatec.salafacil.ui.screens.rooms.CreateRoomScreen
+import com.fatec.salafacil.ui.screens.rooms.EditRoomScreen
 import com.fatec.salafacil.ui.theme.Brand400
 import com.fatec.salafacil.ui.theme.Brand500
 import com.fatec.salafacil.ui.theme.Grey100
@@ -78,6 +82,9 @@ fun HomeScreen(
     val  logado by controller.logado.collectAsState()
     val loading by controller.loading.collectAsState()
     val erro by controller.erro.collectAsState()
+
+    val isAdmin = usuario?.role == Role.ADMIN
+
 
     val navController = rememberNavController()
     val selectedNavigationIndex = rememberSaveable { mutableIntStateOf(0) }
@@ -186,13 +193,41 @@ fun HomeScreen(
             }
             composable(AppRoutes.BOOKING) {
                 BookingTab(
-                    onViewAllClick = {
-                        // TODO
+                    isAdmin = isAdmin,
+                    onBookClicked = {
+                        navController.navigate(AppRoutes.BOOKING)
+                    },
+                    onCreateClick = {
+                        navController.navigate(AppRoutes.CREATE_ROOM)
                     }
                 )
             }
+
             composable(AppRoutes.SCHEDULE) {
                 ScheduleTab()
+            }
+
+            composable(AppRoutes.CREATE_ROOM ) {
+                CreateRoomScreen(
+                    onBackClicked = {
+                        navController.navigate(AppRoutes.HOME)
+                    },
+                    onSaveButtonClicked = {
+                        navController.navigate(AppRoutes.SUCCESS)
+                    }
+                )
+            }
+
+            composable(AppRoutes.EDIT_ROOM) {
+                EditRoomScreen(
+                    onBackClicked = {
+                        navController.navigate(AppRoutes.HOME)
+                    },
+                    onSaveButtonClicked = {
+                        navController.navigate(AppRoutes.SUCCESS)
+                    },
+                    sala = Sala()
+                )
             }
         }
     }
