@@ -12,6 +12,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.LocationOn
+import androidx.compose.material.icons.outlined.Tag
+import androidx.compose.material.icons.outlined.Textsms
+import androidx.compose.material.icons.outlined.Title
 import androidx.compose.material.icons.rounded.LinearScale
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -111,8 +114,13 @@ fun MeetingForm(
                     )
                 }
             },
+            trailingIcon = { Icon(
+                imageVector = Icons.Outlined.Title,
+                contentDescription = "Assunto"
+            ) },
             singleLine = true,
             colors = OutlinedTextFieldDefaults.colors(
+                focusedLabelColor = Brand400,
                 focusedBorderColor = Brand400
             )
         )
@@ -140,8 +148,13 @@ fun MeetingForm(
                     )
                 }
             },
+            trailingIcon = { Icon(
+                imageVector = Icons.Outlined.Tag,
+                contentDescription = "Assunto"
+            ) },
             singleLine = true,
             colors = OutlinedTextFieldDefaults.colors(
+                focusedLabelColor = Brand400,
                 focusedBorderColor = Brand400
             )
         )
@@ -172,6 +185,7 @@ fun MeetingForm(
                 }
             },
             colors = OutlinedTextFieldDefaults.colors(
+                focusedLabelColor = Brand400,
                 focusedBorderColor = Brand400
             )
         )

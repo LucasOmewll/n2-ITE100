@@ -110,6 +110,42 @@ fun EditMeetingScreen(
                 }
             }
         },
+        bottomBar = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp, end = 10.dp, top = 10.dp, bottom = 32.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Confirmar edição
+                PrimaryButton(
+                    modifier = Modifier.Companion.fillMaxWidth(),
+                    text = PT.edit_save_button,
+                    onClick = {
+                        if (validateForm()) {
+                            onSaveButtonClicked(
+                                formState.titulo,
+                                formState.assunto,
+                                formState.data!!,
+                                formState.horarioInicio!!,
+                                formState.horarioTermino!!
+                            )
+                        }
+                    },
+                    enabled = formState.titulo.isNotBlank() &&
+                            formState.assunto.isNotBlank() &&
+                            formState.data != null &&
+                            formState.horarioInicio != null &&
+                            formState.horarioTermino != null
+                )
+
+                // Retornar
+                OutlinedSecondaryButton(
+                    modifier = Modifier.Companion.fillMaxWidth(),
+                    text = PT.meeeting_detials_return_button,
+                    onClick = { onBackClicked() })
+            }
+        }
     ) { contentPadding ->
         Column(
             modifier = Modifier.Companion
@@ -151,36 +187,6 @@ fun EditMeetingScreen(
                     formState = updated
                 }
             )
-
-            Spacer(modifier = Modifier.Companion.height(64.dp))
-
-            // Confirmar edição
-            PrimaryButton(
-                modifier = Modifier.Companion.fillMaxWidth(),
-                text = PT.edit_save_button,
-                onClick = {
-                    if (validateForm()) {
-                        onSaveButtonClicked(
-                            formState.titulo,
-                            formState.assunto,
-                            formState.data!!,
-                            formState.horarioInicio!!,
-                            formState.horarioTermino!!
-                        )
-                    }
-                },
-                enabled = formState.titulo.isNotBlank() &&
-                        formState.assunto.isNotBlank() &&
-                        formState.data != null &&
-                        formState.horarioInicio != null &&
-                        formState.horarioTermino != null
-            )
-
-            // Retornar
-            OutlinedSecondaryButton(
-                modifier = Modifier.Companion.fillMaxWidth(),
-                text = PT.meeeting_detials_return_button,
-                onClick = { onBackClicked() })
         }
     }
 }
