@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.fatec.salafacil.ui.routes.AppRoutes
+import com.fatec.salafacil.ui.screens.home.HomeScreen
 import com.fatec.salafacil.ui.screens.login.LoginScreen
 import com.fatec.salafacil.ui.screens.onboarding.OnboardingScreen
 import com.fatec.salafacil.ui.screens.passwordrecovery.PasswordRecoveryScreen
@@ -51,8 +52,8 @@ fun AppNavigation() {
                 onSignUpClick = {
                     navController.navigate(AppRoutes.ONBOARDING)
                 },
-                onLoginButtonClick = { email, senha ->
-                    // TODO: autenticar usuário
+                onLoginSuccess = {
+                    navController.navigate(AppRoutes.HOME)
                 },
                 onPasswordRecoveryClick = {
                     navController.navigate(AppRoutes.PASSWORD_RECOVERY)
@@ -82,6 +83,13 @@ fun AppNavigation() {
                     // TODO: recuperação de senha
                 }
             )
+        }
+
+        // Navegação para a tela home
+        composable(AppRoutes.HOME) {
+            HomeScreen {
+
+            }
         }
     }
 }

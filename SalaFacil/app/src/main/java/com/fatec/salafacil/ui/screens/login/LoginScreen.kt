@@ -25,6 +25,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,7 +40,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fatec.salafacil.R
+import com.fatec.salafacil.controller.auth.AuthController
+import com.fatec.salafacil.ui.components.ErrorDialog
 import com.fatec.salafacil.ui.components.PrimaryButton
 import com.fatec.salafacil.ui.theme.Brand400
 import com.fatec.salafacil.ui.theme.ErrorColor
@@ -72,10 +77,32 @@ fun validatePassword(password: String): String? {
 
 @Composable
 fun LoginScreen(
+    onLoginSuccess: () -> Unit,
     onPasswordRecoveryClick: () -> Unit,
-    onLoginButtonClick: (String, String) -> Unit, // Agora recebe email e senha
-    onSignUpClick: () -> Unit
+    onSignUpClick: () -> Unit,
+    controller: AuthController = viewModel()
 ) {
+
+    val  usuario by controller.usuario.collectAsState()
+    val loading by controller.loading.collectAsState()
+    val erro by controller.erro.collectAsState()
+
+    LaunchedEffect(usuario) {
+        if (usuario != null) {
+            onLoginSuccess()
+        }
+    }
+
+    // Tratando erros
+    erro?.let { errorMsg ->
+        ErrorDialog(
+            errorMessage = errorMsg,
+            onDismissRequest = {
+                controller.limparErro()
+            }
+        )
+    }
+
     var passwordVisibility by remember { mutableStateOf(false) }
 
     // Estado do formulário
@@ -98,9 +125,14 @@ fun LoginScreen(
 
     // Função para lidar com o login
     fun handleLogin() {
-        if (validateForm()) {
-            onLoginButtonClick(formState.email, formState.password)
+        if (!validateForm()) {
+            return
         }
+
+        controller.login(
+            email = formState.email,
+            senha = formState.password
+        )
     }
 
     Scaffold(
@@ -122,7 +154,7 @@ fun LoginScreen(
                     .padding(10.dp, end = 10.dp, top = 10.dp, bottom = 32.dp)
             ) {
                 PrimaryButton(
-                    text = PT.login_button,
+                    text = if (loading) "Carregando..." else PT.login_button,
                     modifier = Modifier.Companion.fillMaxWidth(),
                     onClick = { handleLogin() },
                     enabled = formState.email.isNotBlank() && formState.password.isNotBlank()
@@ -275,7 +307,7 @@ fun LoginScreenPreview() {
         Surface {
             LoginScreen(
                 onPasswordRecoveryClick = {},
-                onLoginButtonClick = { email, password -> },
+                onLoginSuccess = {},
                 onSignUpClick = {}
             )
         }
