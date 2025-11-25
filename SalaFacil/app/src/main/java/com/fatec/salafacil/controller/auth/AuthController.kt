@@ -3,6 +3,7 @@ package com.fatec.salafacil.controller.auth
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fatec.salafacil.model.usuario.Usuario
+import com.fatec.salafacil.model.usuario.enums.Role
 import com.fatec.salafacil.service.auth.AuthService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -43,7 +44,13 @@ class AuthController(private val service: AuthService = AuthService()) : ViewMod
     fun registrar(usuario: Usuario, senha: String) {
         viewModelScope.launch {
             _loading.value = true
-            val result = service.registrar(usuario, senha)
+
+            val usuarioComRole = usuario.copy(
+                role = Role.AUTHENTICATED_USER
+            )
+
+            val result = service.registrar(usuarioComRole, senha)
+
             _loading.value = false
 
             if (result.isSuccess) {
