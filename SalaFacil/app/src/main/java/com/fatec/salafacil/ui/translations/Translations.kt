@@ -71,6 +71,7 @@ object PT {
     const val edit_room_title = "Editar Sala"
     const val room_info_label = "Informações da Sala"
     const val room_resources_label = "Recursos da Sala"
+    const val no_rooms_avaliable = "Nenhuma sala disponível no momento"
 
     // Recursos
     const val room_projector = "Projetor"

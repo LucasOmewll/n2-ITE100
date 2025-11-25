@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AcUnit
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -39,20 +40,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.fatec.salafacil.model.sala.Sala
 import com.fatec.salafacil.ui.theme.Brand400
 import com.fatec.salafacil.ui.theme.Shapes
 
 @Composable
 fun ExpandableRoomCard(
-    roomName: String,
-    address: String,
-    capacity: String,
-    imageUrl: String,
-    hasProjector: Boolean = false,
-    hasWhiteboard: Boolean = false,
-    hasAirConditioning: Boolean = false,
-    hasWifi: Boolean = false,
-    hasVideoConference: Boolean = false,
+    sala: Sala,
     primaryButtonAction: () -> Unit
 ) {
     var expandedState by remember { mutableStateOf(false) }
@@ -83,7 +77,7 @@ fun ExpandableRoomCard(
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     modifier = Modifier.weight(6f),
-                    text = roomName,
+                    text = sala.nome,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
@@ -107,7 +101,7 @@ fun ExpandableRoomCard(
 
             Row {
                 Text(
-                    text = address,
+                    text = sala.endereco,
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -116,7 +110,7 @@ fun ExpandableRoomCard(
 
             if (expandedState) {
                 Image(
-                    painter = rememberAsyncImagePainter(imageUrl),
+                    painter = rememberAsyncImagePainter(sala.imageUrl),
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -132,7 +126,7 @@ fun ExpandableRoomCard(
                     )
 
                     Text(
-                        text = address,
+                        text = sala.endereco,
                         style = MaterialTheme.typography.bodyMedium,
                         maxLines = 3,
                         overflow = TextOverflow.Ellipsis
@@ -147,7 +141,7 @@ fun ExpandableRoomCard(
                     )
 
                     Text(
-                        text = capacity,
+                        text = sala.capacidade.toString(),
                         style = MaterialTheme.typography.bodyMedium,
                         maxLines = 3,
                         overflow = TextOverflow.Ellipsis
@@ -162,7 +156,7 @@ fun ExpandableRoomCard(
                     )
 
                     Column {
-                        if (hasProjector) {
+                        if (sala.hasProjector) {
                             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                                 Icon(
                                     modifier = Modifier
@@ -180,7 +174,7 @@ fun ExpandableRoomCard(
                             }
                         }
 
-                        if (hasWhiteboard) {
+                        if (sala.hasWhiteboard) {
                             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                                 Icon(
                                     modifier = Modifier
@@ -198,7 +192,7 @@ fun ExpandableRoomCard(
                             }
                         }
 
-                        if (hasAirConditioning) {
+                        if (sala.hasAirConditioning) {
                             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                                 Icon(
                                     modifier = Modifier
@@ -216,7 +210,7 @@ fun ExpandableRoomCard(
                             }
                         }
 
-                        if (hasWifi) {
+                        if (sala.hasWifi) {
                             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                                 Icon(
                                     modifier = Modifier
@@ -234,7 +228,7 @@ fun ExpandableRoomCard(
                             }
                         }
 
-                        if (hasVideoConference) {
+                        if (sala.hasVideoConference) {
                             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                                 Icon(
                                     modifier = Modifier
@@ -279,16 +273,22 @@ fun ExpandableRoomCard(
 @Preview(showBackground = true)
 @Composable
 fun ExpandableRoomCardPreview() {
-    ExpandableRoomCard(
-        roomName = "Sala de Reuniões Executiva",
-        address = "Av. Paulista, 1000 - São Paulo, SP",
-        capacity = "10 pessoas",
+
+    val fakeSala = Sala(
+        nome = "Sala 204 - Laboratório",
+        endereco = "Bloco B - Segundo Andar",
+        capacidade = 35,
         imageUrl = "",
+
         hasProjector = true,
         hasWhiteboard = true,
         hasAirConditioning = true,
         hasWifi = true,
-        hasVideoConference = false,
+        hasVideoConference = true
+    )
+
+    ExpandableRoomCard(
+        sala = fakeSala,
         primaryButtonAction = { }
     )
 }
