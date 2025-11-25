@@ -52,7 +52,7 @@ fun BookingTab(
         salaController.carregarSalas()
     }
 
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(10.dp)

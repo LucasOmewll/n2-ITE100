@@ -126,7 +126,7 @@ fun MeetingDetailsScreen(
                 modifier = Modifier.Companion
                     .fillMaxWidth()
                     .height(188.dp),
-                contentScale = ContentScale.Companion.Fit,
+                contentScale = ContentScale.Companion.Crop,
             )
 
             Spacer(modifier = Modifier.Companion.height(16.dp))
@@ -255,7 +255,7 @@ fun MeetingDetailsScreen(
             Spacer(modifier = Modifier.Companion.height(24.dp))
             OutlinedSecondaryButton(
                 modifier = Modifier.Companion.fillMaxWidth(),
-                text = PT.meeeting_detials_return_button,
+                text = "Voltar",
                 onClick = { onBackClicked() }
             )
         }
@@ -270,7 +270,7 @@ fun MeetingDetailsScreenPreview() {
         Surface {
             MeetingDetailsScreen(
                 onBackClicked = {},
-                imagemSalaUrl = "",
+                imagemSalaUrl = "https://picsum.photos/300",
                 nomeSala = "Palace CoWorking",
                 localizacaoSala = "R. Bell Aliance 69 - São Caetano do Sul",
                 titulo = "Reunião Estratégica",

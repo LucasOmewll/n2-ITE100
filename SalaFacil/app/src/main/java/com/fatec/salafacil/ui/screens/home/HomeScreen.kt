@@ -78,6 +78,10 @@ fun HomeScreen(
     controller: AuthController = viewModel(),
     onLogOutSuccess: () -> Unit
 ) {
+    LaunchedEffect(Unit) {
+        controller.carregarUsuarioAtual()
+    }
+
     val  usuario by controller.usuario.collectAsState()
     val  logado by controller.logado.collectAsState()
     val loading by controller.loading.collectAsState()
