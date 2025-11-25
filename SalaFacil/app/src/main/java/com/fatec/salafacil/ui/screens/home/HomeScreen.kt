@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.outlined.AddCircle
@@ -65,7 +66,7 @@ val navigationItems = listOf(
 
 @Composable
 fun HomeScreen(
-    onAccountButtonClick: () -> Unit
+    onExitClicked: () -> Unit
 ) {
     val navController = rememberNavController()
     val selectedNavigationIndex = rememberSaveable { mutableIntStateOf(0) }
@@ -100,12 +101,12 @@ fun HomeScreen(
                     modifier = Modifier
                         .weight(1f),
                     onClick = {
-                        onAccountButtonClick()
+                        onExitClicked()
                     }
                 ) {
                     Icon(
-                        imageVector = Icons.Default.AccountCircle,
-                        contentDescription = "Informações da conta",
+                        imageVector = Icons.AutoMirrored.Default.ExitToApp,
+                        contentDescription = "Sair",
                     )
                 }
             }
@@ -178,5 +179,5 @@ fun HomeScreen(
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(onAccountButtonClick = {})
+    HomeScreen(onExitClicked = {})
 }
