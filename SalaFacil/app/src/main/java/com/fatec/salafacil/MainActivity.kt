@@ -87,9 +87,11 @@ fun AppNavigation() {
 
         // Navegação para a tela home
         composable(AppRoutes.HOME) {
-            HomeScreen {
-
-            }
+            HomeScreen(
+                onLogOutSuccess = {
+                    navController.navigate(AppRoutes.LOGIN)
+                }
+            )
         }
     }
 }

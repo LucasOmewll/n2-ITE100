@@ -22,6 +22,9 @@ class AuthController(private val service: AuthService = AuthService()) : ViewMod
     private val _registrado = MutableStateFlow(false)
     val registrado: StateFlow<Boolean> = _registrado
 
+    private val _logado = MutableStateFlow<Boolean?>(null)
+    val logado: StateFlow<Boolean?> = _logado
+
     fun login(email: String, senha: String) {
         viewModelScope.launch {
             _loading.value = true
@@ -30,6 +33,7 @@ class AuthController(private val service: AuthService = AuthService()) : ViewMod
 
             if (result.isSuccess) {
                 _usuario.value = result.getOrThrow()
+                _logado.value = true
             } else {
                 _erro.value = result.exceptionOrNull()?.message
             }
@@ -56,6 +60,8 @@ class AuthController(private val service: AuthService = AuthService()) : ViewMod
             val result = service.carregarUsuarioAtual()
             if (result.isSuccess) {
                 _usuario.value = result.getOrThrow()
+            } else {
+                _usuario.value = null
             }
         }
     }
@@ -68,5 +74,9 @@ class AuthController(private val service: AuthService = AuthService()) : ViewMod
         _registrado.value = false
     }
 
-    fun logout() = service.logout()
+    fun logout() {
+        service.logout()
+        _logado.value = false
+        _usuario.value = null
+    }
 }

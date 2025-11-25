@@ -22,17 +22,21 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.fatec.salafacil.controller.auth.AuthController
 import com.fatec.salafacil.ui.routes.AppRoutes
 import com.fatec.salafacil.ui.screens.home.data.NavigationItem
 import com.fatec.salafacil.ui.screens.home.tabs.BookingTab
@@ -45,6 +49,7 @@ import com.fatec.salafacil.ui.theme.Grey200
 import com.fatec.salafacil.ui.theme.Grey400
 import com.fatec.salafacil.ui.theme.Grey500
 import com.fatec.salafacil.ui.translations.PT
+import kotlinx.coroutines.delay
 
 val navigationItems = listOf(
     NavigationItem(
@@ -66,8 +71,14 @@ val navigationItems = listOf(
 
 @Composable
 fun HomeScreen(
-    onExitClicked: () -> Unit
+    controller: AuthController = viewModel(),
+    onLogOutSuccess: () -> Unit
 ) {
+    val  usuario by controller.usuario.collectAsState()
+    val  logado by controller.logado.collectAsState()
+    val loading by controller.loading.collectAsState()
+    val erro by controller.erro.collectAsState()
+
     val navController = rememberNavController()
     val selectedNavigationIndex = rememberSaveable { mutableIntStateOf(0) }
 
@@ -78,6 +89,18 @@ fun HomeScreen(
         if (index != -1) {
             selectedNavigationIndex.intValue = index
         }
+    }
+
+    LaunchedEffect(logado) {
+        logado?.let {
+            if (!it) {
+                onLogOutSuccess()
+            }
+        }
+    }
+
+    fun handleLogout() {
+        controller.logout()
     }
 
     Scaffold(
@@ -101,7 +124,7 @@ fun HomeScreen(
                     modifier = Modifier
                         .weight(1f),
                     onClick = {
-                        onExitClicked()
+                        handleLogout()
                     }
                 ) {
                     Icon(
@@ -178,5 +201,5 @@ fun HomeScreen(
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(onExitClicked = {})
+    HomeScreen(onLogOutSuccess = {})
 }
