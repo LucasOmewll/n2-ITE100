@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class SalaController(
-    private val service: SalaService = SalaService()
+    private val salaService: SalaService = SalaService()
 ) : ViewModel() {
 
     private val _salas = MutableStateFlow<List<Sala>>(emptyList())
@@ -24,38 +24,31 @@ class SalaController(
     fun carregarSalas() {
         viewModelScope.launch {
             _loading.value = true
-            val result = service.listarSalas()
+            salaService.listarSalas()
+                .onSuccess { _salas.value = it }
+                .onFailure { _erro.value = it.message }
             _loading.value = false
-
-            if (result.isSuccess) _salas.value = result.getOrThrow()
-            else _erro.value = result.exceptionOrNull()?.message
         }
     }
 
-    fun criarSala(sala: Sala) {
+    fun criarSala(sala: Sala, usuarioIdCriador: String? = null) {
         viewModelScope.launch {
-            val result = service.criarSala(sala)
-            if (result.isFailure) {
-                _erro.value = result.exceptionOrNull()?.message
-            }
+            salaService.criarSala(sala, usuarioIdCriador)
+                .onFailure { _erro.value = it.message }
         }
     }
 
     fun atualizarSala(sala: Sala) {
         viewModelScope.launch {
-            val result = service.atualizarSala(sala)
-            if (result.isFailure) {
-                _erro.value = result.exceptionOrNull()?.message
-            }
+            salaService.atualizarSala(sala)
+                .onFailure { _erro.value = it.message }
         }
     }
 
     fun removerSala(id: String) {
         viewModelScope.launch {
-            val result = service.removerSala(id)
-            if (result.isFailure) {
-                _erro.value = result.exceptionOrNull()?.message
-            }
+            salaService.removerSala(id)
+                .onFailure { _erro.value = it.message }
         }
     }
 }
