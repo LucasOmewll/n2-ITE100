@@ -26,7 +26,7 @@ class AuthRepository(
 
             val userDoc = usuario.copy(id = uid)
 
-            db.collection("usuarios").document(uid)
+            db.collection("users").document(uid)
                 .set(userDoc)
                 .await()
 
@@ -38,7 +38,7 @@ class AuthRepository(
 
     suspend fun carregarUsuario(uid: String): Result<Usuario> {
         return try {
-            val snapshot = db.collection("usuarios").document(uid).get().await()
+            val snapshot = db.collection("users").document(uid).get().await()
             val usuario = snapshot.toObject(Usuario::class.java)
                 ?: return Result.failure(Exception("Usuário não encontrado."))
 
