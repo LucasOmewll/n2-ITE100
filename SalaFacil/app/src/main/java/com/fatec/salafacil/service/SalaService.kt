@@ -1,58 +1,29 @@
-package com.fatec.salafacil.service
+package com.fatec.salafacil.service.sala
 
 import com.fatec.salafacil.model.sala.Sala
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.tasks.await
+import com.fatec.salafacil.repository.sala.SalaRepository
 
 class SalaService(
-    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val repository: SalaRepository = SalaRepository()
 ) {
 
-    private val salasRef = db.collection("salas")
+    suspend fun listarSalas(): Result<List<Sala>> =
+        repository.listarSalas()
+
+    suspend fun obterSala(id: String): Result<Sala> =
+        repository.obterSala(id)
 
     suspend fun criarSala(sala: Sala): Result<Unit> {
-        return try {
-            salasRef.document(sala.id).set(sala).await()
-            Result.success(Unit)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
+        if (sala.nome.isBlank()) return Result.failure(Exception("Nome obrigatório."))
+        if (sala.endereco.isBlank()) return Result.failure(Exception("Endereço obrigatório."))
+        if (sala.capacidade <= 0) return Result.failure(Exception("Capacidade inválida."))
+
+        return repository.criarSala(sala)
     }
 
-    suspend fun listarSalas(): Result<List<Sala>> {
-        return try {
-            val snapshot = salasRef.get().await()
-            val lista = snapshot.toObjects(Sala::class.java)
-            Result.success(lista)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
+    suspend fun atualizarSala(sala: Sala): Result<Unit> =
+        repository.atualizarSala(sala)
 
-    suspend fun buscarSalaPorId(id: String): Result<Sala?> {
-        return try {
-            val doc = salasRef.document(id).get().await()
-            Result.success(doc.toObject(Sala::class.java))
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-    suspend fun atualizarSala(sala: Sala): Result<Unit> {
-        return try {
-            salasRef.document(sala.id).set(sala).await()
-            Result.success(Unit)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-    suspend fun deletarSala(id: String): Result<Unit> {
-        return try {
-            salasRef.document(id).delete().await()
-            Result.success(Unit)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
+    suspend fun removerSala(id: String): Result<Unit> =
+        repository.removerSala(id)
 }
