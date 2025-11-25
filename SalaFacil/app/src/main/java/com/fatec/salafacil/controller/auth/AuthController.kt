@@ -66,6 +66,24 @@ class AuthController(private val service: AuthService = AuthService()) : ViewMod
         }
     }
 
+    suspend fun enviarEmailRecuperacaoSenha(email: String) {
+        service.enviarEmailRecuperacaoSenha(email)
+    }
+
+    fun recuperarSenha(email: String) {
+        viewModelScope.launch {
+            _loading.value = true
+            val result = service.enviarEmailRecuperacaoSenha(email)
+            _loading.value = false
+
+            if (result.isSuccess) {
+                _erro.value = "Email de recuperação enviado com sucesso!"
+            } else {
+                _erro.value = result.exceptionOrNull()?.message
+            }
+        }
+    }
+
     fun limparErro() {
         _erro.value = null
     }

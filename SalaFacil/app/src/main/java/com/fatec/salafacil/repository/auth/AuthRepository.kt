@@ -48,6 +48,10 @@ class AuthRepository(
         }
     }
 
+    suspend fun enviarEmailRecuperacaoSenha(email: String) {
+        auth.sendPasswordResetEmail(email).await()
+    }
+
     fun logout() {
         auth.signOut()
     }

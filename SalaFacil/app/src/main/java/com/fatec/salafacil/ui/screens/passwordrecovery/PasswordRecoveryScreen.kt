@@ -27,8 +27,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.fatec.salafacil.controller.auth.AuthController
 import com.fatec.salafacil.ui.components.OutlinedSecondaryButton
 import com.fatec.salafacil.ui.components.PrimaryButton
+import com.fatec.salafacil.ui.theme.Brand400
 import com.fatec.salafacil.ui.theme.Grey500
 import com.fatec.salafacil.ui.translations.PT
 
@@ -51,7 +54,7 @@ fun validateRecoveryEmail(email: String): String? {
 @Composable
 fun PasswordRecoveryScreen(
     onBackClick: () -> Unit,
-    onSendRecoveryEmail: (String) -> Unit
+    controller: AuthController = viewModel()
 ) {
     // Estado do formulário
     var formState by remember {
@@ -59,7 +62,7 @@ fun PasswordRecoveryScreen(
     }
 
     // Cores personalizadas para os campos
-    val focusedColor = Color(0xFF1E88E5)
+    val focusedColor = Brand400
     val unfocusedColor = Grey500
 
     // Função para validar o email
@@ -75,11 +78,11 @@ fun PasswordRecoveryScreen(
 
     // Função para lidar com o envio do email de recuperação
     fun handleSendRecoveryEmail() {
-        if (validateForm()) {
-            onSendRecoveryEmail(formState.email)
-            // Simula o envio bem-sucedido (em uma implementação real, isso viria da API)
-            formState = formState.copy(isEmailSent = true)
+        if (!validateForm()) {
+            return
         }
+
+        controller.recuperarSenha(formState.email)
     }
 
     Surface(modifier = Modifier.Companion.fillMaxSize()) {
@@ -210,7 +213,6 @@ fun PasswordRecoveryScreenPreview() {
         Surface {
             PasswordRecoveryScreen(
                 onBackClick = {},
-                onSendRecoveryEmail = { email -> }
             )
         }
     }

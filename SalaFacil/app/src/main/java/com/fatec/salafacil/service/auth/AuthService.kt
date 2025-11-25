@@ -28,5 +28,14 @@ class AuthService(private val repository: AuthRepository = AuthRepository()) {
         return repository.carregarUsuario(uid)
     }
 
+    suspend fun enviarEmailRecuperacaoSenha(email: String): Result<Unit> {
+        return try {
+            repository.enviarEmailRecuperacaoSenha(email)
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     fun logout() = repository.logout()
 }

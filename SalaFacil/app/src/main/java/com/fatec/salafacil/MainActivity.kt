@@ -79,9 +79,6 @@ fun AppNavigation() {
                 onBackClick = {
                     navController.navigate(AppRoutes.LOGIN)
                 },
-                onSendRecoveryEmail = { email ->
-                    // TODO: recuperação de senha
-                }
             )
         }
 
