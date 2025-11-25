@@ -41,8 +41,9 @@ import com.fatec.salafacil.ui.translations.PT
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateRoomScreen(
+    idCriador: String,
     onBackClicked: () -> Unit,
-    onSaveButtonClicked: (Sala) -> Unit,
+    onSaveButtonClicked: () -> Unit,
     salaController: SalaController = viewModel()
 ) {
     var formState by remember {
@@ -53,6 +54,12 @@ fun CreateRoomScreen(
         val (updatedState, isValid) = validateSalaForm(formState)
         formState = updatedState
         return isValid
+    }
+
+    fun handleCadastroSala(sala: Sala) {
+        salaController.criarSala(sala, usuarioIdCriador = idCriador)
+
+        onSaveButtonClicked()
     }
 
     Scaffold(
@@ -119,7 +126,7 @@ fun CreateRoomScreen(
                             hasWifi = formState.hasWifi,
                             hasVideoConference = formState.hasVideoConference
                         )
-                        onSaveButtonClicked(novaSala)
+                        handleCadastroSala(novaSala)
                     }
                 },
                 enabled = formState.nome.isNotBlank() &&
@@ -137,6 +144,7 @@ fun CreateRoomScreenPreview() {
     MaterialTheme {
         Surface {
             CreateRoomScreen(
+                idCriador = "",
                 onBackClicked = {},
                 onSaveButtonClicked = {}
             )

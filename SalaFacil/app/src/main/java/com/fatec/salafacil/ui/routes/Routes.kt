@@ -18,5 +18,6 @@ object AppRoutes {
     const val EDIT_ROOM = "edit_room"
     const val BOOK_ROOM = "book_room"
 
-    const val SUCCESS = "success"
+    const val SUCCESS_SALA = "success_sala"
+    const val SUCCESS_SALA_EDIT = "success_sala_edit"
 }

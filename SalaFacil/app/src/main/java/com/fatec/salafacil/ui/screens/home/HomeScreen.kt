@@ -46,6 +46,7 @@ import com.fatec.salafacil.ui.screens.home.tabs.MeetingsTab
 import com.fatec.salafacil.ui.screens.home.tabs.ScheduleTab
 import com.fatec.salafacil.ui.screens.rooms.CreateRoomScreen
 import com.fatec.salafacil.ui.screens.rooms.EditRoomScreen
+import com.fatec.salafacil.ui.screens.success.SuccessScreen
 import com.fatec.salafacil.ui.theme.Brand400
 import com.fatec.salafacil.ui.theme.Brand500
 import com.fatec.salafacil.ui.theme.Grey100
@@ -82,8 +83,8 @@ fun HomeScreen(
         controller.carregarUsuarioAtual()
     }
 
-    val  usuario by controller.usuario.collectAsState()
-    val  logado by controller.logado.collectAsState()
+    val usuario by controller.usuario.collectAsState()
+    val logado by controller.logado.collectAsState()
     val loading by controller.loading.collectAsState()
     val erro by controller.erro.collectAsState()
 
@@ -211,13 +212,24 @@ fun HomeScreen(
                 ScheduleTab()
             }
 
-            composable(AppRoutes.CREATE_ROOM ) {
+            composable(AppRoutes.CREATE_ROOM) {
                 CreateRoomScreen(
                     onBackClicked = {
                         navController.popBackStack()
                     },
                     onSaveButtonClicked = {
-                        navController.navigate(AppRoutes.SUCCESS)
+                        navController.navigate(AppRoutes.SUCCESS_SALA)
+                    },
+                    idCriador = usuario?.id.toString()
+                )
+            }
+
+            composable(AppRoutes.SUCCESS_SALA) {
+                SuccessScreen(
+                    title = "Sala cadastrada!",
+                    description = "A sala foi cadastrada com sucesso e já está disponível para agendamento de reuniões.",
+                    onBackClick = {
+                        repeat(2) { navController.popBackStack() }
                     }
                 )
             }
@@ -228,9 +240,19 @@ fun HomeScreen(
                         navController.navigate(AppRoutes.HOME)
                     },
                     onSaveButtonClicked = {
-                        navController.navigate(AppRoutes.SUCCESS)
+                        navController.navigate(AppRoutes.SUCCESS_SALA_EDIT)
                     },
                     sala = Sala()
+                )
+            }
+
+            composable(AppRoutes.SUCCESS_SALA_EDIT) {
+                SuccessScreen(
+                    title = "Sala editada!",
+                    description = "A sala foi editada com sucesso!",
+                    onBackClick = {
+                        repeat(2) { navController.popBackStack() }
+                    }
                 )
             }
         }
