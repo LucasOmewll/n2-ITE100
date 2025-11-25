@@ -38,6 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.fatec.salafacil.ui.screens.meetings.formstate.MeetingFormState
+import com.fatec.salafacil.ui.screens.meetings.utils.formatLocalDate
 import com.fatec.salafacil.ui.screens.meetings.utils.formatLocalTime
 import com.fatec.salafacil.ui.screens.meetings.utils.formatMillisToLocalDate
 import com.fatec.salafacil.ui.screens.meetings.validators.validateAssunto
@@ -163,7 +164,7 @@ fun MeetingForm(
 
         // Selecionar data
         OutlinedTextField(
-            value = selectedDate,
+            value = formState.data?.let { formatLocalDate(it) } ?: "",
             onValueChange = {},
             modifier = Modifier.Companion.fillMaxWidth(),
             label = { Text("Data") },

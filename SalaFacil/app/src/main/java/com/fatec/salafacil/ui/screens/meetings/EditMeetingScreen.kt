@@ -42,7 +42,10 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.util.Calendar
 import com.fatec.salafacil.ui.screens.meetings.formstate.MeetingFormState
+import com.fatec.salafacil.ui.screens.meetings.utils.timestampToLocalDate
+import com.fatec.salafacil.ui.screens.meetings.utils.timestampToLocalTime
 import com.fatec.salafacil.ui.screens.meetings.validators.*
+import com.google.firebase.Timestamp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,7 +60,15 @@ fun EditMeetingScreen(
     val datePickerState = rememberDatePickerState()
 
     var formState by remember {
-        mutableStateOf(MeetingFormState())
+        mutableStateOf(
+            MeetingFormState(
+                titulo = reuniao.titulo,
+                assunto = reuniao.descricao,
+                data = timestampToLocalDate(reuniao.data),
+                horarioInicio = timestampToLocalTime(reuniao.inicio),
+                horarioTermino = timestampToLocalTime(reuniao.fim)
+            )
+        )
     }
 
     fun validateForm(): Boolean {
@@ -205,6 +216,9 @@ fun EditMeetingScreenPreview() {
     val fakeReuniao = Reuniao(
         titulo = "Reunião de Planejamento",
         descricao = "Discussão sobre metas do semestre",
+        data = Timestamp.now(),
+        inicio = Timestamp.now(),
+        fim = Timestamp.now(),
         responsavelId = "user123",
         participantes = listOf("user123", "user456")
     )

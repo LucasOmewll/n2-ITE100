@@ -47,3 +47,21 @@ fun Timestamp.toHourString(
     val sdf = SimpleDateFormat(pattern, locale)
     return sdf.format(this.toDate())
 }
+
+fun timestampToLocalDate(timestamp: Timestamp): LocalDate {
+    return timestamp.toDate().toInstant()
+        .atZone(ZoneId.systemDefault())
+        .toLocalDate()
+}
+
+// Função para converter Timestamp para LocalTime (se necessário)
+fun timestampToLocalTime(timestamp: Timestamp): LocalTime {
+    return timestamp.toDate().toInstant()
+        .atZone(ZoneId.systemDefault())
+        .toLocalTime()
+}
+
+fun formatLocalDate(localDate: LocalDate): String {
+    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    return localDate.format(formatter)
+}
