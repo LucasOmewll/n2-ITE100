@@ -125,6 +125,41 @@ fun BookRoomForMeetingScreen(
                     )
                 }
             }
+        },
+        bottomBar = {
+            Row(
+                modifier = Modifier.Companion
+                    .fillMaxWidth()
+                    .padding(10.dp, end = 10.dp, top = 10.dp, bottom = 32.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                OutlinedSecondaryButton(
+                    modifier = Modifier.Companion.weight(1f),
+                    text = PT.book_room_return_button,
+                    onClick = {
+                        if (questionIndex > 0) {
+                            questionIndex--
+                        }
+
+                        if (questionIndex == 1) {
+                            onBackClicked()
+                        }
+                    }
+                )
+
+                Spacer(Modifier.Companion.width(40.dp))
+
+                PrimaryButton(
+                    modifier = Modifier.Companion
+                        .weight(1f),
+                    text = PT.book_room_confirm_button,
+                    onClick = {
+                        if (questionIndex < 3) {
+                            questionIndex++
+                        }
+                    }
+                )
+            }
         }
     ) { contentPadding ->
         Column(
@@ -157,7 +192,13 @@ fun BookRoomForMeetingScreen(
                 }
             ) { targetIndex ->
                 when (targetIndex) {
-                    0, 1, 2 -> BookRoomProcessTab(processTab = bookRoomTabs[targetIndex])
+                    0, 1, 2 -> Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        BookRoomProcessTab(processTab = bookRoomTabs[targetIndex])
+                    }
                     3 -> MeetingForm(
                         formState = formState,
                         onFormChange = { newState ->
@@ -167,40 +208,6 @@ fun BookRoomForMeetingScreen(
                 }
             }
 
-            Spacer(Modifier.Companion.height(40.dp))
-
-            Row(
-                modifier = Modifier.Companion
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                OutlinedSecondaryButton(
-                    modifier = Modifier.Companion.weight(1f),
-                    text = PT.book_room_return_button,
-                    onClick = {
-                        if (questionIndex > 0) {
-                            questionIndex--
-                        }
-
-                        if (questionIndex == 1) {
-                            onBackClicked()
-                        }
-                    }
-                )
-
-                Spacer(Modifier.Companion.width(40.dp))
-
-                PrimaryButton(
-                    modifier = Modifier.Companion
-                        .weight(1f),
-                    text = PT.book_room_confirm_button,
-                    onClick = {
-                        if (questionIndex < 3) {
-                            questionIndex++
-                        }
-                    }
-                )
-            }
         }
     }
 }
