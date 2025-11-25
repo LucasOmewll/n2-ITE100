@@ -21,6 +21,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -121,12 +122,8 @@ fun OnboardingScreen(
         }
     }
 
-    Surface(modifier = Modifier.Companion.fillMaxSize()) {
-        Column(
-            modifier = Modifier.Companion
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-        ) {
+    Scaffold(
+        topBar = {
             Image(
                 modifier = Modifier.Companion
                     .height(200.dp)
@@ -135,140 +132,13 @@ fun OnboardingScreen(
                 contentDescription = "Imagem de cadastro de usuários",
                 contentScale = ContentScale.Companion.Crop
             )
-
-            /* Formulário */
+        },
+        bottomBar = {
             Column(
                 modifier = Modifier.Companion
-                    .weight(6f)
-                    .padding(16.dp)
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.Companion.CenterHorizontally
+                    .fillMaxWidth()
+                    .padding(10.dp, end = 10.dp, top = 10.dp, bottom = 32.dp)
             ) {
-                Text(
-                    text = PT.onboarding_title,
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Companion.Bold,
-                    color = Grey500
-                )
-
-                Spacer(Modifier.Companion.height(8.dp))
-
-                Text(
-                    text = PT.onboarding_subtitle,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Grey500
-                )
-
-                Spacer(Modifier.Companion.height(24.dp))
-
-                // Campo de Nome
-                OutlinedTextField(
-                    value = formState.name,
-                    onValueChange = { name ->
-                        formState = formState.copy(
-                            name = name,
-                            nameError = if (formState.nameError != null) {
-                                validateName(name)
-                            } else null
-                        )
-                    },
-                    modifier = Modifier.Companion.fillMaxWidth(),
-                    label = { Text("Nome completo") },
-                    isError = formState.nameError != null,
-                    supportingText = {
-                        formState.nameError?.let { error ->
-                            Text(
-                                text = error,
-                                color = Color.Companion.Red
-                            )
-                        }
-                    },
-                    singleLine = true,
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Brand400,
-                    )
-                )
-
-                Spacer(Modifier.Companion.height(16.dp))
-
-                // Campo de Email
-                OutlinedTextField(
-                    value = formState.email,
-                    onValueChange = { email ->
-                        formState = formState.copy(
-                            email = email,
-                            emailError = if (formState.emailError != null) {
-                                validateOnboardingEmail(email)
-                            } else null
-                        )
-                    },
-                    modifier = Modifier.Companion.fillMaxWidth(),
-                    label = { Text("Email") },
-                    isError = formState.emailError != null,
-                    supportingText = {
-                        formState.emailError?.let { error ->
-                            Text(
-                                text = error,
-                                color = Color.Companion.Red
-                            )
-                        }
-                    },
-                    singleLine = true,
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Brand400,
-                    )
-                )
-
-                Spacer(Modifier.Companion.height(16.dp))
-
-                // Campo de Senha
-                OutlinedTextField(
-                    value = formState.password,
-                    onValueChange = { password ->
-                        formState = formState.copy(
-                            password = password,
-                            passwordError = if (formState.passwordError != null) {
-                                validateOnboardingPassword(password)
-                            } else null
-                        )
-                    },
-                    modifier = Modifier.Companion.fillMaxWidth(),
-                    label = { Text("Senha") },
-                    isError = formState.passwordError != null,
-                    supportingText = {
-                        formState.passwordError?.let { error ->
-                            Text(
-                                text = error,
-                                color = Color.Companion.Red
-                            )
-                        } ?: run {
-                            Text(
-                                text = PT.onboarding_password_supporting_text,
-                                color = Grey500
-                            )
-                        }
-                    },
-                    visualTransformation = if (passwordVisibility) {
-                        VisualTransformation.Companion.None
-                    } else PasswordVisualTransformation(),
-                    trailingIcon = {
-                        IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
-                            Icon(
-                                imageVector = if (passwordVisibility)
-                                    Icons.Default.VisibilityOff
-                                else Icons.Default.Visibility,
-                                contentDescription = if (passwordVisibility) "Ocultar senha" else "Mostrar senha"
-                            )
-                        }
-                    },
-                    singleLine = true,
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Brand400,
-                    )
-                )
-
-                Spacer(Modifier.Companion.height(24.dp))
-
                 // Botão de Cadastro
                 PrimaryButton(
                     text = "Cadastrar",
@@ -297,6 +167,153 @@ fun OnboardingScreen(
                         color = focusedColor,
                         fontWeight = FontWeight.Companion.Medium,
                         modifier = Modifier.Companion.clickable { onLoginClick() }
+                    )
+                }
+            }
+        }
+    ) { contentPadding ->
+        Surface(
+            modifier = Modifier.Companion
+                .fillMaxSize()
+                .padding(contentPadding)
+        ) {
+            Column(
+                modifier = Modifier.Companion
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
+                /* Formulário */
+                Column(
+                    modifier = Modifier.Companion
+                        .weight(6f)
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.Companion.CenterHorizontally
+                ) {
+                    Text(
+                        text = PT.onboarding_title,
+                        style = MaterialTheme.typography.headlineMedium,
+                        fontWeight = FontWeight.Companion.Bold,
+                        color = Grey500
+                    )
+
+                    Spacer(Modifier.Companion.height(8.dp))
+
+                    Text(
+                        text = PT.onboarding_subtitle,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Grey500
+                    )
+
+                    Spacer(Modifier.Companion.height(24.dp))
+
+                    // Campo de Nome
+                    OutlinedTextField(
+                        value = formState.name,
+                        onValueChange = { name ->
+                            formState = formState.copy(
+                                name = name,
+                                nameError = if (formState.nameError != null) {
+                                    validateName(name)
+                                } else null
+                            )
+                        },
+                        modifier = Modifier.Companion.fillMaxWidth(),
+                        label = { Text("Nome completo") },
+                        isError = formState.nameError != null,
+                        supportingText = {
+                            formState.nameError?.let { error ->
+                                Text(
+                                    text = error,
+                                    color = Color.Companion.Red
+                                )
+                            }
+                        },
+                        singleLine = true,
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedLabelColor = Brand400,
+                            focusedBorderColor = Brand400,
+                        )
+                    )
+
+                    Spacer(Modifier.Companion.height(16.dp))
+
+                    // Campo de Email
+                    OutlinedTextField(
+                        value = formState.email,
+                        onValueChange = { email ->
+                            formState = formState.copy(
+                                email = email,
+                                emailError = if (formState.emailError != null) {
+                                    validateOnboardingEmail(email)
+                                } else null
+                            )
+                        },
+                        modifier = Modifier.Companion.fillMaxWidth(),
+                        label = { Text("Email") },
+                        isError = formState.emailError != null,
+                        supportingText = {
+                            formState.emailError?.let { error ->
+                                Text(
+                                    text = error,
+                                    color = Color.Companion.Red
+                                )
+                            }
+                        },
+                        singleLine = true,
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedLabelColor = Brand400,
+                            focusedBorderColor = Brand400,
+                        )
+                    )
+
+                    Spacer(Modifier.Companion.height(16.dp))
+
+                    // Campo de Senha
+                    OutlinedTextField(
+                        value = formState.password,
+                        onValueChange = { password ->
+                            formState = formState.copy(
+                                password = password,
+                                passwordError = if (formState.passwordError != null) {
+                                    validateOnboardingPassword(password)
+                                } else null
+                            )
+                        },
+                        modifier = Modifier.Companion.fillMaxWidth(),
+                        label = { Text("Senha") },
+                        isError = formState.passwordError != null,
+                        supportingText = {
+                            formState.passwordError?.let { error ->
+                                Text(
+                                    text = error,
+                                    color = Color.Companion.Red
+                                )
+                            } ?: run {
+                                Text(
+                                    text = PT.onboarding_password_supporting_text,
+                                    color = Grey500
+                                )
+                            }
+                        },
+                        visualTransformation = if (passwordVisibility) {
+                            VisualTransformation.Companion.None
+                        } else PasswordVisualTransformation(),
+                        trailingIcon = {
+                            IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
+                                Icon(
+                                    imageVector = if (passwordVisibility)
+                                        Icons.Default.VisibilityOff
+                                    else Icons.Default.Visibility,
+                                    contentDescription = if (passwordVisibility) "Ocultar senha" else "Mostrar senha"
+                                )
+                            }
+                        },
+                        singleLine = true,
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedLabelColor = Brand400,
+                            focusedBorderColor = Brand400,
+                        )
                     )
                 }
             }
