@@ -21,6 +21,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -107,12 +108,8 @@ fun LoginScreen(
         }
     }
 
-    Surface(modifier = Modifier.Companion.fillMaxSize()) {
-        Column(
-            modifier = Modifier.Companion
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-        ) {
+    Scaffold(
+        topBar = {
             Image(
                 modifier = Modifier.Companion
                     .height(200.dp)
@@ -121,116 +118,13 @@ fun LoginScreen(
                 contentDescription = null,
                 contentScale = ContentScale.Companion.Crop
             )
-
-            /* Formulário */
-            Column(
-                modifier = Modifier.Companion
-                    .weight(6f)
-                    .padding(10.dp, end = 10.dp, top = 10.dp, bottom = 60.dp)
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.Companion.CenterHorizontally
-            ) {
-                Text(
-                    text = PT.login_title,
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Companion.Bold,
-                    color = Grey500
-                )
-
-                Spacer(Modifier.Companion.height(16.dp))
-
-                // Campo de Email
-                OutlinedTextField(
-                    value = formState.email,
-                    onValueChange = { email ->
-                        formState = formState.copy(
-                            email = email,
-                            emailError = if (formState.emailError != null) {
-                                validateEmail(email)
-                            } else null
-                        )
-                    },
-                    modifier = Modifier.Companion.fillMaxWidth(),
-                    label = { Text("Email") },
-                    isError = formState.emailError != null,
-                    supportingText = {
-                        formState.emailError?.let { error ->
-                            Text(
-                                text = PT.login_email_error,
-                                color = ErrorColor
-                            )
-                        }
-                    },
-                    singleLine = true,
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Brand400
-                    )
-                )
-
-                Spacer(Modifier.Companion.height(12.dp))
-
-                // Campo de Senha
-                OutlinedTextField(
-                    value = formState.password,
-                    onValueChange = { password ->
-                        formState = formState.copy(
-                            password = password,
-                            passwordError = if (formState.passwordError != null) {
-                                validatePassword(password)
-                            } else null
-                        )
-                    },
-                    modifier = Modifier.Companion.fillMaxWidth(),
-                    label = { Text("Senha") },
-                    isError = formState.passwordError != null,
-                    supportingText = {
-                        formState.passwordError?.let { error ->
-                            Text(
-                                text = PT.login_password_error,
-                                color = ErrorColor
-                            )
-                        }
-                    },
-                    visualTransformation = if (passwordVisibility) {
-                        VisualTransformation.Companion.None
-                    } else PasswordVisualTransformation(),
-                    trailingIcon = {
-                        IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
-                            Icon(
-                                imageVector = if (passwordVisibility)
-                                    Icons.Default.VisibilityOff
-                                else Icons.Default.Visibility,
-                                contentDescription = if (passwordVisibility) "Ocultar senha" else "Mostrar senha"
-                            )
-                        }
-                    },
-                    singleLine = true,
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Brand400
-                    )
-                )
-
-                Spacer(Modifier.Companion.height(12.dp))
-
-                Row(
-                    modifier = Modifier.Companion.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    Text(
-                        text = PT.login_reset_password,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Grey500,
-                        modifier = Modifier.Companion.clickable { onPasswordRecoveryClick() }
-                    )
-                }
-            }
-
+        },
+        bottomBar = {
             /* Botão */
             Column(
                 modifier = Modifier.Companion
                     .fillMaxWidth()
-                    .padding(10.dp, end = 10.dp, top = 10.dp, bottom = 60.dp)
-                    .weight(2f)
+                    .padding(10.dp, end = 10.dp, top = 10.dp, bottom = 32.dp)
             ) {
                 PrimaryButton(
                     text = PT.login_button,
@@ -256,6 +150,123 @@ fun LoginScreen(
                         fontWeight = FontWeight.Companion.Medium,
                         modifier = Modifier.Companion.clickable { onSignUpClick() }
                     )
+                }
+            }
+        }
+    ) { contentPadding ->
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(contentPadding)
+        ) {
+            Column(
+                modifier = Modifier.Companion
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
+                /* Formulário */
+                Column(
+                    modifier = Modifier.Companion
+                        .weight(6f)
+                        .padding(10.dp, end = 10.dp, top = 10.dp, bottom = 60.dp)
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.Companion.CenterHorizontally
+                ) {
+                    Text(
+                        text = PT.login_title,
+                        style = MaterialTheme.typography.headlineMedium,
+                        fontWeight = FontWeight.Companion.Bold,
+                        color = Grey500
+                    )
+
+                    Spacer(Modifier.Companion.height(16.dp))
+
+                    // Campo de Email
+                    OutlinedTextField(
+                        value = formState.email,
+                        onValueChange = { email ->
+                            formState = formState.copy(
+                                email = email,
+                                emailError = if (formState.emailError != null) {
+                                    validateEmail(email)
+                                } else null
+                            )
+                        },
+                        modifier = Modifier.Companion.fillMaxWidth(),
+                        label = { Text("Email") },
+                        isError = formState.emailError != null,
+                        supportingText = {
+                            formState.emailError?.let { error ->
+                                Text(
+                                    text = PT.login_email_error,
+                                    color = ErrorColor
+                                )
+                            }
+                        },
+                        singleLine = true,
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedLabelColor = Brand400,
+                            focusedBorderColor = Brand400
+                        )
+                    )
+
+                    Spacer(Modifier.Companion.height(12.dp))
+
+                    // Campo de Senha
+                    OutlinedTextField(
+                        value = formState.password,
+                        onValueChange = { password ->
+                            formState = formState.copy(
+                                password = password,
+                                passwordError = if (formState.passwordError != null) {
+                                    validatePassword(password)
+                                } else null
+                            )
+                        },
+                        modifier = Modifier.Companion.fillMaxWidth(),
+                        label = { Text("Senha") },
+                        isError = formState.passwordError != null,
+                        supportingText = {
+                            formState.passwordError?.let { error ->
+                                Text(
+                                    text = PT.login_password_error,
+                                    color = ErrorColor
+                                )
+                            }
+                        },
+                        visualTransformation = if (passwordVisibility) {
+                            VisualTransformation.Companion.None
+                        } else PasswordVisualTransformation(),
+                        trailingIcon = {
+                            IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
+                                Icon(
+                                    imageVector = if (passwordVisibility)
+                                        Icons.Default.VisibilityOff
+                                    else Icons.Default.Visibility,
+                                    contentDescription = if (passwordVisibility) "Ocultar senha" else "Mostrar senha"
+                                )
+                            }
+                        },
+                        singleLine = true,
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedLabelColor = Brand400,
+                            focusedBorderColor = Brand400
+                        )
+                    )
+
+                    Spacer(Modifier.Companion.height(12.dp))
+
+                    Row(
+                        modifier = Modifier.Companion.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        Text(
+                            text = PT.login_reset_password,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = Grey500,
+                            modifier = Modifier.Companion.clickable { onPasswordRecoveryClick() }
+                        )
+                    }
                 }
             }
         }
