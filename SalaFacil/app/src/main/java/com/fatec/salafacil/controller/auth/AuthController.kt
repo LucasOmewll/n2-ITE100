@@ -19,6 +19,9 @@ class AuthController(private val service: AuthService = AuthService()) : ViewMod
     private val _erro = MutableStateFlow<String?>(null)
     val erro: StateFlow<String?> = _erro
 
+    private val _registrado = MutableStateFlow(false)
+    val registrado: StateFlow<Boolean> = _registrado
+
     fun login(email: String, senha: String) {
         viewModelScope.launch {
             _loading.value = true
@@ -56,6 +59,13 @@ class AuthController(private val service: AuthService = AuthService()) : ViewMod
         }
     }
 
+    fun limparErro() {
+        _erro.value = null
+    }
+
+    fun resetarRegistro() {
+        _registrado.value = false
+    }
 
     fun logout() = service.logout()
 }
