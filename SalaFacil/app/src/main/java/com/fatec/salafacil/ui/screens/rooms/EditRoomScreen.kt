@@ -30,6 +30,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.fatec.salafacil.controller.sala.SalaController
 import com.fatec.salafacil.model.sala.Sala
 import com.fatec.salafacil.ui.components.PrimaryButton
 import com.fatec.salafacil.ui.components.SalaForm
@@ -42,21 +44,23 @@ import com.fatec.salafacil.ui.translations.PT
 @Composable
 fun EditRoomScreen(
     onBackClicked: () -> Unit,
-    onSaveButtonClicked: (Sala) -> Unit,
-    sala: Sala
+    onSaveButtonClicked: () -> Unit,
+    sala: Sala?,
+    controller: SalaController = viewModel()
 ) {
+
     var formState by remember {
         mutableStateOf(
             SalaFormState(
-                nome = sala.nome,
-                endereco = sala.endereco,
-                capacidade = sala.capacidade.toString(),
-                imageUrl = sala.imageUrl,
-                hasProjector = sala.hasProjector,
-                hasWhiteboard = sala.hasWhiteboard,
-                hasAirConditioning = sala.hasAirConditioning,
-                hasWifi = sala.hasWifi,
-                hasVideoConference = sala.hasVideoConference
+                nome = sala?.nome ?: "",
+                endereco = sala?.endereco ?: "",
+                capacidade = sala?.capacidade.toString() ,
+                imageUrl = sala?.imageUrl ?: "",
+                hasProjector = sala?.hasProjector ?: false,
+                hasWhiteboard = sala?.hasWhiteboard ?: false,
+                hasAirConditioning = sala?.hasAirConditioning ?: false,
+                hasWifi = sala?.hasWifi ?: false,
+                hasVideoConference = sala?.hasVideoConference ?: false
             )
         )
     }
@@ -64,15 +68,15 @@ fun EditRoomScreen(
     // Atualiza o formulário quando a sala muda
     LaunchedEffect(sala) {
         formState = SalaFormState(
-            nome = sala.nome,
-            endereco = sala.endereco,
-            capacidade = sala.capacidade.toString(),
-            imageUrl = sala.imageUrl,
-            hasProjector = sala.hasProjector,
-            hasWhiteboard = sala.hasWhiteboard,
-            hasAirConditioning = sala.hasAirConditioning,
-            hasWifi = sala.hasWifi,
-            hasVideoConference = sala.hasVideoConference
+            nome = sala?.nome ?: "",
+            endereco = sala?.endereco ?: "",
+            capacidade = sala?.capacidade.toString(),
+            imageUrl = sala?.imageUrl ?: "",
+            hasProjector = sala?.hasProjector ?: false,
+            hasWhiteboard = sala?.hasWhiteboard ?: false,
+            hasAirConditioning = sala?.hasAirConditioning ?: false,
+            hasWifi = sala?.hasWifi ?: false,
+            hasVideoConference = sala?.hasVideoConference ?: false
         )
     }
 
@@ -134,8 +138,9 @@ fun EditRoomScreen(
                 modifier = Modifier.fillMaxWidth(),
                 text = PT.edit_save_button,
                 onClick = {
-                    if (validateForm()) {
+                    if (validateForm() && sala != null) {
                         val salaAtualizada = sala.copy(
+                            id = sala.id,
                             nome = formState.nome,
                             endereco = formState.endereco,
                             capacidade = formState.capacidade.toInt(),
@@ -146,7 +151,10 @@ fun EditRoomScreen(
                             hasWifi = formState.hasWifi,
                             hasVideoConference = formState.hasVideoConference
                         )
-                        onSaveButtonClicked(salaAtualizada)
+
+                        controller.atualizarSala(salaAtualizada)
+
+                        onSaveButtonClicked()
                     }
                 },
                 enabled = formState.nome.isNotBlank() &&

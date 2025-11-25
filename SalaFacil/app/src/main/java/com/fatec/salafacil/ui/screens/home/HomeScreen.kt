@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -37,6 +38,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.fatec.salafacil.controller.auth.AuthController
+import com.fatec.salafacil.controller.sala.SalaController
 import com.fatec.salafacil.model.sala.Sala
 import com.fatec.salafacil.model.usuario.enums.Role
 import com.fatec.salafacil.ui.routes.AppRoutes
@@ -55,6 +57,10 @@ import com.fatec.salafacil.ui.theme.Grey400
 import com.fatec.salafacil.ui.theme.Grey500
 import com.fatec.salafacil.ui.translations.PT
 import kotlinx.coroutines.delay
+
+class HomeViewModel : ViewModel() {
+    var selectedSala: Sala? = null
+}
 
 val navigationItems = listOf(
     NavigationItem(
@@ -79,6 +85,8 @@ fun HomeScreen(
     controller: AuthController = viewModel(),
     onLogOutSuccess: () -> Unit
 ) {
+    val homeViewModel: HomeViewModel = viewModel()
+
     LaunchedEffect(Unit) {
         controller.carregarUsuarioAtual()
     }
@@ -199,12 +207,29 @@ fun HomeScreen(
             composable(AppRoutes.BOOKING) {
                 BookingTab(
                     isAdmin = isAdmin,
-                    onBookClicked = {
+                    onBookClicked = { selectedSala ->
+                        homeViewModel.selectedSala = selectedSala
                         navController.navigate(AppRoutes.BOOK_ROOM)
                     },
                     onCreateClick = {
                         navController.navigate(AppRoutes.CREATE_ROOM)
+                    },
+                    onEditClicked = { selectedSala ->
+                        homeViewModel.selectedSala = selectedSala
+                        navController.navigate(AppRoutes.EDIT_ROOM)
                     }
+                )
+            }
+
+            composable(AppRoutes.EDIT_ROOM) {
+                EditRoomScreen(
+                    onBackClicked = {
+                        repeat(2) { navController.popBackStack() }
+                    },
+                    onSaveButtonClicked = {
+                        navController.navigate(AppRoutes.SUCCESS_SALA_EDIT)
+                    },
+                    sala = Sala()
                 )
             }
 
@@ -237,12 +262,12 @@ fun HomeScreen(
             composable(AppRoutes.EDIT_ROOM) {
                 EditRoomScreen(
                     onBackClicked = {
-                        navController.navigate(AppRoutes.HOME)
+                        repeat(2) { navController.popBackStack() }
                     },
                     onSaveButtonClicked = {
                         navController.navigate(AppRoutes.SUCCESS_SALA_EDIT)
                     },
-                    sala = Sala()
+                    sala = homeViewModel.selectedSala
                 )
             }
 

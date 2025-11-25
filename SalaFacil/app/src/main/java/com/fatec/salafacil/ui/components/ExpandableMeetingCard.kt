@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -37,6 +38,7 @@ import com.fatec.salafacil.model.reuniao.membros.MembroReuniao
 import com.fatec.salafacil.model.sala.Sala
 import com.fatec.salafacil.ui.screens.meetings.utils.toDateString
 import com.fatec.salafacil.ui.screens.meetings.utils.toHourString
+import com.fatec.salafacil.ui.theme.Grey200
 import com.fatec.salafacil.ui.theme.Grey400
 import com.fatec.salafacil.ui.theme.Shapes
 import com.google.firebase.Timestamp
@@ -64,7 +66,10 @@ fun ExpandableMeetingCard(
         shape = Shapes.medium,
         onClick = {
             expandedState = !expandedState
-        }
+        },
+        colors = CardDefaults.cardColors(
+            containerColor = Grey200
+        )
     ) {
         Column(
             modifier = Modifier

@@ -46,7 +46,8 @@ import com.fatec.salafacil.ui.translations.PT
 fun BookingTab(
     isAdmin: Boolean,
     onCreateClick: () -> Unit,
-    onBookClicked: () -> Unit,
+    onBookClicked: (Sala) -> Unit,
+    onEditClicked: (Sala) -> Unit,
     salaController: SalaController = viewModel(),
 ) {
     val salas by salaController.salas.collectAsState()
@@ -116,6 +117,7 @@ fun BookingTab(
                         )
                     }
                 }
+
                 else -> {
                     // Lista de salas
                     LazyColumn(
@@ -129,7 +131,13 @@ fun BookingTab(
                         ) { sala ->
                             ExpandableRoomCard(
                                 sala = sala,
-                                primaryButtonAction = { onBookClicked() }
+                                primaryButtonAction = { selectedSala ->
+                                    onBookClicked(selectedSala)
+                                },
+                                editButtonAction = { selectedSala ->
+                                    onEditClicked(selectedSala)
+                                },
+                                isAdmin = isAdmin
                             )
                         }
                     }
@@ -147,7 +155,8 @@ fun BookingTabPreview() {
             BookingTab(
                 isAdmin = true,
                 onBookClicked = {},
-                onCreateClick = {}
+                onCreateClick = {},
+                onEditClicked = {}
             )
         }
     }

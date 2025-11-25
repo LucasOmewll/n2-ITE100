@@ -50,7 +50,9 @@ import com.fatec.salafacil.ui.theme.Shapes
 @Composable
 fun ExpandableRoomCard(
     sala: Sala,
-    primaryButtonAction: () -> Unit
+    primaryButtonAction: (Sala) -> Unit,
+    editButtonAction: (Sala) -> Unit,
+    isAdmin: Boolean
 ) {
     var expandedState by remember { mutableStateOf(false) }
     val rotationState by animateFloatAsState(
@@ -264,9 +266,20 @@ fun ExpandableRoomCard(
                                 }
                             )
 
+                            if (isAdmin) {
+                                OutlinedSecondaryButton(
+                                    text = "Gerenciar",
+                                    onClick = {
+                                        editButtonAction(sala)
+                                    }
+                                )
+                            }
+
                             PrimaryButton(
                                 text = "Agendar",
-                                onClick = primaryButtonAction
+                                onClick = {
+                                    primaryButtonAction(sala)
+                                }
                             )
                         }
                     }
@@ -295,6 +308,8 @@ fun ExpandableRoomCardPreview() {
 
     ExpandableRoomCard(
         sala = fakeSala,
-        primaryButtonAction = { }
+        primaryButtonAction = { },
+        editButtonAction = {},
+        isAdmin = true
     )
 }
