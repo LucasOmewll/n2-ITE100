@@ -87,6 +87,7 @@ fun SalaForm(
             },
             singleLine = true,
             colors = OutlinedTextFieldDefaults.colors(
+                focusedLabelColor = Brand400,
                 focusedBorderColor = Brand400
             )
         )
@@ -120,6 +121,7 @@ fun SalaForm(
             },
             singleLine = true,
             colors = OutlinedTextFieldDefaults.colors(
+                focusedLabelColor = Brand400,
                 focusedBorderColor = Brand400
             )
         )
@@ -153,6 +155,7 @@ fun SalaForm(
             },
             singleLine = true,
             colors = OutlinedTextFieldDefaults.colors(
+                focusedLabelColor = Brand400,
                 focusedBorderColor = Brand400
             )
         )
@@ -186,6 +189,7 @@ fun SalaForm(
             },
             singleLine = true,
             colors = OutlinedTextFieldDefaults.colors(
+                focusedLabelColor = Brand400,
                 focusedBorderColor = Brand400
             )
         )
