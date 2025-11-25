@@ -214,7 +214,7 @@ fun HomeScreen(
             composable(AppRoutes.CREATE_ROOM ) {
                 CreateRoomScreen(
                     onBackClicked = {
-                        navController.navigate(AppRoutes.HOME)
+                        navController.popBackStack()
                     },
                     onSaveButtonClicked = {
                         navController.navigate(AppRoutes.SUCCESS)
