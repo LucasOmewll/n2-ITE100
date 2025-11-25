@@ -32,18 +32,18 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.fatec.salafacil.model.reuniao.Reuniao
+import com.fatec.salafacil.model.sala.Sala
+import com.fatec.salafacil.ui.screens.meetings.utils.toDateString
+import com.fatec.salafacil.ui.screens.meetings.utils.toHourString
 import com.fatec.salafacil.ui.theme.Grey400
 import com.fatec.salafacil.ui.theme.Shapes
+import com.google.firebase.Timestamp
 
 @Composable
 fun ExpandableMeetingCard(
-    title: String,
-    roomName: String,
-    date: String,
-    startHour: String,
-    endHour: String,
-    subject: String,
-    imageUrl: String,
+    sala: Sala,
+    reuniao: Reuniao,
     primaryButtonAction: () -> Unit
 ) {
     var expandedState by remember { mutableStateOf(false) }
@@ -74,7 +74,7 @@ fun ExpandableMeetingCard(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     modifier = Modifier.weight(6f),
-                    text = title,
+                    text = reuniao.titulo,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
@@ -97,7 +97,7 @@ fun ExpandableMeetingCard(
             }
             Row {
                 Text(
-                    text = roomName,
+                    text = reuniao.data.toDateString(),
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -105,7 +105,7 @@ fun ExpandableMeetingCard(
             }
             if (expandedState) {
                 Image(
-                    painter = rememberAsyncImagePainter(imageUrl),
+                    painter = rememberAsyncImagePainter(sala.imageUrl),
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -114,7 +114,7 @@ fun ExpandableMeetingCard(
                 )
                 Row {
                     Text(
-                        text = title,
+                        text = reuniao.titulo,
                         style = MaterialTheme.typography.bodyLarge,
                         color = Grey400,
                         maxLines = 1,
@@ -123,7 +123,7 @@ fun ExpandableMeetingCard(
                 }
                 Row(modifier = Modifier.fillMaxWidth()) {
                     Text(
-                        text = "$date: $startHour - $endHour",
+                        text = "${reuniao.data.toDateString()} : ${reuniao.inicio.toHourString()} - ${reuniao.fim.toHourString()}",
                         style = MaterialTheme.typography.bodyMedium,
                         color = Grey400,
                         maxLines = 1,
@@ -133,7 +133,7 @@ fun ExpandableMeetingCard(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = subject,
+                    text = reuniao.descricao,
                     style = MaterialTheme.typography.bodyMedium,
                     color = Grey400,
                     maxLines = 8,
@@ -162,19 +162,31 @@ fun ExpandableMeetingCard(
     }
 }
 
-
-
 @Preview(showBackground = true)
 @Composable
 fun ExpandableMeetingCardPreview() {
+
+    val fakeSala = Sala(
+        nome = "Sala 204",
+        endereco = "Bloco B",
+        capacidade = 30,
+        imageUrl = ""
+    )
+
+    val fakeReuniao = Reuniao(
+        titulo = "Reunião de Matemática",
+        descricao = "Estatística e Probabilidade",
+        responsavelId = "123",
+        participantes = listOf("João", "Maria"),
+        data = Timestamp.now(),
+        inicio = Timestamp.now(),
+        fim = Timestamp.now()
+    )
+
     ExpandableMeetingCard(
-        title = "Reunião de Matemática",
-        roomName = "Sala 204",
-        date = "12/06/2025",
-        startHour = "08:00",
-        endHour = "09:30",
-        subject = "Estatística e Probabilidade",
-        imageUrl = "",
-        primaryButtonAction = { }
+        sala = fakeSala,
+        reuniao = fakeReuniao,
+        primaryButtonAction = {}
     )
 }
+

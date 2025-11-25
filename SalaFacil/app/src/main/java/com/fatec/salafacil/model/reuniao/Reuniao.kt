@@ -13,6 +13,7 @@ data class Reuniao(
     var responsavelId: String = "",
     var participantes: List<String> = emptyList(),
 
+    var data: Timestamp = Timestamp.now(),
     var inicio: Timestamp = Timestamp.now(),
     var fim: Timestamp = Timestamp.now(),
 

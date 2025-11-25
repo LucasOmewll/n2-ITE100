@@ -28,8 +28,7 @@ object PT {
 
     // Home
     val home_title = "SalaFácil"
-    val meetings_tab_label = "Próximas reuniões"
-    val meetings_tab_clickable = "Ver todas"
+    val meetings_tab_label = "Suas reuniões"
     val booking_tab_label = "Reserve uma sala"
     val booking_tab_clickable = "Filtrar"
     val schedule_tab_label = "Calendário de Reuniões"

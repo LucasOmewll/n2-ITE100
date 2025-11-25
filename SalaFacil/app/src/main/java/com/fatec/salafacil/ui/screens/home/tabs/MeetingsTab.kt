@@ -1,6 +1,5 @@
 package com.fatec.salafacil.ui.screens.home.tabs
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -13,16 +12,16 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.fatec.salafacil.ui.theme.Grey300
+import com.fatec.salafacil.model.reuniao.Reuniao
 import com.fatec.salafacil.ui.theme.Grey500
 import com.fatec.salafacil.ui.translations.PT
 
 // Aba de Reuniões
 @Composable
 fun MeetingsTab(
+    reunioes: List<Reuniao>?,
     onViewAllClick: () -> Unit
 ) {
     Box(
@@ -33,19 +32,12 @@ fun MeetingsTab(
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.Start
         ) {
             Text(
                 text = PT.meetings_tab_label,
                 style = MaterialTheme.typography.bodyMedium,
                 color = Grey500
-            )
-            Text(
-                text = PT.meetings_tab_clickable,
-                style = MaterialTheme.typography.bodyMedium,
-                color = Grey300,
-                fontWeight = FontWeight.Medium,
-                modifier = Modifier.clickable { onViewAllClick }
             )
         }
 
@@ -61,7 +53,7 @@ fun MeetingsTab(
 fun MeetingsTabPreview() {
     MaterialTheme {
         Surface {
-            MeetingsTab({})
+
         }
     }
 }
