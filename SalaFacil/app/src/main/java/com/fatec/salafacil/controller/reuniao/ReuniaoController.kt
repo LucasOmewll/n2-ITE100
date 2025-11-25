@@ -15,11 +15,14 @@ class ReuniaoController(
     private val _reunioes = MutableStateFlow<List<Reuniao>>(emptyList())
     val reunioes: StateFlow<List<Reuniao>> get() = _reunioes
 
+
     private val _reuniaoSelecionada = MutableStateFlow<Reuniao?>(null)
     val reuniaoSelecionada: StateFlow<Reuniao?> get() = _reuniaoSelecionada
 
+
     private val _erro = MutableStateFlow<String?>(null)
     val erro: StateFlow<String?> get() = _erro
+
 
     fun carregarReunioes(salaId: String) {
         viewModelScope.launch {
@@ -29,15 +32,17 @@ class ReuniaoController(
         }
     }
 
+
     fun carregarReuniao(salaId: String, reuniaoId: String) {
         viewModelScope.launch {
-            service.listarReunioesDaSala(salaId) // load and filter or call repository directly for single
+            service.listarReunioesDaSala(salaId)
                 .onSuccess {
                     _reuniaoSelecionada.value = it.find { r -> r.id == reuniaoId }
                 }
                 .onFailure { _erro.value = it.message }
         }
     }
+
 
     fun criarReuniao(reuniao: Reuniao) {
         viewModelScope.launch {
@@ -46,12 +51,14 @@ class ReuniaoController(
         }
     }
 
+
     fun atualizarReuniao(reuniao: Reuniao) {
         viewModelScope.launch {
             service.atualizarReuniao(reuniao)
                 .onFailure { _erro.value = it.message }
         }
     }
+
 
     fun removerReuniao(salaId: String, reuniaoId: String) {
         viewModelScope.launch {
@@ -60,6 +67,7 @@ class ReuniaoController(
         }
     }
 
+
     fun carregarReunioesDoUsuario(userId: String) {
         viewModelScope.launch {
             service.listarReunioesDoUsuario(userId)
@@ -67,6 +75,7 @@ class ReuniaoController(
                 .onFailure { _erro.value = it.message }
         }
     }
+
 
     fun adicionarMembro(reuniao: Reuniao, membroId: String, membroEmail: String) {
         viewModelScope.launch {
@@ -79,6 +88,7 @@ class ReuniaoController(
                 .onFailure { _erro.value = it.message }
         }
     }
+
 
     fun removerMembro(reuniao: Reuniao, userId: String) {
         viewModelScope.launch {

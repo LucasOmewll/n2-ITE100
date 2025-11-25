@@ -15,11 +15,15 @@ class AuthController(
     private val _usuario = MutableStateFlow<Usuario?>(null)
     val usuario: StateFlow<Usuario?> = _usuario
 
+
     private val _loading = MutableStateFlow(false)
     val loading: StateFlow<Boolean> = _loading
 
+
     private val _erro = MutableStateFlow<String?>(null)
     val erro: StateFlow<String?> = _erro
+
+
 
 
     fun login(email: String, senha: String) {
@@ -28,6 +32,7 @@ class AuthController(
             val result = service.login(email, senha)
             _loading.value = false
 
+
             if (result.isSuccess) {
                 _usuario.value = result.getOrThrow()
             } else {
@@ -35,6 +40,7 @@ class AuthController(
             }
         }
     }
+
 
     fun registrar(usuario: Usuario, senha: String) {
         viewModelScope.launch {
@@ -42,6 +48,7 @@ class AuthController(
             val result = service.registrar(usuario, senha)
             _loading.value = false
 
+
             if (result.isSuccess) {
                 _usuario.value = result.getOrThrow()
             } else {
@@ -49,6 +56,7 @@ class AuthController(
             }
         }
     }
+
 
     fun carregarUsuarioAtual() {
         viewModelScope.launch {
@@ -58,6 +66,7 @@ class AuthController(
             }
         }
     }
+
 
     fun logout() = service.logout()
 }

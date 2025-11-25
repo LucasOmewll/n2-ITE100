@@ -1,6 +1,7 @@
 package com.fatec.salafacil.repository
 
 import com.fatec.salafacil.model.reuniao.Reuniao
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
@@ -10,13 +11,9 @@ class ReuniaoRepository(
 
     private val salasCollection = db.collection("salas")
 
-    // -------------------------------------------------------------
-    // 1. Criar reunião (em uma sala específica)
-    // -------------------------------------------------------------
     suspend fun criarReuniao(reuniao: Reuniao): Boolean {
         return try {
-            // Atualiza o campo indexável
-            val reuniaoAtualizada = reuniao.copy(
+            val atualizada = reuniao.copy(
                 membrosIds = reuniao.membros.map { it.userId }
             )
 
@@ -24,60 +21,45 @@ class ReuniaoRepository(
                 .document(reuniao.salaId)
                 .collection("reunioes")
                 .document(reuniao.id)
-                .set(reuniaoAtualizada)
+                .set(atualizada)
                 .await()
 
             true
         } catch (e: Exception) {
-            e.printStackTrace()
             false
         }
     }
 
-
-    // -------------------------------------------------------------
-    // 2. Buscar reuniões de uma sala
-    // -------------------------------------------------------------
     suspend fun reunioesDaSala(salaId: String): List<Reuniao> {
         return try {
-            val snapshot = salasCollection
+            val snap = salasCollection
                 .document(salaId)
                 .collection("reunioes")
                 .get()
                 .await()
 
-            snapshot.toObjects(Reuniao::class.java)
-        } catch (e: Exception) {
-            e.printStackTrace()
+            snap.toObjects(Reuniao::class.java)
+        } catch (_: Exception) {
             emptyList()
         }
     }
 
-
-    // -------------------------------------------------------------
-    // 3. Buscar todas as reuniões em que um usuário participa
-    // -------------------------------------------------------------
     suspend fun reunioesDoUsuario(userId: String): List<Reuniao> {
         return try {
-            val snapshot = db.collectionGroup("reunioes")
+            val snap = db.collectionGroup("reunioes")
                 .whereArrayContains("membrosIds", userId)
                 .get()
                 .await()
 
-            snapshot.toObjects(Reuniao::class.java)
-        } catch (e: Exception) {
-            e.printStackTrace()
+            snap.toObjects(Reuniao::class.java)
+        } catch (_: Exception) {
             emptyList()
         }
     }
 
-
-    // -------------------------------------------------------------
-    // 4. Atualizar reunião
-    // -------------------------------------------------------------
     suspend fun atualizarReuniao(reuniao: Reuniao): Boolean {
         return try {
-            val reuniaoAtualizada = reuniao.copy(
+            val atualizada = reuniao.copy(
                 membrosIds = reuniao.membros.map { it.userId }
             )
 
@@ -85,20 +67,15 @@ class ReuniaoRepository(
                 .document(reuniao.salaId)
                 .collection("reunioes")
                 .document(reuniao.id)
-                .set(reuniaoAtualizada)
+                .set(atualizada)
                 .await()
 
             true
-        } catch (e: Exception) {
-            e.printStackTrace()
+        } catch (_: Exception) {
             false
         }
     }
 
-
-    // -------------------------------------------------------------
-    // 5. Deletar reunião
-    // -------------------------------------------------------------
     suspend fun deletarReuniao(salaId: String, reuniaoId: String): Boolean {
         return try {
             salasCollection
@@ -109,21 +86,42 @@ class ReuniaoRepository(
                 .await()
 
             true
-        } catch (e: Exception) {
-            e.printStackTrace()
+        } catch (_: Exception) {
             false
         }
     }
 
-    // dentro de ReuniaoRepository class
-    // método público que reusa a lógica privada
-    suspend fun existeConflitoPublic(
+    private suspend fun existeConflito(
         salaId: String,
-        inicio: com.google.firebase.Timestamp,
-        fim: com.google.firebase.Timestamp,
-        excluirReuniaoId: String? = null
+        inicio: Timestamp,
+        fim: Timestamp,
+        excluir: String? = null
     ): Boolean {
-        return existeConflito(salaId, inicio, fim, excluirReuniaoId)
+        return try {
+            val snap = salasCollection
+                .document(salaId)
+                .collection("reunioes")
+                .whereLessThan("dataHoraTermino", fim)
+                .whereGreaterThan("dataHoraInicio", inicio)
+                .get()
+                .await()
+
+            val lista = snap.toObjects(Reuniao::class.java)
+
+            val filtrada = if (excluir != null)
+                lista.filter { it.id != excluir }
+            else lista
+
+            filtrada.isNotEmpty()
+        } catch (_: Exception) {
+            false
+        }
     }
 
+    suspend fun existeConflitoPublic(
+        salaId: String,
+        inicio: Timestamp,
+        fim: Timestamp,
+        excluir: String? = null
+    ) = existeConflito(salaId, inicio, fim, excluir)
 }

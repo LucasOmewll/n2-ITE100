@@ -1,3 +1,4 @@
+// == File: AuthRepository.kt ==
 package com.fatec.salafacil.repository.auth
 
 import com.google.firebase.auth.FirebaseAuth

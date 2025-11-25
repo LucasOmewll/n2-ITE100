@@ -15,11 +15,14 @@ class SalaController(
     private val _salas = MutableStateFlow<List<Sala>>(emptyList())
     val salas: StateFlow<List<Sala>> = _salas
 
+
     private val _erro = MutableStateFlow<String?>(null)
     val erro: StateFlow<String?> = _erro
 
+
     private val _loading = MutableStateFlow(false)
     val loading: StateFlow<Boolean> = _loading
+
 
     fun carregarSalas() {
         viewModelScope.launch {
@@ -31,6 +34,7 @@ class SalaController(
         }
     }
 
+
     fun criarSala(sala: Sala, usuarioIdCriador: String? = null) {
         viewModelScope.launch {
             salaService.criarSala(sala, usuarioIdCriador)
@@ -38,12 +42,14 @@ class SalaController(
         }
     }
 
+
     fun atualizarSala(sala: Sala) {
         viewModelScope.launch {
             salaService.atualizarSala(sala)
                 .onFailure { _erro.value = it.message }
         }
     }
+
 
     fun removerSala(id: String) {
         viewModelScope.launch {

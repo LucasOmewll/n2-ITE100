@@ -14,14 +14,18 @@ data class Reuniao(
     var pauta: String = "",
     var diaInteiro: Boolean = false,
 
+
     var dataHoraInicio: Timestamp = Timestamp.now(),
     var dataHoraTermino: Timestamp = Timestamp.now(),
+
 
     var createdBy: DocumentReference? = null,
     var membros: List<MembroReuniao> = emptyList(),
 
-    // Campo auxiliar necessário para pesquisas
+
+// Campo auxiliar necessário para pesquisas
     var membrosIds: List<String> = emptyList(),
+
 
     val createdAt: Timestamp = Timestamp.now()
 )

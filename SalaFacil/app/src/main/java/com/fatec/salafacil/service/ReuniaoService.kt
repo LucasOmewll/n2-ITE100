@@ -4,42 +4,33 @@ import com.fatec.salafacil.model.reuniao.Reuniao
 import com.fatec.salafacil.model.reuniao.membro.MembroReuniao
 import com.fatec.salafacil.repository.ReuniaoRepository
 import com.fatec.salafacil.repository.sala.SalaRepository
-import com.fatec.salafacil.repository.usuario.UsuarioRepository
-import com.google.firebase.Timestamp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class ReuniaoService(
     private val reuniaoRepo: ReuniaoRepository = ReuniaoRepository(),
-    private val salaRepo: SalaRepository = SalaRepository(),
-    private val usuarioRepo: UsuarioRepository = UsuarioRepository()
+    private val salaRepo: SalaRepository = SalaRepository()
 ) {
 
-    /**
-     * Valida e cria reunião. Regras:
-     * - título obrigatório
-     * - dataHoraInicio < dataHoraTermino
-     * - checar conflito na sala
-     * - preencher membrosIds automaticamente
-     */
     suspend fun criarReuniao(reuniao: Reuniao): Result<Unit> = withContext(Dispatchers.IO) {
         try {
-            if (reuniao.titulo.isBlank()) return@withContext Result.failure(Exception("Título obrigatório."))
+            if (reuniao.titulo.isBlank()) return@withContext Result.failure(Exception("Título obrigatório"))
             if (reuniao.dataHoraInicio.seconds >= reuniao.dataHoraTermino.seconds)
-                return@withContext Result.failure(Exception("Horário de término deve ser após início."))
+                return@withContext Result.failure(Exception("Horário inválido"))
 
-            // checar se sala existe
-            val salaRes = salaRepo.obterSala(reuniao.salaId)
-            if (salaRes.isFailure) return@withContext Result.failure(Exception("Sala não encontrada."))
+            val sala = salaRepo.obterSala(reuniao.salaId)
+            if (sala.isFailure) return@withContext Result.failure(Exception("Sala não encontrada"))
 
-            // preencher membrosIds automaticamente se vazio
-            if (reuniao.membros.isNotEmpty()) {
-                reuniao.membrosIds = reuniao.membros.map { it.userId }
-            }
+            reuniao.membrosIds = reuniao.membros.map { it.userId }
 
-            // checar conflitos via repository (ele já faz)
-            val existConflict = reuniaoRepo.existeConflitoPublic(reuniao.salaId, reuniao.dataHoraInicio, reuniao.dataHoraTermino, null)
-            if (existConflict) return@withContext Result.failure(Exception("Conflito de horário na sala selecionada."))
+            val conflitante = reuniaoRepo.existeConflitoPublic(
+                reuniao.salaId,
+                reuniao.dataHoraInicio,
+                reuniao.dataHoraTermino
+            )
+
+            if (conflitante)
+                return@withContext Result.failure(Exception("Conflito de horário na sala"))
 
             reuniaoRepo.criarReuniao(reuniao)
             Result.success(Unit)
@@ -48,21 +39,20 @@ class ReuniaoService(
         }
     }
 
-    /**
-     * Atualiza reunião aplicando as mesmas validações.
-     */
     suspend fun atualizarReuniao(reuniao: Reuniao): Result<Unit> = withContext(Dispatchers.IO) {
         try {
-            if (reuniao.titulo.isBlank()) return@withContext Result.failure(Exception("Título obrigatório."))
-            if (reuniao.dataHoraInicio.seconds >= reuniao.dataHoraTermino.seconds)
-                return@withContext Result.failure(Exception("Horário de término deve ser após início."))
+            if (reuniao.titulo.isBlank()) return@withContext Result.failure(Exception("Título obrigatório"))
+
+            val conflito = reuniaoRepo.existeConflitoPublic(
+                reuniao.salaId,
+                reuniao.dataHoraInicio,
+                reuniao.dataHoraTermino,
+                excluir = reuniao.id
+            )
+
+            if (conflito) return@withContext Result.failure(Exception("Conflito de horário"))
 
             reuniao.membrosIds = reuniao.membros.map { it.userId }
-
-            // checar conflito ignorando própria reunião:
-            val conflito = reuniaoRepo.existeConflitoPublic(reuniao.salaId, reuniao.dataHoraInicio, reuniao.dataHoraTermino, reuniao.id)
-            if (conflito) return@withContext Result.failure(Exception("Conflito de horário na sala selecionada."))
-
             reuniaoRepo.atualizarReuniao(reuniao)
             Result.success(Unit)
         } catch (e: Exception) {
@@ -70,42 +60,48 @@ class ReuniaoService(
         }
     }
 
-    suspend fun excluirReuniao(salaId: String, reuniaoId: String): Result<Unit> = withContext(Dispatchers.IO) {
-        reuniaoRepo.excluirReuniao(salaId, reuniaoId)
-    }
-
-    suspend fun listarReunioesDaSala(salaId: String) = withContext(Dispatchers.IO) {
-        Result.success(reuniaoRepo.reunioesDaSala(salaId))
-    }
-
-    suspend fun listarReunioesDoUsuario(userId: String) = withContext(Dispatchers.IO) {
-        Result.success(reuniaoRepo.reunioesDoUsuario(userId))
-    }
-
-    // funções auxiliares para adicionar/remover membros
-    suspend fun adicionarMembro(reuniao: Reuniao, membro: MembroReuniao): Result<Unit> = withContext(Dispatchers.IO) {
-        try {
-            val membros = reuniao.membros.toMutableList()
-            if (membros.any { it.userId == membro.userId }) return@withContext Result.failure(Exception("Membro já adicionado."))
-            membros.add(membro)
-            reuniao.membros = membros
-            reuniao.membrosIds = reuniao.membros.map { it.userId }
-            reuniaoRepo.atualizarReuniao(reuniao)
-            Result.success(Unit)
-        } catch (e: Exception) {
-            Result.failure(e)
+    suspend fun excluirReuniao(salaId: String, reuniaoId: String): Result<Unit> =
+        withContext(Dispatchers.IO) {
+            val ok = reuniaoRepo.deletarReuniao(salaId, reuniaoId)
+            if (ok) Result.success(Unit)
+            else Result.failure(Exception("Erro ao excluir reunião"))
         }
-    }
 
-    suspend fun removerMembro(reuniao: Reuniao, userId: String): Result<Unit> = withContext(Dispatchers.IO) {
-        try {
-            val membros = reuniao.membros.filter { it.userId != userId }
-            reuniao.membros = membros
-            reuniao.membrosIds = membros.map { it.userId }
-            reuniaoRepo.atualizarReuniao(reuniao)
-            Result.success(Unit)
-        } catch (e: Exception) {
-            Result.failure(e)
+    suspend fun listarReunioesDaSala(salaId: String) =
+        withContext(Dispatchers.IO) { Result.success(reuniaoRepo.reunioesDaSala(salaId)) }
+
+    suspend fun listarReunioesDoUsuario(userId: String) =
+        withContext(Dispatchers.IO) { Result.success(reuniaoRepo.reunioesDoUsuario(userId)) }
+
+    suspend fun adicionarMembro(reuniao: Reuniao, membro: MembroReuniao): Result<Unit> =
+        withContext(Dispatchers.IO) {
+            try {
+                val membros = reuniao.membros.toMutableList()
+                if (membros.any { it.userId == membro.userId })
+                    return@withContext Result.failure(Exception("Membro já existe"))
+
+                membros.add(membro)
+                reuniao.membros = membros
+                reuniao.membrosIds = membros.map { it.userId }
+
+                reuniaoRepo.atualizarReuniao(reuniao)
+                Result.success(Unit)
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
         }
-    }
+
+    suspend fun removerMembro(reuniao: Reuniao, userId: String): Result<Unit> =
+        withContext(Dispatchers.IO) {
+            try {
+                val novos = reuniao.membros.filter { it.userId != userId }
+                reuniao.membros = novos
+                reuniao.membrosIds = novos.map { it.userId }
+
+                reuniaoRepo.atualizarReuniao(reuniao)
+                Result.success(Unit)
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+        }
 }

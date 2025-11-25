@@ -15,11 +15,14 @@ class UsuarioController(
     private val _usuario = MutableStateFlow<Usuario?>(null)
     val usuario: StateFlow<Usuario?> get() = _usuario
 
+
     private val _usuarios = MutableStateFlow<List<Usuario>>(emptyList())
     val usuarios: StateFlow<List<Usuario>> get() = _usuarios
 
+
     private val _erro = MutableStateFlow<String?>(null)
     val erro: StateFlow<String?> get() = _erro
+
 
     fun carregarUsuario(id: String) {
         viewModelScope.launch {
@@ -29,6 +32,7 @@ class UsuarioController(
         }
     }
 
+
     fun carregarUsuarios() {
         viewModelScope.launch {
             usuarioService.listarUsuarios()
@@ -37,6 +41,7 @@ class UsuarioController(
         }
     }
 
+
     fun criarUsuario(usuario: Usuario) {
         viewModelScope.launch {
             usuarioService.criarUsuario(usuario)
@@ -44,12 +49,14 @@ class UsuarioController(
         }
     }
 
+
     fun atualizarUsuario(usuario: Usuario) {
         viewModelScope.launch {
             usuarioService.atualizarUsuario(usuario)
                 .onFailure { _erro.value = it.message }
         }
     }
+
 
     fun excluirUsuario(id: String) {
         viewModelScope.launch {

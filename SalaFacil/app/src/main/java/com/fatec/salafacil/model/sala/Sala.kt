@@ -17,6 +17,7 @@ data class Sala(
     var hasWifi: Boolean = false,
     var hasVideoConference: Boolean = false,
 
+
     val createdAt: Timestamp = Timestamp.now(),
     var createdBy: DocumentReference? = null
 )
