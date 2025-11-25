@@ -1,8 +1,6 @@
 package com.fatec.salafacil.model.reuniao
 
-import com.fatec.salafacil.model.reuniao.membro.MembroReuniao
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.DocumentReference
 import java.util.UUID
 
 data class Reuniao(
@@ -17,8 +15,8 @@ data class Reuniao(
     var dataHoraInicio: Timestamp = Timestamp.now(),
     var dataHoraTermino: Timestamp = Timestamp.now(),
 
-    var createdBy: DocumentReference? = null,
-    var membros: List<MembroReuniao> = emptyList(),
+    var inicio: Timestamp = Timestamp.now(),
+    var fim: Timestamp = Timestamp.now(),
 
     // Campo auxiliar necessário para pesquisas
     var membrosIds: List<String> = emptyList(),
