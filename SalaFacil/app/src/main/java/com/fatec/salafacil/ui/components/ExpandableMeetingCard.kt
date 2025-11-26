@@ -179,25 +179,5 @@ fun ExpandableMeetingCardPreview() {
         imageUrl = ""
     )
 
-    val fakeReuniao = Reuniao(
-        id = "123e4567-e89b-12d3-a456-426614174000",
-        salaId = "sala-001",
-        active = true,
-        titulo = "Reunião de Matemática",
-        pauta = "Discussão sobre métodos de ensino e planejamento do próximo semestre",
-        diaInteiro = false,
-        data = Timestamp.now(),
-        dataHoraInicio = Timestamp.now(),
-        dataHoraTermino = Timestamp(Timestamp.now().seconds + 7200, 0), // 2 horas depois
-        createdBy = null, // Em um caso real seria uma DocumentReference ,
-        membrosIds = listOf("user-001", "user-002"),
-        createdAt = Timestamp.now()
-    )
-
-    ExpandableMeetingCard(
-        sala = fakeSala,
-        reuniao = fakeReuniao,
-        primaryButtonAction = {}
-    )
 }
 

@@ -20,4 +20,6 @@ object AppRoutes {
 
     const val SUCCESS_SALA = "success_sala"
     const val SUCCESS_SALA_EDIT = "success_sala_edit"
+
+    const val SUCCESS_BOOKING = "success_booking"
 }

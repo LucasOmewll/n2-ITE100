@@ -18,14 +18,16 @@ fun formatMillisToLocalDate(millis: Long): String {
     return date.format(formatter)
 }
 
-fun formatLocalTime(horario: Timestamp): String {
+fun formatLocalTime(horario: Timestamp?): String {
+    if (horario == null) return ""
+
+    val instant = horario.toDate().toInstant()   // Timestamp → Date → Instant
+    val zone = ZoneId.systemDefault()            // Fuso do dispositivo
+    val localDateTime = instant.atZone(zone).toLocalDateTime()
+    val localTime = localDateTime.toLocalTime()
+
     val formatter = DateTimeFormatter.ofPattern("HH:mm")
-
-    if (horario == null) {
-        return ""
-    }
-
-    return horario.format(formatter)
+    return localTime.format(formatter)
 }
 
 fun converterMillisParaLocalDate(millis: Long): LocalDate? {

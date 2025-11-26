@@ -98,6 +98,6 @@ object PT {
     const val success_meeting_updated_title = "Reunião Atualizada!"
     const val success_meeting_updated_description = "As informações da reunião foram atualizadas com sucesso."
 
-    const val book_room_finalize_button = "Finalizar Agendamento"
+    const val book_room_finalize_button = "Finalizar"
     const val book_room_fill_details_label = "Preencha os detalhes da reunião"
 }

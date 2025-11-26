@@ -46,6 +46,7 @@ import com.fatec.salafacil.ui.screens.home.data.NavigationItem
 import com.fatec.salafacil.ui.screens.home.tabs.BookingTab
 import com.fatec.salafacil.ui.screens.home.tabs.MeetingsTab
 import com.fatec.salafacil.ui.screens.home.tabs.ScheduleTab
+import com.fatec.salafacil.ui.screens.meetings.BookRoomForMeetingScreen
 import com.fatec.salafacil.ui.screens.rooms.CreateRoomScreen
 import com.fatec.salafacil.ui.screens.rooms.EditRoomScreen
 import com.fatec.salafacil.ui.screens.success.SuccessScreen
@@ -275,6 +276,28 @@ fun HomeScreen(
                 SuccessScreen(
                     title = "Sala editada!",
                     description = "A sala foi editada com sucesso!",
+                    onBackClick = {
+                        repeat(2) { navController.popBackStack() }
+                    }
+                )
+            }
+
+            composable(AppRoutes.BOOK_ROOM) {
+                BookRoomForMeetingScreen(
+                    sala = homeViewModel.selectedSala,
+                    onBackClicked = {
+                        repeat(2) { navController.popBackStack() }
+                    },
+                    onConfirmClick = {
+                        navController.navigate(AppRoutes.SUCCESS_SALA_EDIT)
+                    }
+                )
+            }
+
+            composable ( AppRoutes.SUCCESS_BOOKING ) {
+                SuccessScreen(
+                    title = "Sala reservada!",
+                    description = "A sala foi reservada com sucesso!",
                     onBackClick = {
                         repeat(2) { navController.popBackStack() }
                     }

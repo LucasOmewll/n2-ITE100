@@ -64,7 +64,7 @@ import java.util.UUID
 
 @Composable
 fun BookRoomForMeetingScreen(
-    sala: Sala,
+    sala: Sala?,
     onConfirmClick: () -> Unit,
     onBackClicked: () -> Unit,
     authController: AuthController = viewModel(),
@@ -76,36 +76,42 @@ fun BookRoomForMeetingScreen(
         mutableStateOf(MeetingFormState())
     }
 
+    LaunchedEffect(Unit) {
+        authController.carregarUsuarioAtual()
+    }
+
+    val usuarioAtual by authController.usuario.collectAsState()
+
+
     var questionIndex by remember { mutableIntStateOf(0) }
     var previousIndex by remember { mutableIntStateOf(0) }
     val goingForward = questionIndex > previousIndex
 
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
-    val context = LocalContext.current
 
     val bookRoomTabs = listOf(
         ProcessTab(
             title = PT.book_room_check_location,
             body = PT.book_room_check_location_body,
-            value = sala.endereco,
+            value = sala?.endereco,
             icon = Icons.Default.LocationOn
         ),
         ProcessTab(
             title = PT.book_room_check_capacity,
             body = PT.book_room_check_capacity_body,
-            value = sala.capacidade.toString(),
+            value = sala?.capacidade.toString(),
             icon = Icons.Default.Groups
         ),
         ProcessTab(
             title = PT.book_room_check_resources,
             body = PT.book_room_check_resources_body,
             icon = Icons.Default.AutoAwesome,
-            hasProjector = sala.hasProjector,
-            hasWhiteboard = sala.hasWhiteboard,
-            hasAirConditioning = sala.hasAirConditioning,
-            hasWifi = sala.hasWifi,
-            hasVideoConference = sala.hasVideoConference
+            hasProjector = sala?.hasProjector,
+            hasWhiteboard = sala?.hasWhiteboard,
+            hasAirConditioning = sala?.hasAirConditioning,
+            hasWifi = sala?.hasWifi,
+            hasVideoConference = sala?.hasVideoConference
         ),
     )
 
@@ -122,7 +128,7 @@ fun BookRoomForMeetingScreen(
     }
 
     fun criarReuniao() {
-        val usuarioAtual = authController.usuario.value
+
         if (usuarioAtual == null) {
             coroutineScope.launch {
                 snackbarHostState.showSnackbar("Usuário não autenticado")
@@ -135,14 +141,14 @@ fun BookRoomForMeetingScreen(
             titulo = formState.titulo,
             pauta = formState.pauta,
             data = formState.data,
-            dataHoraInicio = formState.data,
+            dataHoraInicio = formState.horarioInicio,
             dataHoraTermino = formState.horarioTermino,
-            salaId = sala.id,
-            createdBy = usuarioAtual.id,
+            salaId = sala?.id ?: "",
+            createdBy = usuarioAtual!!.id,
             membros = mutableListOf(
                 MembroReuniao(
-                    userId = usuarioAtual.id,
-                    email = usuarioAtual.email,
+                    userId = usuarioAtual!!.id,
+                    email = usuarioAtual!!.email,
                     role = "ORGANIZADOR"
                 )
             )
@@ -151,9 +157,6 @@ fun BookRoomForMeetingScreen(
         reuniaoController.criarReuniao(novaReuniao)
 
         coroutineScope.launch {
-            snackbarHostState.showSnackbar("Reunião agendada com sucesso!")
-            // Aguardar um pouco antes de navegar
-            kotlinx.coroutines.delay(1000)
             onConfirmClick()
         }
     }

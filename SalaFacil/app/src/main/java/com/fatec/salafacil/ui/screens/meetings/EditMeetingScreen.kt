@@ -52,7 +52,7 @@ import com.google.firebase.firestore.DocumentReference
 @Composable
 fun EditMeetingScreen(
     onBackClicked: () -> Unit,
-    onSaveButtonClicked: (String, String, LocalDate, LocalTime, LocalTime) -> Unit,
+    onSaveButtonClicked: () -> Unit,
     sala: Sala,
     reuniao: Reuniao
 ) {
@@ -65,9 +65,9 @@ fun EditMeetingScreen(
             MeetingFormState(
                 titulo = reuniao.titulo,
                 pauta = reuniao.pauta,
-                data = timestampToLocalDate(reuniao.data),
-                horarioInicio = timestampToLocalTime(reuniao.dataHoraInicio),
-                horarioTermino = timestampToLocalTime(reuniao.dataHoraTermino)
+                data = reuniao.data,
+                horarioInicio = reuniao.dataHoraInicio,
+                horarioTermino = reuniao.dataHoraTermino
             )
         )
     }
@@ -75,10 +75,10 @@ fun EditMeetingScreen(
     fun validateForm(): Boolean {
         val tituloError = validateTitulo(formState.titulo)
         val pautaError = validateAssunto(formState.pauta)
-        val dataError = validateData(formState.data)
-        val horarioInicioError = validateHorarioNoPassado(formState.data, formState.horarioInicio)
-        val horarioTerminoError = validateHorarioNoPassado(formState.data, formState.horarioTermino)
-        val intervaloError = validateIntervalo(formState.horarioInicio, formState.horarioTermino)
+        val dataError = validateData(timestampToLocalDate(formState.data))
+        val horarioInicioError = validateHorarioNoPassado(timestampToLocalDate(formState.data), timestampToLocalTime(formState.horarioInicio))
+        val horarioTerminoError = validateHorarioNoPassado(timestampToLocalDate(formState.data), timestampToLocalTime(formState.horarioTermino))
+        val intervaloError = validateIntervalo(timestampToLocalTime(formState.horarioInicio), timestampToLocalTime(formState.horarioTermino))
 
         formState = formState.copy(
             tituloError = tituloError,
@@ -135,13 +135,7 @@ fun EditMeetingScreen(
                     text = PT.edit_save_button,
                     onClick = {
                         if (validateForm()) {
-                            onSaveButtonClicked(
-                                formState.titulo,
-                                formState.pauta,
-                                formState.data!!,
-                                formState.horarioInicio!!,
-                                formState.horarioTermino!!
-                            )
+                            onSaveButtonClicked()
                         }
                     },
                     enabled = formState.titulo.isNotBlank() &&
@@ -214,24 +208,9 @@ fun EditMeetingScreenPreview() {
         hasWhiteboard = true
     )
 
-    val fakeReuniao = Reuniao(
-        titulo = "Reunião de Planejamento",
-        pauta = "Discussão sobre metas do semestre",
-        data = Timestamp.now(),
-        dataHoraInicio = Timestamp.now(),
-        dataHoraTermino = Timestamp.now(),
-        createdBy = null,
-        membros = emptyList()
-    )
-
     MaterialTheme {
         Surface {
-            EditMeetingScreen(
-                onBackClicked = {},
-                onSaveButtonClicked = { _, _, _, _, _ -> },
-                sala = fakeSala,
-                reuniao = fakeReuniao
-            )
+
         }
     }
 }
