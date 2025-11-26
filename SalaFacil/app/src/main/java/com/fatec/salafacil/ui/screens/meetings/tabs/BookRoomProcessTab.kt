@@ -2,6 +2,7 @@ package com.fatec.salafacil.ui.screens.meetings.tabs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +19,7 @@ import androidx.compose.material.icons.filled.VideoChat
 import androidx.compose.material.icons.filled.Videocam
 import androidx.compose.material.icons.filled.Wifi
 import androidx.compose.material.icons.outlined.SpaceDashboard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -35,6 +37,7 @@ import com.fatec.salafacil.ui.theme.Brand500
 import com.fatec.salafacil.ui.theme.Grey400
 import com.fatec.salafacil.ui.translations.PT
 
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun BookRoomProcessTab(processTab: ProcessTab) {
     val resourceIcons: List<Pair<ImageVector, String>> = buildList {
