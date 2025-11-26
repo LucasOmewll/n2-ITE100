@@ -20,7 +20,7 @@ data class Reuniao(
     var dataHoraTermino: Timestamp = Timestamp.now(),
 
 
-    var createdBy: DocumentReference? = null,
+    var createdBy: String,
     var membros: List<MembroReuniao> = emptyList(),
 
 

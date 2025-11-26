@@ -4,16 +4,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CalendarMonth
-import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Tag
-import androidx.compose.material.icons.outlined.Textsms
 import androidx.compose.material.icons.outlined.Title
 import androidx.compose.material.icons.rounded.LinearScale
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,16 +27,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.fatec.salafacil.ui.screens.meetings.formstate.MeetingFormState
-import com.fatec.salafacil.ui.screens.meetings.utils.formatLocalDate
 import com.fatec.salafacil.ui.screens.meetings.utils.formatLocalTime
 import com.fatec.salafacil.ui.screens.meetings.utils.formatMillisToLocalDate
+import com.fatec.salafacil.ui.screens.meetings.utils.mergeDateAndTime
+import com.fatec.salafacil.ui.screens.meetings.utils.timestampToLocalDate
+import com.fatec.salafacil.ui.screens.meetings.utils.timestampToLocalTime
+import com.fatec.salafacil.ui.screens.meetings.utils.toFirebaseTimestamp
 import com.fatec.salafacil.ui.screens.meetings.validators.validateAssunto
 import com.fatec.salafacil.ui.screens.meetings.validators.validateData
 import com.fatec.salafacil.ui.screens.meetings.validators.validateHorarioNoPassado
@@ -48,9 +46,10 @@ import com.fatec.salafacil.ui.screens.meetings.validators.validateIntervalo
 import com.fatec.salafacil.ui.screens.meetings.validators.validateTitulo
 import com.fatec.salafacil.ui.theme.Brand400
 import com.fatec.salafacil.ui.theme.ErrorColor
-import com.fatec.salafacil.ui.theme.Grey400
 import com.fatec.salafacil.ui.theme.Grey500
 import com.fatec.salafacil.ui.translations.PT
+import com.google.firebase.Timestamp
+import java.time.ZoneId
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -164,7 +163,7 @@ fun MeetingForm(
 
         // Selecionar data
         OutlinedTextField(
-            value = formState.data?.let { formatLocalDate(it) } ?: "",
+            value = formState.data?.let { timestampToLocalDate(it).toString() } ?: "",
             onValueChange = {},
             modifier = Modifier.Companion.fillMaxWidth(),
             label = { Text("Data") },
@@ -195,9 +194,11 @@ fun MeetingForm(
             MeetinngDatePickerDialog(datePickerState = datePickerState, onDismissRequest = {
                 showDatePicker = false
             }, onDateConfirmed = { date ->
+                val instant = date?.atStartOfDay(ZoneId.systemDefault())?.toInstant()
+
                 onFormChange(
                     formState.copy(
-                        data = date,
+                        data = Timestamp(java.util.Date.from(instant)),
                         dataError = validateData(date)
                     )
                 )
@@ -247,11 +248,14 @@ fun MeetingForm(
                     timePickerState = startTimePickerState,
                     onDismissRequest = { showStartTimePicker = false },
                     onTimeSelected = { time ->
+
+                        val timestamp = mergeDateAndTime(formState.data, time)
+
                         onFormChange(
                             formState.copy(
-                                horarioInicio = time,
-                                horarioInicioError = validateHorarioNoPassado(formState.data, time),
-                                intervaloError = validateIntervalo(time, formState.horarioTermino)
+                                horarioInicio = timestamp,
+                                horarioInicioError = validateHorarioNoPassado(timestampToLocalDate(formState.data), time),
+                                intervaloError = validateIntervalo(time, timestampToLocalTime(formState.horarioTermino))
                             )
                         )
                     })
@@ -296,11 +300,13 @@ fun MeetingForm(
                 timePickerState = endTimePickerState,
                 onDismissRequest = { showEndTimePicker = false },
                 onTimeSelected = { time ->
+                    val timestamp = mergeDateAndTime(formState.data, time)
+
                     onFormChange(
                         formState.copy(
-                            horarioTermino = time,
-                            horarioTerminoError = validateHorarioNoPassado(formState.data, time),
-                            intervaloError = validateIntervalo(formState.horarioInicio, time)
+                            horarioTermino = timestamp,
+                            horarioTerminoError = validateHorarioNoPassado(timestampToLocalDate(formState.data), time),
+                            intervaloError = validateIntervalo(time, timestampToLocalTime(formState.horarioTermino))
                         )
                     )
                 })

@@ -7,6 +7,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 fun formatMillisToLocalDate(millis: Long): String {
@@ -17,7 +18,7 @@ fun formatMillisToLocalDate(millis: Long): String {
     return date.format(formatter)
 }
 
-fun formatLocalTime(horario: LocalTime?): String {
+fun formatLocalTime(horario: Timestamp): String {
     val formatter = DateTimeFormatter.ofPattern("HH:mm")
 
     if (horario == null) {
@@ -65,3 +66,38 @@ fun formatLocalDate(localDate: LocalDate): String {
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
     return localDate.format(formatter)
 }
+
+
+fun formatTimestampToDate(timestamp: Timestamp): String {
+    val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    return dateFormat.format(timestamp.toDate())
+}
+
+fun formatTimestampToTime(timestamp: Timestamp): String {
+    val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+    return timeFormat.format(timestamp.toDate())
+}
+
+fun toFirebaseTimestamp(date: LocalDate, time: LocalTime): Timestamp {
+    val localDateTime = date.atTime(time)
+
+    val instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant()
+
+    return Timestamp(Date.from(instant))
+}
+
+fun mergeDateAndTime(
+    dateTimestamp: Timestamp,
+    time: LocalTime
+): Timestamp {
+    val localDate = timestampToLocalDate(dateTimestamp)
+
+    val localDateTime = localDate.atTime(time)
+
+    val instant = localDateTime
+        .atZone(ZoneId.systemDefault())
+        .toInstant()
+
+    return Timestamp(Date.from(instant))
+}
+

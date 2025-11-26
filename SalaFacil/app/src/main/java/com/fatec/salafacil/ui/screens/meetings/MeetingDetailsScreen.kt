@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.fatec.salafacil.ui.components.NotImplementedDialog
 import com.fatec.salafacil.ui.components.OutlinedDangerButton
 import com.fatec.salafacil.ui.components.OutlinedSecondaryButton
 import com.fatec.salafacil.ui.theme.Grey400
@@ -232,24 +233,6 @@ fun MeetingDetailsScreen(
             }
 
             Spacer(modifier = Modifier.Companion.height(16.dp))
-
-            // Social
-            Text(
-                text = PT.meeting_details_sala_options,
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Companion.Bold,
-                color = Grey500
-            )
-
-            Row(
-                modifier = Modifier.Companion.fillMaxWidth(),
-                verticalAlignment = Alignment.Companion.CenterVertically
-            ) {
-                OutlinedSecondaryButton(
-                    text = PT.meeeting_detials_share_button,
-                    onClick = { onShareButtonClicked() }
-                )
-            }
 
             // Retornar
             Spacer(modifier = Modifier.Companion.height(24.dp))

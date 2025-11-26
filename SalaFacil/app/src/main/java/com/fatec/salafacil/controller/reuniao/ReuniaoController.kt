@@ -97,4 +97,8 @@ class ReuniaoController(
                 .onFailure { _erro.value = it.message }
         }
     }
+
+    fun limparErro() {
+        _erro.value = null
+    }
 }
