@@ -1,5 +1,6 @@
 package com.fatec.salafacil.controller.reuniao
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fatec.salafacil.model.reuniao.Reuniao
@@ -71,9 +72,14 @@ class ReuniaoController(
 
     fun carregarReunioesDoUsuario(userId: String) {
         viewModelScope.launch {
-            service.listarReunioesDoUsuario(userId)
-                .onSuccess { _reunioes.value = it }
-                .onFailure { _erro.value = it.message }
+            try {
+                val reunioes = service.listarReunioesDoUsuario(userId).getOrThrow()
+                _reunioes.value = reunioes
+                Log.d("ReuniaoController", "Reuniões encontradas: ${reunioes.size}")
+            } catch (e: Exception) {
+                _erro.value = e.message
+                Log.e("ReuniaoController", "Erro ao carregar reuniões do usuário", e)
+            }
         }
     }
 

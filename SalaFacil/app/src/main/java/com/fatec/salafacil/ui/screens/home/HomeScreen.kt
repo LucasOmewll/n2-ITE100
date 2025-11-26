@@ -201,9 +201,9 @@ fun HomeScreen(
             modifier = Modifier.padding(contentPadding)
         ) {
             composable(AppRoutes.MEETINGS) {
-                MeetingsTab(
-                    // TODO
-                )
+                usuario?.id?.let { userId ->
+                    MeetingsTab(usuarioId = userId)
+                }
             }
             composable(AppRoutes.BOOKING) {
                 BookingTab(

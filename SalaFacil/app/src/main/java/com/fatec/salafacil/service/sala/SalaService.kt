@@ -27,4 +27,9 @@ class SalaService(
 
     suspend fun removerSala(id: String) =
         withContext(Dispatchers.IO) { repo.removerSala(id) }
+
+    suspend fun listarSalasDoUsuario(userId: String): List<Sala> =
+        withContext(Dispatchers.IO) {
+            repo.salasDoUsuario(userId)
+        }
 }

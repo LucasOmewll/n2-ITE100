@@ -58,4 +58,17 @@ class SalaRepository(
             Result.failure(e)
         }
     }
+
+    suspend fun salasDoUsuario(userId: String): List<Sala> {
+        return try {
+            val snap = db.collection("salas")
+                .whereArrayContains("membrosIds", userId)
+                .get()
+                .await()
+
+            snap.toObjects(Sala::class.java)
+        } catch (_: Exception) {
+            emptyList()
+        }
+    }
 }

@@ -57,4 +57,15 @@ class SalaController(
                 .onFailure { _erro.value = it.message }
         }
     }
+
+    fun carregarSalasDoUsuario(userId: String) {
+        viewModelScope.launch {
+            try {
+                val lista = salaService.listarSalasDoUsuario(userId)
+                _salas.value = lista
+            } catch (e: Exception) {
+                _erro.value = e.message
+            }
+        }
+    }
 }
